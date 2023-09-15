@@ -29,7 +29,7 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        @RenderBody()
+        
 
 
         <!-- Main Sidebar Container -->
@@ -144,7 +144,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Dashboard</h1>
+                            <h3>Content Header Here</h3>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -156,10 +156,15 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
+            <div class="Container" style="margin-left:5px">
+                @RenderBody()
+            </div>
 
 
         </div>
         <!-- /.content-wrapper -->
+
+        
         <footer class="main-footer">
             <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
             All rights reserved.

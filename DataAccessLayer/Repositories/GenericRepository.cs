@@ -9,11 +9,12 @@ namespace DataAccessLayer.Repositories
 		private NEUContext _NeuContext = new NEUContext();
 		private readonly DbSet<T> _Object;
 
-		public GenericRepository(NEUContext context)
+		public GenericRepository(/*NEUContext context*/)
 		{
 			/*_NeuContext.Configuration.LazyLoadingEnabled = true;
 			_NeuContext.Configuration.ProxyCreationEnabled = true;*/
-			_NeuContext = context;
+
+			/*_NeuContext = context;*/
 			_Object = _NeuContext.Set<T>();
 		}
 		public void Delete(T p)

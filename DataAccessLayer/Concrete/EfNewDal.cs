@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
 {
-	public class EfAdminDal : GenericRepository<Admin>,IAdminDal
-	{
-
-	}
+    public class EfNewDal : GenericRepository<New>, INewDal
+    {
+    }
 }

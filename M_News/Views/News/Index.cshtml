@@ -1,0 +1,41 @@
+﻿@using EntityLayer.Concrete
+@model List<New>
+@* News Section *@
+
+
+<style>
+    #News-Table {
+        margin-top: 2%;
+        text-align: center;
+        background-color: #F1EFEF;
+    }
+</style>
+
+
+<a href="~/News/CreateNews" class="btn btn-primary">Create New</a>
+
+
+<table id="News-Table" class="table table-bordered">
+
+    <tr>
+       @*  <th>News Id</th> *@
+        <th>Title</th>
+        <th>Content</th>
+        <th>Publish Date</th>
+        <th>Category Name</th>
+        <th>Source</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            @* <td>@item.New_Id</td> *@
+            <td>@item.Title</td>
+            <td>@item.Content</td>
+            <td>@item.Publish_Date</td>
+            <td>@item.CategoryId</td>
+            <td>@item.Source</td>
+
+        </tr>
+    }
+
+</table>
