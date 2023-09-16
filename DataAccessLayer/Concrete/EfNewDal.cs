@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
 {
-    public class EfNewDal : GenericRepository<New>, INewDal
+    public class EfNewDal : GenericRepository<News>, INewDal
     {
     }
 }

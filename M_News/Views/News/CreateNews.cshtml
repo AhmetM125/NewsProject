@@ -3,32 +3,66 @@
 *@
 @{
 }
+<style>
 
-@using (Html.BeginForm("s", "s", FormMethod.Post))
+    .New_MiddleContent {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #submitBtn {
+        width: 95%;
+    }
+
+    .submitdiv {
+        width:100%;
+        padding-top:5%;
+        display: flex; /* Use flexbox for centering */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+       
+    }
+</style>
+@using (Html.BeginForm("CreateNews", "News", FormMethod.Post))
 {
-    <div style="margin:auto">
+    <div class="content">
+        <div class="New_MiddleContent">
 
-    <label>Title</label>
-    <input type="text" class="form-control" name="Title">
-
-
-    <label>Content</label>
-    <input type="text" class="form-control" name="Content">
+            <label>Title</label>
+            <input required type="text" class="form-control" name="Title">
 
 
+            <label>Content</label>
+            <input required type="text" class="form-control" name="Content">
 
 
-    <label>Author</label>
-    <input type="text" class="form-control" name="Author"> 
 
 
-    <label>Category Id</label>
-    <input type="text" class="form-control" name="Publish_Date">
+            <label>Author</label>
+            <input type="text" class="form-control" name="Author">
 
 
-    <label>Source</label>
-    <input type="text" class="form-control" name="Source">
+            <label>Category Id</label>
+            <input  type="text" class="form-control" name="Publish_Date">
 
+
+            <label>Source</label>                                 
+            <input type="text" class="form-control" name="Source">
+
+
+            <label>Image</label>                                 
+            <input type="file"  name="Source" class="form-control">
+
+
+
+
+            <div class="submitdiv">
+
+                <button id="submitBtn" class="btn  btn-outline-success">Confirm</button>
+            </div>
+
+        </div>
 
 
     </div>

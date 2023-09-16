@@ -1,5 +1,5 @@
 ﻿@using EntityLayer.Concrete
-@model List<New>
+@model List<News>
 @* News Section *@
 
 
@@ -24,18 +24,25 @@
         <th>Publish Date</th>
         <th>Category Name</th>
         <th>Source</th>
+        <td></td>
     </tr>
     @foreach (var item in Model)
     {
+                  
+
+
         <tr>
-            @* <td>@item.New_Id</td> *@
             <td>@item.Title</td>
             <td>@item.Content</td>
-            <td>@item.Publish_Date</td>
+            <td>@item.PublishDate.Substring(0,10)</td>
             <td>@item.CategoryId</td>
             <td>@item.Source</td>
+            <td> <a href="~/News/EditNews/@item.New_Id" class="btn btn-success">Edit</a>       </td>
+            <td> <a href="~/News/DeleteNews/@item.New_Id" class="btn btn-danger">Delete</a>       </td>
 
         </tr>
     }
 
 </table>
+
+        

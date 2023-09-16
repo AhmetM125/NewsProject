@@ -6,10 +6,10 @@ namespace EntityLayer.Concrete
 	{
 		[Key]
 		public Guid User_Guid_Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Name { get; set; } = default!;
+        public string Surname { get; set; } = default!;
+        public string Username { get; set; } = default!;
+        public string Password { get; set; } = default!;
 
     }
 }

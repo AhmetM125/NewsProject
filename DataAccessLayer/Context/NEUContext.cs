@@ -13,7 +13,10 @@ namespace DataAccessLayer.Context
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("server=LPTNET052\\SQLEXPRESS;database=M_NewsDb;integrated security=true;Encrypt=false");
+/*	optionsBuilder.UseSqlServer("server=LPTNET052\\SQLEXPRESS;database=M_NewsDb;integrated security=true;Encrypt=false");
+*/		
+			
+			optionsBuilder.UseSqlServer("server=DESKTOP-RKAH2TS;database=M_NewsDb;integrated security=true;Encrypt=false");
 		}
 		/*public Context(DbContextOptions<Context> options) : base(options)
 		{
@@ -21,7 +24,7 @@ namespace DataAccessLayer.Context
 		}
 */
 		public DbSet<Admin> Admins { get; set; }
-		public DbSet<New> News { get; set; }
+		public DbSet<News> News { get; set; }
 
 
 	}

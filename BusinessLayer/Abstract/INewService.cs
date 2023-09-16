@@ -9,8 +9,9 @@ namespace BusinessLayer.Concrete
 {
     public interface INewService
     {
-        List<New> GetAllNews();
-        New GetNews(int id);
-        void CreateNews(New value);
+        List<News> GetAllNews();
+        News GetNews(int id);
+        void CreateNews(News value);
+        void DeleteNews(int id);
     }
 }
