@@ -2,7 +2,6 @@
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
-
 namespace M_News.Controllers
 {
     public class NewsController : Controller
@@ -33,10 +32,17 @@ namespace M_News.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNews(News value)
+        public IActionResult CreateNews(News value, IFormFile Image)
         {
-            
-            value.PublishDate = DateTime.Today.ToString(); // later i will change of data type of publish date for now it is string 
+            if (Image != null && Image.Length > 0)
+            {
+                using(var memoryStream = new MemoryStream())
+                {
+                    Image.CopyTo(memoryStream);
+                    value.Image = memoryStream.ToArray();
+                }
+            }
+            value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
             NewsManager.CreateNews(value);
             return RedirectToAction("Index", "News");
         }

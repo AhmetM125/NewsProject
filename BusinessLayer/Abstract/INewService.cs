@@ -13,5 +13,7 @@ namespace BusinessLayer.Concrete
         News GetNews(int id);
         void CreateNews(News value);
         void DeleteNews(int id);
+
+        List<News> GetLast4News();
     }
 }

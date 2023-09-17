@@ -1,0 +1,12 @@
+﻿@using EntityLayer.Concrete
+@model News
+
+
+
+@Html.Label("Author")
+@Html.TextBoxFor(x=>x.Author,new{@class="form-control"})
+
+@Html.Label("Content")
+@Html.TextBoxFor(x=>x.Content,new{@class="form-control"})
+
+@Html.DisplayFor(x=>x.Image)

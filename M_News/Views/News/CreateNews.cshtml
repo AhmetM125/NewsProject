@@ -16,15 +16,14 @@
     }
 
     .submitdiv {
-        width:100%;
-        padding-top:5%;
+        width: 100%;
+        padding-top: 5%;
         display: flex; /* Use flexbox for centering */
         justify-content: center; /* Center horizontally */
         align-items: center; /* Center vertically */
-       
     }
 </style>
-@using (Html.BeginForm("CreateNews", "News", FormMethod.Post))
+@using (Html.BeginForm("CreateNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="content">
         <div class="New_MiddleContent">
@@ -44,15 +43,16 @@
 
 
             <label>Category Id</label>
-            <input  type="text" class="form-control" name="Publish_Date">
+            <input type="text" class="form-control" name="Publish_Date">
 
 
-            <label>Source</label>                                 
+            <label>Source</label>
             <input type="text" class="form-control" name="Source">
 
 
-            <label>Image</label>                                 
-            <input type="file"  name="Source" class="form-control">
+            <label>Image</label>
+
+            <input type="file" name="Image" class="form-control">
 
 
 

@@ -22,6 +22,11 @@ namespace BusinessLayer.Concrete
 
         public List<News> GetAllNews() => _NewDal.List();
 
+        public List<News> GetLast4News()
+        {
+            var value = _NewDal.List().OrderByDescending(x=>x.PublishDate).Take(4).ToList();
+            return value;
+        }
 
         public News GetNews(int id) => _NewDal.Get(x => x.New_Id == id);
     }

@@ -1,0 +1,74 @@
+﻿@using EntityLayer.Concrete
+@model List<News>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
+}
+
+<div class="container">
+    <!-- Your existing content here -->
+</div>
+
+<div class="container text-center col-8">
+    <div class="col-8 mx-auto" id="sliderdiv">
+
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+
+                @for (int i = 0; i < 4; i++)
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 0 ? "class=active" : "n")></li>
+                }
+
+                @* <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li> *@
+            </ol>
+            <div class="carousel-inner">
+                @foreach (var news in Model)
+                {
+                    <div class="carousel-item @(news == Model.First() ? "active" : "")">
+                        <h3> <span class="badge badge-lg badge-light">  @news.Title  </span> </h3>
+                        <img class="d-block w-100 img-fluid" id="imagecarousel" src="https://img.freepik.com/free-vector/breaking-news-concept_23-2148514216.jpg?w=2000" alt="@news.Title">
+
+                        <div class="carousel-caption">
+                            <a href="#" style="text-decoration:none;color:white" >@news.Content</a>
+@*                             <a style="text-decoration:none;color:white;width:30%" class="btn btn-sm btn-primary" href="~/News/NewsPageDetailed/@news.New_Id">Read more</a>
+ *@                            
+                        </div>
+                       
+                    </div> 
+
+                    @*   <div class="carousel-item active">
+                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Third slide">
+                </div>
+                <div class="carousel-item">
+                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Fourth slide">
+                </div> *@
+                }
+            </div>
+
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
+    <div style="padding-top:3%">
+        <a href="~/News/NewsPage" style="text-decoration:none;width:40%" class="btn btn-sm btn-success">All News</a>
+    </div>
+</div>
+
