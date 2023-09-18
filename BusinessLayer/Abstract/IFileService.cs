@@ -11,6 +11,6 @@ namespace BusinessLayer.Abstract
     public interface IFileService
     {
         Files GetFileById(Guid id);
-        void InsertImage(IFormFile file,Guid id);
+        void InsertImage(News value,IFormFile file);
     }
 }

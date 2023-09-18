@@ -1,30 +1,59 @@
 ﻿@using EntityLayer.Concrete
 @model News
 
-
+@{
+    Guid id = Model.FilesId;
+}
+ <style>
+    .submitdiv,.imgdiv {
+        width: 100%;
+        padding-top: 5%;
+        display: flex; /* Use flexbox for centering */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        padding-bottom:5%;
+    }
+ </style>
+ @using (Html.BeginForm("EditNews","News",FormMethod.Post))
+{
+    
 <div class="container">
 
     <div class="container  col-8">
 
-    @Html.Label("Title")
-    @Html.TextBoxFor(x=>x.Title,new{@class="form-control"})
+        @Html.Label("Title")
+        @Html.TextBoxFor(x=>x.Title,new{@class="form-control"})
 
-    @Html.Label("Author")
-    @Html.TextBoxFor(x=>x.Author,new{@class="form-control"})
+        @Html.Label("Author")
+        @Html.TextBoxFor(x=>x.Author,new{@class="form-control"})
 
-    @Html.Label("Content")
-    @Html.TextBoxFor(x=>x.Content,new{@class="form-control"})
+        @Html.Label("Content")
+        @Html.TextBoxFor(x=>x.Content,new{@class="form-control"})
 
-    @Html.Label("Publish Date")
-    @Html.TextBoxFor(x=>x.PublishDate,new {@class="form-control"})
+        @Html.Label("Publish Date")
+        @Html.TextBoxFor(x=>x.PublishDate,new {@class="form-control"})
 
-    @Html.Label("Source")
-    @Html.TextBoxFor(x=>x.Source,new {@class="form-control"})
+        @Html.Label("Source")
+        @Html.TextBoxFor(x=>x.Source,new {@class="form-control"})
+        <br />
 
-    <br />
-    <br />
-  
+            <label>Image</label>
+
+            <input type="file" name="Image" class="form-control">
+
+
+        <div class="imgdiv">
+            <img src="/GetImage/@id" style="width:300px" />
+
+        </div>
+            
+
+        
+        <div  class="submitdiv" >
+            
+            <button class="btn btn-lg btn-primary" style="width:75%">Confirm</button>
+        </div>
+    </div>
 
 </div>
-
-</div>
+}

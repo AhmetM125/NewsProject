@@ -25,7 +25,11 @@ namespace M_News.Controllers
             var News = NewsManager.GetNews(Id);
             return View(News);
         }
+        public IActionResult EditNews(News value,IFormFile Image)
+        {
 
+            return null;
+        }
         public IActionResult DeleteNews(int Id)
         {
             NewsManager.DeleteNews(Id);
@@ -35,13 +39,13 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult CreateNews(News value, IFormFile Image)
         {
-            Guid Id = Guid.NewGuid();
-            FileManager.InsertImage(Image, Id);
-            NewsManager.CreateNews(value, Id);
-
-
+            FileManager.InsertImage(value,Image); 
             return RedirectToAction("Index", "News");
         }
+            
+          
+
+
 
     }
 }
