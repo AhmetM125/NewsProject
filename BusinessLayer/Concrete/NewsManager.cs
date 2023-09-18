@@ -1,22 +1,42 @@
 ﻿using DataAccessLayer.Abstract;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BusinessLayer.Concrete
 {
     public class NewsManager : INewService
     {
         INewDal _NewDal;
-        public NewsManager(INewDal NewDal) {
-        
+
+        public NewsManager(INewDal NewDal)
+        {
+
             _NewDal = NewDal;
-        
         }
 
-        public void CreateNews(News value) => _NewDal.Insert(value);
+        public void CreateNews(News value, Guid id)
+        {
+            value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
+            value.FilesId = id;
+            _NewDal.Insert(value);
+            
+            
+
+            /*if (Image != null && Image.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    Image.CopyTo(memoryStream);
+                    value = memoryStream.ToArray();
+                }
+            }*/
+
+        }
 
         public void DeleteNews(int id)
         {
-            var value  = GetNews(id);
+            var value = GetNews(id);
             _NewDal.Delete(value);
         }
 
@@ -24,7 +44,7 @@ namespace BusinessLayer.Concrete
 
         public List<News> GetLast4News()
         {
-            var value = _NewDal.List().OrderByDescending(x=>x.PublishDate).Take(4).ToList();
+            var value = _NewDal.List().OrderByDescending(x => x.PublishDate).Take(4).ToList();
             return value;
         }
 

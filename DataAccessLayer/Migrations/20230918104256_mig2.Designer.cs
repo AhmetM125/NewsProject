@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(NEUContext))]
-    [Migration("20230916054439_imageAttributeForNews")]
-    partial class imageAttributeForNews
+    [Migration("20230918104256_mig2")]
+    partial class mig2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("EntityLayer.Concrete.Admin", b =>
                 {
-                    b.Property<Guid>("User_Guid_Id")
+                    b.Property<Guid>("User_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -47,9 +47,35 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("User_Guid_Id");
+                    b.HasKey("User_Id");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extention")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("Size")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.News", b =>
@@ -61,7 +87,8 @@ namespace DataAccessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("New_Id"));
 
                     b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("CategoryId")
                         .HasColumnType("nvarchar(max)");
@@ -71,15 +98,19 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<Guid?>("FilesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PublishDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -87,7 +118,21 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("New_Id");
 
+                    b.HasIndex("FilesId");
+
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.News", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.Files", null)
+                        .WithMany("News")
+                        .HasForeignKey("FilesId");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Navigation("News");
                 });
 #pragma warning restore 612, 618
         }

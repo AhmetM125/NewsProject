@@ -2,11 +2,29 @@
 @model News
 
 
+<div class="container">
 
-@Html.Label("Author")
-@Html.TextBoxFor(x=>x.Author,new{@class="form-control"})
+    <div class="container  col-8">
 
-@Html.Label("Content")
-@Html.TextBoxFor(x=>x.Content,new{@class="form-control"})
+    @Html.Label("Title")
+    @Html.TextBoxFor(x=>x.Title,new{@class="form-control"})
 
-@Html.DisplayFor(x=>x.Image)
+    @Html.Label("Author")
+    @Html.TextBoxFor(x=>x.Author,new{@class="form-control"})
+
+    @Html.Label("Content")
+    @Html.TextBoxFor(x=>x.Content,new{@class="form-control"})
+
+    @Html.Label("Publish Date")
+    @Html.TextBoxFor(x=>x.PublishDate,new {@class="form-control"})
+
+    @Html.Label("Source")
+    @Html.TextBoxFor(x=>x.Source,new {@class="form-control"})
+
+    <br />
+    <br />
+  
+
+</div>
+
+</div>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(NEUContext))]
-    [Migration("20230915104934_migFirst")]
-    partial class migFirst
+    [Migration("20230918104541_mig3")]
+    partial class mig3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("EntityLayer.Concrete.Admin", b =>
                 {
-                    b.Property<Guid>("User_Guid_Id")
+                    b.Property<Guid>("User_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -47,12 +47,38 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("User_Guid_Id");
+                    b.HasKey("User_Id");
 
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("EntityLayer.Concrete.New", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extention")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("Size")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.News", b =>
                 {
                     b.Property<int>("New_Id")
                         .ValueGeneratedOnAdd()
@@ -61,24 +87,27 @@ namespace DataAccessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("New_Id"));
 
                     b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("CategoryId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("Publish_Date")
+                    b.Property<Guid>("FilesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PublishDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -86,7 +115,25 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("New_Id");
 
+                    b.HasIndex("FilesId");
+
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.News", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.Files", "Files")
+                        .WithMany("News")
+                        .HasForeignKey("FilesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Navigation("News");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Mvc;
 
 namespace M_News.Controllers
 {
@@ -8,5 +9,7 @@ namespace M_News.Controllers
 		{
 			return View();
 		}
+
+		
 	}
 }

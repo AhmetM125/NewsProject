@@ -7,6 +7,7 @@ namespace M_News.Controllers
     public class NewsController : Controller
     {
         NewsManager NewsManager = new NewsManager(new EfNewDal());
+        FileManager FileManager = new FileManager(new EfFilesDal());
         public IActionResult Index()
         {
             var NewsValues = NewsManager.GetAllNews();
@@ -34,16 +35,11 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult CreateNews(News value, IFormFile Image)
         {
-            if (Image != null && Image.Length > 0)
-            {
-                using(var memoryStream = new MemoryStream())
-                {
-                    Image.CopyTo(memoryStream);
-                    value.Image = memoryStream.ToArray();
-                }
-            }
-            value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
-            NewsManager.CreateNews(value);
+            Guid Id = Guid.NewGuid();
+            FileManager.InsertImage(Image, Id);
+            NewsManager.CreateNews(value, Id);
+
+
             return RedirectToAction("Index", "News");
         }
 

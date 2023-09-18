@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace EntityLayer.Concrete
 {
@@ -23,7 +24,9 @@ namespace EntityLayer.Concrete
         [MaxLength(50)]
         public string? Source { get; set; }
 
-        public  byte[]? Image { get; set; }
 
+
+        public Guid FilesId { get; set; }
+        public Files Files { get; set; }
     }
 }

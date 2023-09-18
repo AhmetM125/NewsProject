@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
-	 public interface IAdminService
-	{
+    public interface IAdminService
+    {
 
-	}
+    }
 }

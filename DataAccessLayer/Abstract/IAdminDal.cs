@@ -3,7 +3,7 @@ using EntityLayer.Concrete;
 
 namespace DataAccessLayer.Abstract
 {
-	public interface IAdminDal:IRepository<Admin>
-	{
-	}
+    public interface IAdminDal : IRepository<Admin>
+    {
+    }
 }

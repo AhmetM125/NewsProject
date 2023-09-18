@@ -26,3 +26,6 @@
         width: 50%; /* Adjust the width for smaller screens */
     }
 }
+.nav-link{
+    color: white;
+}

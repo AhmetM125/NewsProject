@@ -1,4 +1,5 @@
 ﻿using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace BusinessLayer.Concrete
     {
         List<News> GetAllNews();
         News GetNews(int id);
-        void CreateNews(News value);
+        void CreateNews(News value,Guid id);
         void DeleteNews(int id);
 
         List<News> GetLast4News();

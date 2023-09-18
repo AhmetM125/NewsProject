@@ -6,9 +6,30 @@
     Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
 }
 
-<div class="container">
-    <!-- Your existing content here -->
-</div>
+<style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        height: 100px;
+        width: 100px;
+        outline: black;
+        background-size: 100%, 100%;
+        border-radius: 25%;
+        border: 1px solid black;
+        background-image: none;
+    }
+
+        .carousel-control-next-icon:after {
+            content: '>';
+            font-size: 55px;
+            color: red;
+        }
+
+        .carousel-control-prev-icon:after {
+            content: '<';
+            font-size: 55px;
+            color: red;
+        }
+</style>
 
 <div class="container text-center col-8">
     <div class="col-8 mx-auto" id="sliderdiv">
@@ -21,38 +42,23 @@
                     <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 0 ? "class=active" : "n")></li>
                 }
 
-                @* <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li> *@
             </ol>
             <div class="carousel-inner">
                 @foreach (var news in Model)
                 {
-                    <div class="carousel-item @(news == Model.First() ? "active" : "")">
+
+                <div class="carousel-item @(news == Model.First() ? "active" : "")">
                         <h3> <span class="badge badge-lg badge-light">  @news.Title  </span> </h3>
-                        <img class="d-block w-100 img-fluid" id="imagecarousel" src="https://img.freepik.com/free-vector/breaking-news-concept_23-2148514216.jpg?w=2000" alt="@news.Title">
-
+                      <img src="/GetImage/@news.FilesId" id="imagecarousel" style="width:300px;height:250px">
                         <div class="carousel-caption">
-                            <a href="#" style="text-decoration:none;color:white" >@news.Content</a>
-@*                             <a style="text-decoration:none;color:white;width:30%" class="btn btn-sm btn-primary" href="~/News/NewsPageDetailed/@news.New_Id">Read more</a>
- *@                            
+                                                 
                         </div>
-                       
-                    </div> 
-
-                    @*   <div class="carousel-item active">
-                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Third slide">
-                </div>
-                <div class="carousel-item">
-                <img class="d-block w-100" src="https://via.placeholder.com/800x400" alt="Fourth slide">
-                </div> *@
+                        
+                    </div>
+                    <a href="#" style="text-decoration:none;color:black;font-size:20px">
+                        @news.Content
+                    </a>
+                    
                 }
             </div>
 
@@ -68,7 +74,7 @@
 
     </div>
     <div style="padding-top:3%">
-        <a href="~/News/NewsPage" style="text-decoration:none;width:40%" class="btn btn-sm btn-success">All News</a>
+        <a href="~/News/NewsPage" style="text-decoration:none;width:40%" class="btn btn-sm btn-primary">All News</a>
     </div>
 </div>
 

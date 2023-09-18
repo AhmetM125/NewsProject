@@ -4,6 +4,7 @@ using DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(NEUContext))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230918103818_mig")]
+    partial class mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +27,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("EntityLayer.Concrete.Admin", b =>
                 {
-                    b.Property<Guid>("User_Guid_Id")
+                    b.Property<Guid>("User_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -44,15 +47,44 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("User_Guid_Id");
+                    b.HasKey("User_Id");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extention")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("Size")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.News", b =>
                 {
                     b.Property<int>("New_Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("New_Id"));
 
                     b.Property<string>("Author")
                         .HasMaxLength(30)
@@ -66,8 +98,11 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<Guid>("FilesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PublishDate")
                         .IsRequired()
@@ -83,7 +118,25 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("New_Id");
 
+                    b.HasIndex("FilesId");
+
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.News", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.Files", "Files")
+                        .WithMany("News")
+                        .HasForeignKey("FilesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
+                {
+                    b.Navigation("News");
                 });
 #pragma warning restore 612, 618
         }

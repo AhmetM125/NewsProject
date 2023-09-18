@@ -1,6 +1,9 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
+using EntityLayer.Concrete;
+using M_News.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 
 namespace M_News.Controllers
 {
@@ -9,9 +12,11 @@ namespace M_News.Controllers
         NewsManager newsManager = new NewsManager(new EfNewDal());
         public IActionResult Index()
         {
-            var values = newsManager.GetLast4News();
+            List<News> values = newsManager.GetLast4News();
             return View(values);
         }
+       
+
 
     }
 }

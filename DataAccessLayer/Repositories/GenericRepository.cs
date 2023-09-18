@@ -9,12 +9,8 @@ namespace DataAccessLayer.Repositories
 		private NEUContext _NeuContext = new NEUContext();
 		private readonly DbSet<T> _Object;
 
-		public GenericRepository(/*NEUContext context*/)
-		{
-			/*_NeuContext.Configuration.LazyLoadingEnabled = true;
-			_NeuContext.Configuration.ProxyCreationEnabled = true;*/
-
-			/*_NeuContext = context;*/
+		public GenericRepository()
+		{		
 			_Object = _NeuContext.Set<T>();
 		}
 		public void Delete(T p)
@@ -25,9 +21,9 @@ namespace DataAccessLayer.Repositories
 			_NeuContext.SaveChanges();
 		}
 
-		public T Get(Expression<Func<T, bool>> filter)
+		public T? Get(Expression<Func<T, bool>> filter)
 		{
-			return _Object.SingleOrDefault(filter);
+			return _Object.FirstOrDefault(filter);
 		}
 
 		public void Insert(T p)
@@ -37,7 +33,7 @@ namespace DataAccessLayer.Repositories
 			_NeuContext.SaveChanges();
 		}
 
-		public List<T> List()
+		public  List<T> List()
 		{
 			return _Object.ToList();
 		}
