@@ -8,10 +8,7 @@ namespace M_News.Controllers
     public class FileController : Controller
     {
         FileManager fm = new FileManager(new EfFilesDal());
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [Route("GetImage/{id}")]
         public FileResult GetImage(Guid id)

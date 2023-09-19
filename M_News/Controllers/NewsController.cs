@@ -2,6 +2,8 @@
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace M_News.Controllers
 {
     public class NewsController : Controller
@@ -14,38 +16,30 @@ namespace M_News.Controllers
             return View(NewsValues);
         }
         [HttpGet]
-        public IActionResult CreateNews()
+        public IActionResult CreateNews() => View();
+        [HttpPost]
+        public IActionResult CreateNews(News value, IFormFile Image)
         {
-
-            return View();
+            NewsManager.CreateNews(value, Image);
+            return RedirectToAction("Index", "News");
         }
+
         [HttpGet]
         public IActionResult EditNews(int Id)
         {
             var News = NewsManager.GetNews(Id);
             return View(News);
         }
-        public IActionResult EditNews(News value,IFormFile Image)
+        [HttpPost]
+        public IActionResult EditNews(News value, IFormFile Image)
         {
-
-            return null;
+            NewsManager.UpdateNews(value, Image);
+            return RedirectToAction("Index", "News");
         }
         public IActionResult DeleteNews(int Id)
         {
             NewsManager.DeleteNews(Id);
             return RedirectToAction("Index", "News");
         }
-
-        [HttpPost]
-        public IActionResult CreateNews(News value, IFormFile Image)
-        {
-            FileManager.InsertImage(value,Image); 
-            return RedirectToAction("Index", "News");
-        }
-            
-          
-
-
-
     }
 }

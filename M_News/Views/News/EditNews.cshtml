@@ -14,7 +14,7 @@
         padding-bottom:5%;
     }
  </style>
- @using (Html.BeginForm("EditNews","News",FormMethod.Post))
+@using (Html.BeginForm("EditNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     
 <div class="container">
@@ -36,6 +36,8 @@
         @Html.Label("Source")
         @Html.TextBoxFor(x=>x.Source,new {@class="form-control"})
         <br />
+        @Html.HiddenFor(x=>x.FilesId)
+        @Html.HiddenFor(x=>x.New_Id)
 
             <label>Image</label>
 

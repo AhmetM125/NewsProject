@@ -12,9 +12,10 @@ namespace BusinessLayer.Concrete
     {
         List<News> GetAllNews();
         News GetNews(int id);
-        void CreateNews(News value,Guid id);
+        void CreateNews(News value, IFormFile img);
         void DeleteNews(int id);
 
         List<News> GetLast4News();
+       /* void UpdateNews(News newsVal, IFormFile Image);*/
     }
 }
