@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
+builder.Services.AddSession();
 
 builder.Services.AddMvc(config =>
 {
@@ -16,7 +18,14 @@ builder.Services.AddMvc(config =>
     config.Filters.Add(new AuthorizeFilter(policy));
 });
 
-
+builder.Services.AddMvc();
+builder.Services.AddAuthentication(
+	CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(x=>
+	{
+		x.LoginPath = "/User/Login";
+	}
+	);
 
 var app = builder.Build();
 
@@ -33,7 +42,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseSession();
-
+app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();

@@ -18,6 +18,8 @@ namespace EntityLayer.Concrete
         [MaxLength(30, ErrorMessage = "Password should be less than 30 characters")]
         [Required]
         public string Password { get; set; } = default!;
+        [MaxLength(20, ErrorMessage = "20 Character Max")]
+        public string Role { get; set; } = default!;
 
     }
 }

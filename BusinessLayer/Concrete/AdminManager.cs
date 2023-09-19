@@ -13,7 +13,7 @@ namespace BusinessLayer.Abstract
             AdminDal = _adminDal;
 
         }
-        public bool Login(string username, string password) => AdminDal.List(x => x.Username == username && x.Password == password).Any();
+        public Admin Login(string username, string password) => AdminDal.Get(x => x.Username == username && x.Password == password);
 
 
 

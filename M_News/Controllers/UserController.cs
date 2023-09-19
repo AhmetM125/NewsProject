@@ -1,11 +1,14 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace M_News.Controllers
 {
+
     public class UserController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
@@ -18,15 +21,22 @@ namespace M_News.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login(string Password, string Username)
+        public async Task<IActionResult> Login(string Password, string Username)
         {
             var value = adminManager.Login(Password, Username); // true or false 
 
 
 
-            if (value)
+            if (value!=null)
             {
-                HttpContext.Session.SetString("Username", Username);
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name,Username)
+                };
+                var userIdentity = new ClaimsIdentity(claims,value.Role);
+                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                await HttpContext.SignInAsync(principal);
+                /*HttpContext.Session.SetString("Username", Username);*/
                 return RedirectToAction("Index", "Dashboard");
             }
 

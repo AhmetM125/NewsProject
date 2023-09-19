@@ -9,6 +9,6 @@ namespace BusinessLayer.Abstract
 {
     public interface IAdminService
     {
-        bool Login(string username, string password);
+        bool Admin(string username, string password);
     }
 }
