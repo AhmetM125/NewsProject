@@ -13,7 +13,7 @@ namespace M_News.Controllers
         public IActionResult DeleteAdmin(Guid Id)
         {
             adminManager.DeleteAdmin(Id);
-            return RedirectToAction("Admin", "Index");
+            return RedirectToAction("Index", "Admin");
         }
         [HttpGet]
         public IActionResult EditAdmin(Guid Id)
@@ -26,7 +26,7 @@ namespace M_News.Controllers
         {
             adminManager.EditAdmin(admin);
 
-            return RedirectToAction("Admin", "Index");
+            return RedirectToAction("Index", "Admin");
         }
         [HttpGet]
         public IActionResult CreateAdmin()

@@ -31,6 +31,7 @@ namespace BusinessLayer.Concrete
         public void DeleteNews(int id)
         {
             var value = GetNews(id);
+            _NewDal.Delete(value);
             fileManager.DeleteImage(value.FilesId);
             
         }
