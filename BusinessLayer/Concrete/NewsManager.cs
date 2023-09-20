@@ -21,7 +21,9 @@ namespace BusinessLayer.Concrete
             Guid G_Id = Guid.NewGuid();
             value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
             value.FilesId = G_Id;
-            fileManager.InsertImage(img, G_Id);
+
+            if(img !=null) fileManager.InsertImage(img, G_Id);
+
             _NewDal.Insert(value);
 
         }

@@ -16,16 +16,16 @@ namespace BusinessLayer.Concrete
             _filesDal = filesDal;
         }
 
-        public Files GetFileById(Guid id)
+        public Files GetFileById(Guid? id)
         {
             return _filesDal.Get(x => x.Id == id);
         }
 
-        public void InsertImage(IFormFile file,Guid G_Id)
+        public void InsertImage(IFormFile file,Guid? G_Id)
         {
             var Files = new Files()
             {
-                Id = G_Id,
+                Id = (Guid)G_Id,
                 Content = ConvertToImage(file).ToArray(),
                 Size = ((byte)file.Length),
                 Extention = file.ContentType,
@@ -51,7 +51,7 @@ namespace BusinessLayer.Concrete
         }
 
       
-        public void UpdateImage(Guid FilesId, IFormFile image)
+        public void UpdateImage(Guid? FilesId, IFormFile image)
         {
             var MemoryStream = ConvertToImage(image);
             Files value = GetFileById(FilesId);
@@ -64,7 +64,7 @@ namespace BusinessLayer.Concrete
 
         }
 
-        public void DeleteImage(Guid FilesId)
+        public void DeleteImage(Guid? FilesId)
         {
            _filesDal.Delete(GetFileById(FilesId));
         }

@@ -37,7 +37,7 @@
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
             <ol class="carousel-indicators">
 
-                @for (int i = 0; i < 4; i++)
+                @for (int i = 0; i < Model.Count; i++)
                 {
                     <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 0 ? "class=active" : "n")></li>
                 }
@@ -48,16 +48,12 @@
                 {
 
                 <div class="carousel-item @(news == Model.First() ? "active" : "")">
-                        <h3> <span class="badge badge-lg badge-light">  @news.Title  </span> </h3>
-                      <img src="/GetImage/@news.FilesId" id="imagecarousel" style="width:300px;height:250px">
-                        <div class="carousel-caption">
-                                                 
-                        </div>
+                        <h3> <a class="badge badge-lg badge-light" href="/Client/DetailsOfNews/@news.New_Id">  @news.Title  </a> </h3>
+                        <img src="/GetImage/@news.FilesId" href="/Client/DetailsOfNews/@news.New_Id" id="imagecarousel" style="width:300px;height:250px">
+                    
                         
                     </div>
-                    <a href="#" style="text-decoration:none;color:black;font-size:20px">
-                        @news.Content
-                    </a>
+                    
                     
                 }
             </div>
@@ -74,7 +70,7 @@
 
     </div>
     <div style="padding-top:3%">
-        <a href="~/News/NewsPage" style="text-decoration:none;width:40%" class="btn btn-sm btn-primary">All News</a>
+        <a href="@Url.Action("AllNews","Client")" style="text-decoration:none;width:40%" class="btn btn-sm btn-primary">All News</a>
     </div>
 </div>
 

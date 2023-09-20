@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
+}
+@using EntityLayer.Concrete
+@model News
+@{
+
+}
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div class="container">
+
+    <h3>@Model.Title</h3>
+</div>
+<div class="container">
+    <img style="width:35%;display:inline" src="/GetImage/@Model.FilesId" />
+</div>
+
+<div class="container" style="padding-top:3%">
+
+    <div style="display:flex">
+        <p style="text-align:right">
+            @Model.Content
+        </p>
+    </div>
+    
+   
+
+</div>
+<div class="container" style="margin-top:5%">
+    <div style="width:30%" >@Model.Source</div>
+    <div >@Model.Author</div>
+</div>

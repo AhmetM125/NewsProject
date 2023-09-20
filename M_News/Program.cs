@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(
 	CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(x=>
 	{
-		x.LoginPath = "/User/Login";
+		x.LoginPath = "/Login/Login";
 	}
 	);
 
@@ -49,6 +49,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=User}/{action=Login}/{id?}");
+	pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 app.Run();

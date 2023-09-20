@@ -1,0 +1,27 @@
+﻿@using EntityLayer.Concrete
+@model List<Admin>
+<a href="/Admin/CreateAdmin" class="btn btn-primary" style="width:150px;margin-bottom:15px">New User</a>
+<table class="table table-bordered text-center">
+
+    <tbody>
+        <tr>
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Role</td>
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Surname</td>
+                <td>@item.Role</td>
+                <td><a href="~/Admin/EditAdmin/@item.User_Id" style="width:60%" class="btn btn-sm btn-primary">Edit</a></td>
+                <td><a href="~/Admin/DeleteAdmin/@item.User_Id" style="width:60%" class="btn btn-sm btn-danger">Delete</a></td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -26,7 +26,7 @@ namespace EntityLayer.Concrete
 
 
 
-        public Guid FilesId { get; set; }
+        public Guid? FilesId { get; set; }
         public Files Files { get; set; }
     }
 }

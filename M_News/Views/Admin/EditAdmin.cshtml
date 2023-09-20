@@ -1,0 +1,48 @@
+﻿@using EntityLayer.Concrete
+@model Admin
+
+@* @{
+    Guid id = Model.FilesId;
+} *@
+<style>
+    .submitdiv, .imgdiv {
+        width: 100%;
+        padding-top: 5%;
+        display: flex; /* Use flexbox for centering */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        padding-bottom: 5%;
+    }
+</style>
+@using (Html.BeginForm("EditAdmin", "Admin", FormMethod.Post))
+{
+
+    <div class="container">
+
+        <div class="container  col-8">
+
+            @Html.Label("Name")
+            @Html.TextBoxFor(x=>x.Name,new{@class="form-control"})
+
+            @Html.Label("Surname")
+            @Html.TextBoxFor(x=>x.Surname,new{@class="form-control"})
+
+            @Html.Label("Username")
+            @Html.TextBoxFor(x=>x.Username,new{@class="form-control"})
+
+            @Html.Label("Password")
+            @Html.TextBoxFor(x=>x.Password,new {@class="form-control"})
+            @Html.HiddenFor(x=>x.Role)
+
+            <br />
+            @Html.HiddenFor(x=>x.User_Id)
+
+
+            <div class="submitdiv">
+
+                <button class="btn btn-lg btn-primary" style="width:75%">Confirm</button>
+            </div>
+        </div>
+
+    </div>
+}

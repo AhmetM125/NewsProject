@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace M_News.Controllers
 {
 
-    public class UserController : Controller
+    public class LoginController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
 
@@ -25,19 +25,17 @@ namespace M_News.Controllers
         {
             var value = adminManager.Login(Password, Username); // true or false 
 
-
-
-            if (value!=null)
+            if (value != null)
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,Username)
                 };
-                var userIdentity = new ClaimsIdentity(claims,value.Role);
+                var userIdentity = new ClaimsIdentity(claims,"a");
                 ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                 await HttpContext.SignInAsync(principal);
                 /*HttpContext.Session.SetString("Username", Username);*/
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Index", "Admin");
             }
 
             return View();

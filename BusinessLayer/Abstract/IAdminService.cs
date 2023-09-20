@@ -1,14 +1,16 @@
 ﻿using EntityLayer.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
     public interface IAdminService
     {
-        bool Admin(string username, string password);
+        Admin Login(string username, string password);
+        List<Admin> GetAllAdmins();
+
+        void DeleteAdmin(Guid Id);
+        Admin GetAdmin(Guid Id);
+
+        void EditAdmin(Admin admin);
+        void NewAdmin(Admin admin);
     }
 }
