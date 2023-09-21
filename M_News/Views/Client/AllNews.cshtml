@@ -1,9 +1,6 @@
-﻿<!--
-	Author: W3layouts
-	Author URL: http://w3layouts.com
-	License: Creative Commons Attribution 3.0 Unported
-	License URL: http://creativecommons.org/licenses/by/3.0/
--->
+﻿@{
+	Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
+}
 <script>
 	addEventListener("load", function () {
 		setTimeout(hideURLbar, 0);
@@ -13,17 +10,30 @@
 		window.scrollTo(0, 1);
 	}
 </script>
+
 <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="~/css/single.css">
 <link href="~/css/style.css" rel='stylesheet' type='text/css' />
 <link href="~/css/fontawesome-all.css" rel="stylesheet">
 <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
 	  rel="stylesheet">
-@{
-	Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
-}
-@using EntityLayer.Concrete
-@model List<News>
+
+
+
+
+
+
+
+
+
+
+@model IPagedList<EntityLayer.Concrete.News>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+
+
+
 
 	
 	
@@ -42,30 +52,21 @@
 						
 						
 						<div class="col-lg-4 card">
-							<a href="single.html">
-								<img src="~/GetImage/@item.FilesId" class="card-img-top img-fluid" alt="">
+							<a href="/Client/DetailsOfNews/@item.New_Id">
+								<img src="~/GetImage/@item.FilesId"  class="card-img-top img-fluid" alt="">
 							</a>
 							<div class="card-body">
 								<ul class="blog-icons my-4">
 									<li>
-										<a href="#">
+										<a>
 											<i class="far fa-calendar-alt"></i> Publish Date:     @item.PublishDate.Substring(0,10)
 										</a>
 									</li>
-									<li class="mx-2">
-										<a href="#">
-										
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											
-										</a>
-									</li>
+									
 
 								</ul>
 								<h5 class="card-title">
-									<a href="single.html">@item.Title</a>
+									<a  href="/Client/DetailsOfNews/@item.New_Id">@item.Title</a>
 								</h5>
 								@{
 									string val = "";
@@ -77,12 +78,13 @@
 									}
 								}
 								<p class="card-text mb-3"> @item.Content.Substring(0,Max)@val</p>
-								<a href="@Url.Action("Details","Client")" class="btn btn-primary read-m">Read More</a>
+								<a href="/Client/DetailsOfNews/@item.New_Id" class="btn btn-primary read-m">Read More</a>
 							</div>
 						</div>
 					}
 						
 					</div>
+				@Html.PagedListPager((IPagedList)Model,page=>Url.Action("AllNews","Client", new {page}))
 					<!--//left-->
 				</div>
 			</div>
@@ -108,7 +110,7 @@
 
 					<div class="tech-btm">
 						<h3>Latest Posts</h3>
-					@Html.Partial("_LatestPosts")
+					@Html.Partial("_LatestPosts",Model)
 						
 						
 					</div>

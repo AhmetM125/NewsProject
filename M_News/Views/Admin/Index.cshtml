@@ -1,5 +1,9 @@
 ﻿@using EntityLayer.Concrete
-@model List<Admin>
+@* @model List<Admin> *@
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Admin>
+
 <a href="/Admin/CreateAdmin" class="btn btn-primary" style="width:150px;margin-bottom:15px">New User</a>
 <table class="table table-bordered text-center">
 
@@ -25,3 +29,5 @@
     </tbody>
 
 </table>
+
+@Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","Admin", new {page}))

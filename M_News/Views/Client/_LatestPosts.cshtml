@@ -3,7 +3,7 @@
 *@
 
 @using EntityLayer.Concrete
-@model List<News>
+@model IEnumerable<News>
 
 
 <div class="blog-grids row mb-3">
@@ -12,7 +12,7 @@
 
         <div class="col-md-5 blog-grid-left">
 
-            <a href="single.html">
+            <a href="/Client/DetailsOfNews/@item.New_Id">
                 <img src="~/GetImage/@item.FilesId" class="card-img-top img-fluid" alt="">
             </a>
         </div>

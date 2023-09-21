@@ -2,18 +2,17 @@
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using X.PagedList;
 
 namespace M_News.Controllers
 {
-    public class NewsController : Controller
+	public class NewsController : Controller
     {
         NewsManager NewsManager = new NewsManager(new EfNewDal());
         FileManager FileManager = new FileManager(new EfFilesDal());
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var NewsValues = NewsManager.GetAllNews();
-            return View(NewsValues);
+            return View(NewsManager.GetAllNews().ToPagedList(page, 10));
         }
         [HttpGet]
         public IActionResult CreateNews() => View();

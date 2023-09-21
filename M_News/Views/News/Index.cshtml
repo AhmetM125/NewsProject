@@ -1,7 +1,7 @@
 ﻿@using EntityLayer.Concrete
-@model List<News>
-@* News Section *@
-
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<News>
 
 <style>
     #News-Table {
@@ -9,6 +9,9 @@
         text-align: center;
         background-color: #F1EFEF;
     }
+
+    
+    
 </style>
 
 
@@ -18,7 +21,7 @@
 <table id="News-Table" class="table table-bordered">
 
     <tr>
-       @*  <th>News Id</th> *@
+        @*  <th>News Id</th> *@
         <th>Title</th>
         <th>Content</th>
         <th>Publish Date</th>
@@ -28,7 +31,7 @@
     </tr>
     @foreach (var item in Model)
     {
-                  
+
 
 
         <tr>
@@ -45,4 +48,4 @@
 
 </table>
 
-        
+@Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","News", new {page}))

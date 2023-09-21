@@ -2,13 +2,17 @@
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace M_News.Controllers
 {
     public class AdminController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
-        public IActionResult Index() => View(adminManager.GetAllAdmins());
+        public IActionResult Index(int page = 1)
+        {
+           return View(adminManager.GetAllAdmins().ToPagedList(page,3));
+        }
 
         public IActionResult DeleteAdmin(Guid Id)
         {

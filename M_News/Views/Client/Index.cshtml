@@ -6,11 +6,12 @@
     Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
 }
 
+
 <style>
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
-        height: 100px;
-        width: 100px;
+        height: 50px;
+        width: 50px;
         outline: black;
         background-size: 100%, 100%;
         border-radius: 25%;
@@ -20,19 +21,20 @@
 
         .carousel-control-next-icon:after {
             content: '>';
-            font-size: 55px;
+            font-size: 30px;
             color: red;
         }
 
         .carousel-control-prev-icon:after {
             content: '<';
-            font-size: 55px;
+            font-size: 30px;
             color: red;
         }
 </style>
 
-<div class="container text-center col-8">
-    <div class="col-8 mx-auto" id="sliderdiv">
+    
+<div class="container text-center col-10">
+    <div class="col-12 mx-auto" id="sliderdiv">
 
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -49,11 +51,9 @@
 
                 <div class="carousel-item @(news == Model.First() ? "active" : "")">
                         <h3> <a class="badge badge-lg badge-light" href="/Client/DetailsOfNews/@news.New_Id">  @news.Title  </a> </h3>
-                        <img src="/GetImage/@news.FilesId" href="/Client/DetailsOfNews/@news.New_Id" id="imagecarousel" style="width:300px;height:250px">
+                        <img src="/GetImage/@news.FilesId" href="/Client/DetailsOfNews/@news.New_Id" id="imagecarousel" style="width:75%;height:400px;object-fit:cover">
                     
-                        
                     </div>
-                    
                     
                 }
             </div>
