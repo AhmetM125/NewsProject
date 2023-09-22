@@ -52,9 +52,10 @@ namespace M_News.Controllers
             return View();
         }
 
-      /*  public PartialViewResult RolesOfUser()
+        public PartialViewResult RolesOfUser()
         {
-        }*/
+            
+        }
 
     }
 }
