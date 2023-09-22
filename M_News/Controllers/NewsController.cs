@@ -1,15 +1,17 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
 namespace M_News.Controllers
 {
+   
 	public class NewsController : Controller
     {
-        NewsManager NewsManager = new NewsManager(new EfNewDal());
-        FileManager FileManager = new FileManager(new EfFilesDal());
+        NewsManager NewsManager = new(new EfNewDal());
+        FileManager FileManager = new(new EfFilesDal());
         public IActionResult Index(int page = 1)
         {
             return View(NewsManager.GetAllNews().ToPagedList(page, 10));

@@ -18,6 +18,8 @@ namespace M_News.Controllers
 
         public IActionResult Login()
         {
+            ClaimsPrincipal claims = new();
+
             return View();
         }
         [HttpPost]
@@ -30,12 +32,14 @@ namespace M_News.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,Username)
+                    new Claim(ClaimTypes.NameIdentifier,value.Username),
+                    new Claim("Id",value.User_Id.ToString())
                 };
-                var userIdentity = new ClaimsIdentity(claims, value.Role);
-                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+
+                var userIdentity = new ClaimsIdentity(claims, "a");
+                ClaimsPrincipal principal = new(userIdentity);
                 await HttpContext.SignInAsync(principal);
-                /*HttpContext.Session.SetString("Username", Username);*/
+                /*HttpContext.Session.SetString("Username", value.User_Id.ToString());*/
                 return RedirectToAction("Index", "Admin");
             }
 

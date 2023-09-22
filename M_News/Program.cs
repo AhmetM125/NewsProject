@@ -24,6 +24,7 @@ builder.Services.AddAuthentication(
 	.AddCookie(x=>
 	{
 		x.LoginPath = "/Login/Login";
+		x.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 	}
 	);
 

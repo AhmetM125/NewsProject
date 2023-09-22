@@ -1,10 +1,13 @@
 ﻿using M_News.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
+
 namespace M_News.Controllers
 {
-	public class DashboardController : Controller
+    
+    public class DashboardController : Controller
 	{
 		private readonly ILogger<DashboardController> _logger;
 

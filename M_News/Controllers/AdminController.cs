@@ -6,14 +6,19 @@ using X.PagedList;
 
 namespace M_News.Controllers
 {
+
     public class AdminController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
         public IActionResult Index(int page = 1)
         {
-           return View(adminManager.GetAllAdmins().ToPagedList(page,3));
+            return View(adminManager.GetAllAdmins().ToPagedList(page, 3));
         }
-
+        [HttpGet]
+        public IActionResult RoleManagement(Guid Id)
+        {
+            return View(adminManager.GetAdmin(Id));
+        }
         public IActionResult DeleteAdmin(Guid Id)
         {
             adminManager.DeleteAdmin(Id);
@@ -33,16 +38,23 @@ namespace M_News.Controllers
             return RedirectToAction("Index", "Admin");
         }
         [HttpGet]
+
         public IActionResult CreateAdmin()
         {
             return View();
         }
         [HttpPost]
+
+
         public IActionResult CreateAdmin(Admin admin)
         {
             adminManager.NewAdmin(admin);
             return View();
         }
+
+      /*  public PartialViewResult RolesOfUser()
+        {
+        }*/
 
     }
 }

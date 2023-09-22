@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(NEUContext))]
-    [Migration("20230919082100_AdminEntityEdit")]
-    partial class AdminEntityEdit
+    [Migration("20230922131812_Mig3")]
+    partial class Mig3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,7 +102,7 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("FilesId")
+                    b.Property<Guid?>("FilesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PublishDate")
@@ -124,20 +124,137 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("News");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Permission", b =>
+                {
+                    b.Property<short>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Role", b =>
+                {
+                    b.Property<short>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.RolePermission", b =>
+                {
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("PermissionId")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.UserRole", b =>
+                {
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.News", b =>
                 {
                     b.HasOne("EntityLayer.Concrete.Files", "Files")
                         .WithMany("News")
-                        .HasForeignKey("FilesId")
+                        .HasForeignKey("FilesId");
+
+                    b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.RolePermission", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.Permission", "Permission")
+                        .WithMany("RolePermission")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Files");
+                    b.HasOne("EntityLayer.Concrete.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.UserRole", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityLayer.Concrete.Admin", "Admin")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Admin", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Files", b =>
                 {
                     b.Navigation("News");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Permission", b =>
+                {
+                    b.Navigation("RolePermission");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Role", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

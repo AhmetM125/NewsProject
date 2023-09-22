@@ -35,7 +35,7 @@ namespace BusinessLayer.Abstract
         public void NewAdmin(Admin admin)
         {
             admin.User_Id = Guid.NewGuid();
-            admin.Role = "b";
+           /* admin.Role = "b";*/
             AdminDal.Insert(admin);
         }
     }

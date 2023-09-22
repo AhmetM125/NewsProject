@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EntityLayer.Concrete
 {
-    public class Admin : IdentityUser
+    public class Admin 
     {
         [Key]
         public Guid User_Id { get; set; }
@@ -20,7 +20,11 @@ namespace EntityLayer.Concrete
         [Required]
         public string Password { get; set; } = default!;
         [MaxLength(20, ErrorMessage = "20 Character Max")]
-        public string Role { get; set; } = default!;
+
+
+
+        public ICollection<UserRole> UserRoles { get; set; }
+
 
     }
 }

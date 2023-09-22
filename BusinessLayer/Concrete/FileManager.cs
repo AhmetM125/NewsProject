@@ -9,7 +9,7 @@ namespace BusinessLayer.Concrete
 {
     public class FileManager : IFileService
     {
-        IFilesDal _filesDal;
+        readonly IFilesDal _filesDal;
 
         public FileManager(IFilesDal filesDal)
         {

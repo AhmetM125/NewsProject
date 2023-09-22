@@ -8,7 +8,7 @@ namespace BusinessLayer.Concrete
     public class NewsManager : INewService
     {
         INewDal _NewDal;
-        FileManager fileManager = new FileManager(new EfFilesDal());
+        FileManager fileManager = new(new EfFilesDal());
 
         public NewsManager(INewDal NewDal)
         {

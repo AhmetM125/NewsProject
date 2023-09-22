@@ -1,15 +1,13 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
-using M_News.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 using X.PagedList;
 
 namespace M_News.Controllers
 {
-	[AllowAnonymous]
+    [AllowAnonymous]
 	public class Client : Controller
 	{
 		NewsManager newsManager = new NewsManager(new EfNewDal());
