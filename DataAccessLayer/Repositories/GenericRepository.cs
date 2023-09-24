@@ -4,50 +4,58 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories
 {
-	public class GenericRepository<T> : IRepository<T> where T : class
-	{
-		private NEUContext _NeuContext = new NEUContext();
-		private readonly DbSet<T> _Object;
+    public class GenericRepository<T> : IRepository<T> where T : class
+    {
+        private NEUContext _NeuContext = new NEUContext();
+        private readonly DbSet<T> _Object;
 
-		public GenericRepository()
-		{		
-			_Object = _NeuContext.Set<T>();
-		}
-		public void Delete(T p)
-		{
-			var deletedEntity = _NeuContext.Entry(p);
-			deletedEntity.State = EntityState.Deleted;
+        public GenericRepository()
+        {
+            _Object = _NeuContext.Set<T>();
+        }
+        public void Delete(T p)
+        {
+            var deletedEntity = _NeuContext.Entry(p);
+            deletedEntity.State = EntityState.Deleted;
 
-			_NeuContext.SaveChanges();
-		}
+            _NeuContext.SaveChanges();
+        }
+        public void DeleteW(Expression<Func<T, bool>> filter)
+        {
+            var ValuesToDelete = _NeuContext.Set<T>().Where(filter);
+            foreach (var item in ValuesToDelete)
+            {
+                _NeuContext.Set<T>().Remove(item);
+            }
+        }
 
-		public T? Get(Expression<Func<T, bool>> filter)
-		{
-			return _Object.FirstOrDefault(filter);
-		}
+        public T? Get(Expression<Func<T, bool>> filter)
+        {
+            return _Object.FirstOrDefault(filter);
+        }
 
-		public void Insert(T p)
-		{
-			var addedEntity = _NeuContext.Entry(p);
-			addedEntity.State = EntityState.Added;
-			_NeuContext.SaveChanges();
-		}
+        public void Insert(T p)
+        {
+            var addedEntity = _NeuContext.Entry(p);
+            addedEntity.State = EntityState.Added;
+            _NeuContext.SaveChanges();
+        }
 
-		public  List<T> List()
-		{
-			return _Object.ToList();
-		}
+        public List<T> List()
+        {
+            return _Object.ToList();
+        }
 
-		public List<T> List(Expression<Func<T, bool>> filter)
-		{
-			return _Object.Where(filter).ToList();
-		}
+        public List<T> List(Expression<Func<T, bool>> filter)
+        {
+            return _Object.Where(filter).ToList();
+        }
 
-		public void Update(T p)
-		{
-			var updatedEntity = _NeuContext.Entry(p);
-			updatedEntity.State = EntityState.Modified;
-			_NeuContext.SaveChanges();
-		}
-	}
+        public void Update(T p)
+        {
+            var updatedEntity = _NeuContext.Entry(p);
+            updatedEntity.State = EntityState.Modified;
+            _NeuContext.SaveChanges();
+        }
+    }
 }

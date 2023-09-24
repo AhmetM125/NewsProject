@@ -12,5 +12,6 @@ namespace BusinessLayer.Abstract
 
         void EditAdmin(Admin admin);
         void NewAdmin(Admin admin);
+
     }
 }

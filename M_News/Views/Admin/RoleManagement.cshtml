@@ -1,11 +1,25 @@
-﻿
-@using EntityLayer.Concrete
-@model Admin
+﻿@using EntityLayer.Concrete
+@model List<UserRole>
 
+    <a href="" class="btn btn-primary">New Role</a>
+    <br />
+<table class="table table-bordered">
+    <thead>
 
+        <tr>
+            <td>Name Surname</td>
+            <td>Role Title</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Admin.Name @item.Admin.Surname</td>
+                <td>@item.Role.Title</td>
+                <td><a href="~/Admin/RemoveRole/@item.UserId,@item.RoleId" class="btn btn-warning">Remove</a></td>
+            </tr>
+        }
 
-
-
-
-<h3>@Model.Name @Model.Surname Roles:</h3>
-@Url.Action("RolesOfUser")
+    </tbody>
+</table>

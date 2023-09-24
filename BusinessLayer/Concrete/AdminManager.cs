@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Abstract;
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 
 namespace BusinessLayer.Abstract
@@ -6,6 +8,7 @@ namespace BusinessLayer.Abstract
     public class AdminManager : IAdminService
     {
         IAdminDal AdminDal { get; set; }
+        UserRoleManager _UserRoleM = new UserRoleManager(new EfUserRoleDal());
 
         public AdminManager(IAdminDal _adminDal)
         {
@@ -19,6 +22,7 @@ namespace BusinessLayer.Abstract
 
         public void DeleteAdmin(Guid Id)
         {
+            
             AdminDal.Delete(AdminDal.Get(x => x.User_Id == Id));
         }
 
@@ -38,5 +42,6 @@ namespace BusinessLayer.Abstract
            /* admin.Role = "b";*/
             AdminDal.Insert(admin);
         }
+        
     }
 }

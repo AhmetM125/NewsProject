@@ -11,14 +11,16 @@ namespace EntityLayer.Concrete
     {
         [Key]
         public Int16 Id { get; set; }
-       
+
 
         [Required]
         [MaxLength(30, ErrorMessage = "Error")]
 
         public string Title { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set;}
+        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<RolePermission> RolePermissions { get; set; }
+
 
     }
 }

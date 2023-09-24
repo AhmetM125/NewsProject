@@ -8,7 +8,7 @@ using X.PagedList;
 namespace M_News.Controllers
 {
     [AllowAnonymous]
-	public class Client : Controller
+	public class ClientController : Controller
 	{
 		NewsManager newsManager = new NewsManager(new EfNewDal());
 		public IActionResult Index()
@@ -27,7 +27,7 @@ namespace M_News.Controllers
 		{
 			return View(newsManager.GetAllNews().ToPagedList(page, 6));
 		}
-		public PartialViewResult _LatestPosts()
+        public PartialViewResult _LatestPosts()
 		{
 			return PartialView(newsManager.GetLast4News());
 		}

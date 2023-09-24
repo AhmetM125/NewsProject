@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,9 @@ namespace M_News.Controllers
     public class AdminController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
+        UserRoleManager userRoleManager = new UserRoleManager(new EfUserRoleDal());
+        RoleManager roleManager = new RoleManager(new EfRoleDal());
+
         public IActionResult Index(int page = 1)
         {
             return View(adminManager.GetAllAdmins().ToPagedList(page, 3));
@@ -17,7 +21,19 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult RoleManagement(Guid Id)
         {
-            return View(adminManager.GetAdmin(Id));
+            var ListOfRoles = userRoleManager.GetRolesOfUser(Id);
+            foreach (var item in ListOfRoles)
+            {
+                item.Admin = adminManager.GetAdmin((Guid)item.UserId);
+                item.Role = roleManager.GetRoleById(item.RoleId);
+                
+            }
+            return View(ListOfRoles);
+        }
+        public IActionResult RemoveRole(int RoleId,Guid U_Id)
+        {
+            userRoleManager.DeleteRoleOfUser(U_Id,RoleId);
+            return RedirectToAction("RoleManagement", "Admin");
         }
         public IActionResult DeleteAdmin(Guid Id)
         {
@@ -52,10 +68,7 @@ namespace M_News.Controllers
             return View();
         }
 
-        public PartialViewResult RolesOfUser()
-        {
-            
-        }
+
 
     }
 }

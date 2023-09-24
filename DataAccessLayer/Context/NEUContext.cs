@@ -10,9 +10,9 @@ namespace DataAccessLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false");
-			/*optionsBuilder.UseSqlServer("server=DESKTOP-RKAH2TS;database=M_NewsDb;integrated security=true;Encrypt=false");*/		
-		}
+			/*optionsBuilder.UseSqlServer("server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false");*/
+            optionsBuilder.UseSqlServer("server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false");
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
