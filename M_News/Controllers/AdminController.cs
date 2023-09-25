@@ -3,6 +3,7 @@ using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
 
 namespace M_News.Controllers
@@ -23,17 +24,46 @@ namespace M_News.Controllers
         {
             var ListOfRoles = userRoleManager.GetRolesOfUser(Id);
             foreach (var item in ListOfRoles)
-            {
-                item.Admin = adminManager.GetAdmin((Guid)item.UserId);
-                item.Role = roleManager.GetRoleById(item.RoleId);
-                
-            }
+                if (item is not null)
+                {
+                    item.Admin = adminManager.GetAdmin(item.UserId.Value);
+                    item.Role = roleManager.GetRoleById(item.RoleId);
+                }
+            ViewBag.Id = Id;
             return View(ListOfRoles);
         }
-        public IActionResult RemoveRole(int RoleId,Guid U_Id)
+        [HttpGet]
+        public IActionResult UserNewRole(Guid uid)
         {
-            userRoleManager.DeleteRoleOfUser(U_Id,RoleId);
-            return RedirectToAction("RoleManagement", "Admin");
+            UserRole role = new();
+            role.UserId = uid;
+            List<Role> valuesOfUser = roleManager.GetAllRoles();
+            var ValueAdmin = adminManager.GetAdmin(uid);
+            ViewData["NameSurname"] = $"{ValueAdmin.Name} {ValueAdmin.Surname}";
+            ViewBag.RolesDropDown = new SelectList(valuesOfUser, "Id", "Title");
+            ViewBag.Uid = ValueAdmin.User_Id;
+            return View(role);
+        }
+        [HttpPost]
+        public IActionResult UserNewRole(UserRole P)
+        {
+            try
+            {
+                userRoleManager.InsertNewRoleOfUser(P);
+                return RedirectToAction("Index", "Admin");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Foreign Key Error");
+                return RedirectToAction("Index","Admin"); 
+            }
+            
+        }
+        public IActionResult RemoveRole(int RoleId, Guid UserId)
+        {
+            var UserRoleValue = userRoleManager.GetUserRoleById(UserId, RoleId);
+            userRoleManager.DeleteRoleOfUser(UserRoleValue);
+            return RedirectToAction("Index", "Admin");
         }
         public IActionResult DeleteAdmin(Guid Id)
         {

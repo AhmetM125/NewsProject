@@ -1,9 +1,10 @@
 ﻿@using EntityLayer.Concrete
 @model List<UserRole>
 
-    <a href="" class="btn btn-primary">New Role</a>
-    <br />
-<table class="table table-bordered">
+    
+<a asp-action="UserNewRole" asp-controller="Admin" asp-route-uid="@ViewBag.Id" class="btn btn-primary">New Role</a>
+
+<table class="table table-bordered" style="margin-top:1%">
     <thead>
 
         <tr>
@@ -17,7 +18,10 @@
             <tr>
                 <td>@item.Admin.Name @item.Admin.Surname</td>
                 <td>@item.Role.Title</td>
-                <td><a href="~/Admin/RemoveRole/@item.UserId,@item.RoleId" class="btn btn-warning">Remove</a></td>
+                <td>
+                    <a asp-action="RemoveRole" asp-controller="Admin" asp-route-UserId="@item.UserId" asp-route-RoleId="@item.RoleId" class="btn btn-warning">Remove</a>
+                    @*  <a href="~/Admin/RemoveRole/@item.UserId,@item.RoleId" class="btn btn-warning">Remove</a> *@
+                </td>
             </tr>
         }
 

@@ -1,0 +1,12 @@
+﻿@using EntityLayer.Concrete
+@model Role
+
+@using (Html.BeginForm("EditRole", "Role", FormMethod.Post))
+{
+    @Html.Label("Title")
+    @Html.TextBoxFor(x=>x.Title)
+    @Html.HiddenFor(x=>x.Id)
+    <button>Confirm</button>
+
+
+}

@@ -1,0 +1,10 @@
+﻿@using EntityLayer.Concrete
+@model Role
+
+@using (Html.BeginForm("NewRole", "Role", FormMethod.Post))
+{
+
+    @Html.Label("Title ")
+    @Html.TextBoxFor(x=>x.Title)
+    <button>Confirm</button>
+}

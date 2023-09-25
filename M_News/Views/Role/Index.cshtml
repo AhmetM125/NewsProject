@@ -1,0 +1,26 @@
+﻿@using EntityLayer.Concrete
+@model List<Role>
+
+<a asp-action="NewRole" asp-controller="Role" class="btn btn-primary">Create New Role</a>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <td>Role Title</td>
+            <td>Role Count</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td> <a asp-action="EditRole" asp-controller="Role" asp-route-RoleId="@item.Id" class="btn btn-success">Edit Role</a> </td>
+                <td> <a asp-action="DeleteRole" asp-controller="Role" asp-route-RoleId="@item.Id" class="btn btn-danger">Delete Role</a> </td>
+            </tr>
+        }
+    </tbody>
+</table>

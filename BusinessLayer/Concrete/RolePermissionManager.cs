@@ -1,8 +1,14 @@
 ﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Abstract;
 
 namespace BusinessLayer.Concrete
 {
-    public interface RolePermissionManager : IRolePermissionService
+    public class RolePermissionManager : IRolePermissionService
     {
+        IRolePermissionDal roleDal;
+        public RolePermissionManager(IRolePermissionDal _roleDal)
+        {
+                roleDal = _roleDal;
+        }
     }
 }

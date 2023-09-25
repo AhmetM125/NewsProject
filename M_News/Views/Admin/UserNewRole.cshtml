@@ -1,0 +1,30 @@
+﻿@using EntityLayer.Concrete
+@model UserRole
+
+
+<div class="content">
+
+    <div style="width:50%;margin:0 auto 0 auto">
+
+        @using (Html.BeginForm("UserNewRole", "Admin",FormMethod.Post))
+        {
+            <div class="form-group">
+                <label for="RoleId">@ViewData["NameSurname"]</label>
+                <select asp-items="@ViewBag.RolesDropDown" asp-for="RoleId" class="form-control">
+                   
+                </select>
+                <input class="form-control"  style="visibility:hidden" name="UserId" value="@Model.UserId" />
+                
+            </div>
+          
+
+            <div style="text-align:center;margin-top:3%">
+                <button style="width:85%" class="btn btn-primary">Confirm</button>
+            </div>
+
+        }
+
+    </div>
+
+
+</div>
