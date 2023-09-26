@@ -27,6 +27,8 @@ namespace BusinessLayer.Concrete
             return _roleDal.Get(x=>x.Id == roleId);
         }
 
+        
+
         public void NewRole(Role role)
         {
            _roleDal.Insert(role);

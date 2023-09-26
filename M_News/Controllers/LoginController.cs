@@ -18,7 +18,7 @@ namespace M_News.Controllers
 
         public IActionResult Login()
         {
-            ClaimsPrincipal claims = new();
+            
 
             return View();
         }
@@ -33,7 +33,8 @@ namespace M_News.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier,value.Username),
-                    new Claim("Id",value.User_Id.ToString())
+                    new Claim("Id",value.User_Id.ToString()),
+                    new Claim(ClaimTypes.Name,value.User_Id.ToString())
                 };
 
                 var userIdentity = new ClaimsIdentity(claims, "a");
