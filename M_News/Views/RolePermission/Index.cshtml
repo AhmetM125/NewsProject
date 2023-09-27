@@ -1,7 +1,10 @@
 ﻿@using EntityLayer.Concrete
-@model List<RolePermission>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<RolePermission>
 
 
+<a asp-action="NewPermission" class="btn btn-primary" style="width:150px;margin-bottom:15px">New User</a>
 <table class="table table-bordered">
 
     <thead>
@@ -11,10 +14,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Role Title</td>
-            <td><a href="btn btn-primary">Permission Of Role</a></td>
-        </tr>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+
+                <td>@item.Permission.Title</td>
+                <td>  @item.Role.Title</td>
+                <td><a class="btn btn-primary" asp-action="DeletePermissionOfRole" asp-controller="Permission" asp-route-RoleId="@item.RoleId" asp-route-PermissionId="@item.PermissionId">Delete Permission</a></td>
+            </tr>
+        }
     </tbody>
 
 </table>
+
+
+@Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","Permission", new {page}))

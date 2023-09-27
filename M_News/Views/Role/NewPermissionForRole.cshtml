@@ -1,0 +1,19 @@
+﻿@using EntityLayer.Concrete
+@model RolePermission
+@{
+    var permissions = ViewBag.Permissions as IEnumerable<SelectListItem>;
+}
+
+
+@using (Html.BeginForm("NewPermissionForRole", "Role", FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.RoleId)
+    <select name="PermissionId" class="form-control">
+        @foreach (var permission in permissions)
+        {
+            <option value="@permission.Value">@permission.Text</option>
+        }
+    </select>
+
+    <button class="btn btn-primary">Submit</button>
+}

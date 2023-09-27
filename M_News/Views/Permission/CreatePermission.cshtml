@@ -1,0 +1,16 @@
+﻿@using EntityLayer.Concrete
+@model Permission
+
+
+
+@using (Html.BeginForm("CreatePermission", "Permission", FormMethod.Post))
+{
+    <div class="form-group" style="width:50%;margin-right:auto;margin-left:auto">
+
+        @Html.TextBoxFor(x=>x.Title,new {@class="form-control",@required="required"})
+
+
+        <button class="btn btn-success" style="width:75%">Submit</button>
+    </div>
+
+}

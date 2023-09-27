@@ -1,14 +1,40 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
+using EntityLayer.Concrete;
 
 namespace BusinessLayer.Concrete
 {
     public class RolePermissionManager : IRolePermissionService
     {
         IRolePermissionDal roleDal;
-        public RolePermissionManager(IRolePermissionDal _roleDal)
+        public RolePermissionManager(IRolePermissionDal rolePermissionDal)
         {
-                roleDal = _roleDal;
+                roleDal = rolePermissionDal;
+        }
+
+        public void CreatePermission(RolePermission rolePermission)
+        {
+            roleDal.Insert(rolePermission);
+        }
+
+        public void DeleteRolePermission(RolePermission rolePermission)
+        {
+            roleDal.Delete(rolePermission);
+        }
+
+        public List<RolePermission> GetAllRolePermission()
+        {
+            return roleDal.List();
+        }
+
+        public ICollection<RolePermission> GetRolePermissionById(int RoleId)
+        {
+           return roleDal.List(x => x.RoleId == RoleId);
+        }
+
+        public RolePermission GetRolePermissionById(int RoleId, int PermissionId)
+        {
+           return roleDal.Get(x=>x.RoleId == RoleId &&  x.PermissionId == PermissionId);
         }
     }
 }

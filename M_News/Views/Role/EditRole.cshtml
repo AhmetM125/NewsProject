@@ -4,9 +4,9 @@
 @using (Html.BeginForm("EditRole", "Role", FormMethod.Post))
 {
     @Html.Label("Title")
-    @Html.TextBoxFor(x=>x.Title)
+    @Html.TextBoxFor(x=>x.Title,new {@class="form-control"})
     @Html.HiddenFor(x=>x.Id)
-    <button>Confirm</button>
+    <button class="btn btn-primary">Confirm</button>
 
 
 }

@@ -1,12 +1,12 @@
-﻿using M_News.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using M_News.Attributes;
+using M_News.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 
 namespace M_News.Controllers
 {
-    
+    [AuthorizeY(Permission = "Dashboard")]
     public class DashboardController : Controller
 	{
 		private readonly ILogger<DashboardController> _logger;

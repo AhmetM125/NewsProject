@@ -1,14 +1,14 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
-using Microsoft.AspNetCore.Authorization;
+using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
 namespace M_News.Controllers
 {
-   
-	public class NewsController : Controller
+    [AuthorizeY(Permission = "News")]
+    public class NewsController : Controller
     {
         NewsManager NewsManager = new(new EfNewDal());
         FileManager FileManager = new(new EfFilesDal());

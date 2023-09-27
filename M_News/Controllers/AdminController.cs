@@ -3,16 +3,14 @@ using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using M_News.Attributes;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
 using X.PagedList;
 
 namespace M_News.Controllers
 {
 
-    /*[AuthorizeY(Roles:"Admin")]*/
+    [AuthorizeY(Permission = "Users")]
 
     public class AdminController : Controller
     {
@@ -20,11 +18,8 @@ namespace M_News.Controllers
         UserRoleManager userRoleManager = new UserRoleManager(new EfUserRoleDal());
         RoleManager roleManager = new RoleManager(new EfRoleDal());
 
-        [AuthorizeY(Permission = "Index")]
         public IActionResult Index(int page = 1)
         {
-            AuthorizeYAttribute VAL = new AuthorizeYAttribute();
-            var value = User.Identity.Name;
             return View(adminManager.GetAllAdmins().ToPagedList(page, 3));
         }
         [HttpGet]
@@ -103,7 +98,7 @@ namespace M_News.Controllers
         public IActionResult CreateAdmin(Admin admin)
         {
             adminManager.NewAdmin(admin);
-            return View();
+            return RedirectToAction("Index","Admin");
         }
 
 

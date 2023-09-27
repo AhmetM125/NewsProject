@@ -1,0 +1,27 @@
+﻿@using EntityLayer.Concrete
+@model ICollection<RolePermission>
+
+
+<a asp-action="NewPermissionForRole" asp-controller="Role" asp-route-RoleId="@ViewBag.RoleId" class="btn btn-primary">Create New Role</a>
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <td>Permission Title</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Permission.Title
+                </td>
+                <td>
+                    <a asp-action="DeletePermissionOfRole" asp-controller="Role" asp-route-RoleId="@item.RoleId" asp-route-PermissionId="@item.PermissionId" class="btn btn-danger">Delete Role</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
