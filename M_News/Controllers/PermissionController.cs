@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Concrete;
+﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using M_News.Attributes;
@@ -9,31 +10,38 @@ namespace M_News.Controllers
     [AuthorizeY(Permission = "Permissions")]
     public class PermissionController : Controller
     {
-        PermissionManager permissionManager = new PermissionManager(new EfPermissionDal());
+        private readonly IPermissionService _permissionService;
+
+        public PermissionController(IPermissionService permissionService)
+        {
+            _permissionService = permissionService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            ICollection<Permission> ListOfPermissions = permissionManager.GetAllPermission();
+
+            ICollection<Permission> ListOfPermissions = _permissionService.GetAllPermission();
             return View(ListOfPermissions);
         }
         [HttpGet]
         public IActionResult EditPermission(int PermissionId)
         {
-            Permission PermissionObj = permissionManager.GetPermission(PermissionId);
+            Permission PermissionObj = _permissionService.GetPermission(PermissionId);
             return View(PermissionObj);
         }
         [HttpPost]
         public IActionResult EditPermission(Permission p)
         {
-            permissionManager.UpdatePermission(p);
+            _permissionService.UpdatePermission(p);
             return RedirectToAction("Index", "Permission");
         }
 
         [HttpGet]
         public IActionResult DeletePermission(int PermissionId)
         {
-            permissionManager.DeletePermission(permissionManager.GetPermission(PermissionId));
-            return RedirectToAction("Index","Permission");//
+            _permissionService.DeletePermission(_permissionService.GetPermission(PermissionId));
+            return RedirectToAction("Index", "Permission");//
         }
         [HttpGet]
         public IActionResult CreatePermission()
@@ -43,9 +51,9 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult CreatePermission(Permission P)
         {
-            permissionManager.CreatePermission(P);
-            return RedirectToAction("Index","Permission");
-            
+            _permissionService.CreatePermission(P);
+            return RedirectToAction("Index", "Permission");
+
         }
     }
 }

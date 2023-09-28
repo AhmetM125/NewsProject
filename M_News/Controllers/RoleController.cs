@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Concrete;
+﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using M_News.Attributes;
@@ -10,31 +11,38 @@ namespace M_News.Controllers
     [AuthorizeY(Permission = "Roles")]
     public class RoleController : Controller
     {
+        private readonly IRoleService _roleService;
+        private readonly IRolePermissionService _rolepermissionService;
+        private readonly IPermissionService _permissionService;
+        public RoleController(IRoleService roleService, IRolePermissionService rolepermissionService, IPermissionService permissionService)
+        {
+            _roleService = roleService;
+            _rolepermissionService = rolepermissionService;
+            _permissionService = permissionService;
+        }
 
-        RoleManager roleManager = new RoleManager(new EfRoleDal());
-        RolePermissionManager RolePermission = new RolePermissionManager(new EfRolePermissionDal());
-        PermissionManager PermissionManager = new PermissionManager(new EfPermissionDal());
+
         [HttpGet]
         public IActionResult Index()
         {
-            var Roles = roleManager.GetAllRoles();
+            var Roles = _roleService.GetAllRoles();
             return View(Roles);
         }
         [HttpGet]
         public IActionResult EditRole(int RoleId)
         {
-            return View(roleManager.GetRoleById(RoleId));
+            return View(_roleService.GetRoleById(RoleId));
         }
         [HttpPost]
         public IActionResult EditRole(Role p)
         {
-            roleManager.UpdateRole(p);
+            _roleService.UpdateRole(p);
             return RedirectToAction("Index", "Role");
         }
         public IActionResult DeleteRole(int RoleId)
         {
-            var RoleValue = roleManager.GetRoleById(RoleId);
-            roleManager.DeleteRole(RoleValue);
+            var RoleValue = _roleService.GetRoleById(RoleId);
+            _roleService.DeleteRole(RoleValue);
             return RedirectToAction("Index", "Role");
         }
         [HttpGet]
@@ -45,7 +53,7 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult NewRole(Role p)
         {
-            roleManager.NewRole(p);
+            _roleService.NewRole(p);
             return RedirectToAction("Index", "Role");
         }
 
@@ -53,12 +61,12 @@ namespace M_News.Controllers
         //ROLEPERMISSION
         public IActionResult EditPermissions(int RoleId)
         {
-            var Role = roleManager.GetRoleById(RoleId);
-            var PermissionList = RolePermission.GetRolePermissionById(RoleId);
+            var Role = _roleService.GetRoleById(RoleId);
+            var PermissionList = _rolepermissionService.GetRolePermissionById(RoleId);
             foreach (var item in PermissionList)
             {
-                item.Permission = PermissionManager.GetPermission(item.PermissionId);
-                item.Role = roleManager.GetRoleById(item.RoleId);
+                item.Permission = _permissionService.GetPermission(item.PermissionId);
+                item.Role = _roleService.GetRoleById(item.RoleId);
             }
             ViewBag.RoleId = RoleId;
             return View(PermissionList);
@@ -66,16 +74,17 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult DeletePermissionOfRole(int RoleId, int PermissionId)
         {
-            var RolePermissionValue = RolePermission.GetRolePermissionById(RoleId, PermissionId);
-            RolePermission.DeleteRolePermission(RolePermissionValue);
+
+            var RolePermissionValue = _rolepermissionService.GetRolePermissionById(RoleId, PermissionId);
+            _rolepermissionService.DeleteRolePermission(RolePermissionValue);
             return RedirectToAction("Index", "RolePermission");
         }
         [HttpGet]
         public IActionResult NewPermissionForRole(int RoleId)
         {
-            List<RolePermission> valuesToCheck = RolePermission.GetAllRolePermission().Where(x => x.RoleId != RoleId).ToList();
+            List<RolePermission> valuesToCheck = _rolepermissionService.GetAllRolePermission().Where(x => x.RoleId != RoleId).ToList();
 
-            IEnumerable<SelectListItem> Permissions_ListItem = (from x in PermissionManager.GetAllPermission()
+            IEnumerable<SelectListItem> Permissions_ListItem = (from x in _permissionService.GetAllPermission()
                                                                 select new SelectListItem
 
                                                                 {
@@ -91,9 +100,9 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult NewPermissionForRole(RolePermission p)
         {
-            var IsExist = RolePermission.GetRolePermissionById(p.RoleId, p.PermissionId);
+            var IsExist = _rolepermissionService.GetRolePermissionById(p.RoleId, p.PermissionId);
             if (IsExist is null)
-                RolePermission.CreatePermission(p);
+                _rolepermissionService.CreatePermission(p);
             return RedirectToAction("Index", "Role");
         }
 

@@ -33,13 +33,13 @@ namespace M_News.Attributes
 
             string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
             string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
-            using (SqlConnection connection = new SqlConnection(connection1))
+            using (SqlConnection connection = new SqlConnection(connection2))
             {
                 var result = connection.Query<string>(query, paramaters);
                 if (result != null && result.Any(x => x == Permission))
                     return;
                 else
-                    context.HttpContext.Response.Redirect("/accessdenied");
+                    context.HttpContext.Response.Redirect("/Dashboard/Index");
             }
         }
 

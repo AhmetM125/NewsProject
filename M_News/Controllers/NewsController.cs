@@ -10,36 +10,42 @@ namespace M_News.Controllers
     [AuthorizeY(Permission = "News")]
     public class NewsController : Controller
     {
-        NewsManager NewsManager = new(new EfNewDal());
-        FileManager FileManager = new(new EfFilesDal());
+        private readonly INewService _newService;
+
+        
+        public NewsController(INewService newService)
+        {
+            _newService = newService;
+        }
+
         public IActionResult Index(int page = 1)
         {
-            return View(NewsManager.GetAllNews().ToPagedList(page, 10));
+            return View(_newService.GetAllNews().ToPagedList(page, 10));
         }
         [HttpGet]
         public IActionResult CreateNews() => View();
         [HttpPost]
         public IActionResult CreateNews(News value, IFormFile Image)
         {
-            NewsManager.CreateNews(value, Image);
+            _newService.CreateNews(value, Image);
             return RedirectToAction("Index", "News");
         }
 
         [HttpGet]
         public IActionResult EditNews(int Id)
         {
-            var News = NewsManager.GetNews(Id);
+            var News = _newService.GetNews(Id);
             return View(News);
         }
         [HttpPost]
         public IActionResult EditNews(News value, IFormFile Image)
         {
-            NewsManager.UpdateNews(value, Image);
+            _newService.UpdateNews(value, Image);
             return RedirectToAction("Index", "News");
         }
         public IActionResult DeleteNews(int Id)
         {
-            NewsManager.DeleteNews(Id);
+            _newService.DeleteNews(Id);
             return RedirectToAction("Index", "News");
         }
     }

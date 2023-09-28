@@ -3,7 +3,7 @@ using EntityLayer.Concrete;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface IUserRole : IRepository<UserRole>
+    public interface IUserRoleDal : IRepository<UserRole>
     {
     }
 }

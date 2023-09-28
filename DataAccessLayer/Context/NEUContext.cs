@@ -11,7 +11,7 @@ namespace DataAccessLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connection1);
+            optionsBuilder.UseSqlServer(connection2);
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

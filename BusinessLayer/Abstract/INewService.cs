@@ -14,8 +14,8 @@ namespace BusinessLayer.Concrete
         News GetNews(int id);
         void CreateNews(News value, IFormFile img);
         void DeleteNews(int id);
-
+        void UpdateNews(News newsVal, IFormFile Image);
         List<News> GetLast4News();
-       /* void UpdateNews(News newsVal, IFormFile Image);*/
+        /* void UpdateNews(News newsVal, IFormFile Image);*/
     }
 }

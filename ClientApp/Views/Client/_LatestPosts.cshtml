@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using EntityLayer.Concrete
+@model IEnumerable<News>
+
+
+<div class="blog-grids row mb-3">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-5 blog-grid-left">
+
+            <a href="/Client/DetailsOfNews/@item.New_Id">
+                <img src="~/GetImage/@item.FilesId" class="card-img-top img-fluid" alt="">
+            </a>
+        </div>
+        <div class="col-md-7 blog-grid-right">
+
+            <h5>
+                <a href="~/Client/DetailsOfNews/@item.New_Id" style="color:white">@item.Title</a>
+            </h5>
+            @{
+                string val = "";
+                int Max = item.Content.Length;
+                if (item.Content.Length > 100)
+                {
+                    Max = 100;
+                    val = "...";
+                }
+            }
+            <p>
+                @item.Content.Substring(0,Max)@val
+
+            </p>
+            <div class="sub-meta">
+                <span>
+                    <i class="far fa-clock" style="color:white"></i> @item.PublishDate
+                </span>
+            </div>
+        </div>
+    }
+
+</div>

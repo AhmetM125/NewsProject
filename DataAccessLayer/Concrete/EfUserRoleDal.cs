@@ -4,7 +4,7 @@ using EntityLayer.Concrete;
 
 namespace DataAccessLayer.Concrete
 {
-    public class EfUserRoleDal : GenericRepository<UserRole>, IUserRole
+    public class EfUserRoleDal : GenericRepository<UserRole>, IUserRoleDal
     {
     }
 }

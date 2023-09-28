@@ -1,3 +1,4 @@
+using M_News.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -9,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
 builder.Services.AddSession();
-
+/*builder.Services.Configure<ReCAPTCHASettings>(Configuration.GetSection("RecaptchaSettings"));*/
 builder.Services.AddMvc(config =>
 {
     var policy = new AuthorizationPolicyBuilder()
@@ -17,7 +18,12 @@ builder.Services.AddMvc(config =>
                     .Build();
     config.Filters.Add(new AuthorizeFilter(policy));
 });
+/*builder.Services.AddSingleton<IAdminService,AdminManager>();*/
 
+
+
+
+builder.Services.AddConfiguration();
 builder.Services.AddMvc();
 builder.Services.AddAuthentication(
 	CookieAuthenticationDefaults.AuthenticationScheme)
@@ -37,6 +43,7 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+
 
 
 app.UseHttpsRedirection();

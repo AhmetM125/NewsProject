@@ -1,0 +1,76 @@
+﻿@using EntityLayer.Concrete
+@model List<News>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
+}
+
+
+<style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        height: 50px;
+        width: 50px;
+        outline: black;
+        background-size: 100%, 100%;
+        border-radius: 25%;
+        border: 1px solid black;
+        background-image: none;
+    }
+
+        .carousel-control-next-icon:after {
+            content: '>';
+            font-size: 30px;
+            color: red;
+        }
+
+        .carousel-control-prev-icon:after {
+            content: '<';
+            font-size: 30px;
+            color: red;
+        }
+</style>
+
+    
+<div class="container text-center col-10">
+    <div class="col-12 mx-auto" id="sliderdiv">
+
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to="@i" @(i == 0 ? "class=active" : "n")></li>
+                }
+
+            </ol>
+            <div class="carousel-inner">
+                @foreach (var news in Model)
+                {
+
+                <div class="carousel-item @(news == Model.First() ? "active" : "")">
+                        <h3> <a class="badge badge-lg badge-light" href="/Client/DetailsOfNews/@news.New_Id">  @news.Title  </a> </h3>
+                        <img src="/GetImage/@news.FilesId" href="/Client/DetailsOfNews/@news.New_Id" id="imagecarousel" style="width:75%;height:400px;object-fit:cover">
+                    
+                    </div>
+                    
+                }
+            </div>
+
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
+    <div style="padding-top:3%">
+        <a href="@Url.Action("AllNews","Client")" style="text-decoration:none;width:40%" class="btn btn-sm btn-primary">All News</a>
+    </div>
+</div>
+

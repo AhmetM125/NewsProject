@@ -1,6 +1,4 @@
 ﻿using BusinessLayer.Abstract;
-using BusinessLayer.Concrete;
-using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
@@ -14,23 +12,30 @@ namespace M_News.Controllers
 
     public class AdminController : Controller
     {
-        AdminManager adminManager = new AdminManager(new EfAdminDal());
-        UserRoleManager userRoleManager = new UserRoleManager(new EfUserRoleDal());
-        RoleManager roleManager = new RoleManager(new EfRoleDal());
+        private readonly IAdminService _adminService;
+        private readonly IRoleService _roleService;
+        private readonly IUserRoleService _userRoleService;
+       
+        public AdminController(IAdminService adminService, IRoleService roleService, IUserRoleService userRoleService)
+        {
+            _adminService = adminService;
+            _roleService = roleService;
+            _userRoleService = userRoleService;
+        }
 
         public IActionResult Index(int page = 1)
         {
-            return View(adminManager.GetAllAdmins().ToPagedList(page, 3));
+            return View(_adminService.GetAllAdmins().ToPagedList(page, 3));
         }
         [HttpGet]
         public IActionResult RoleManagement(Guid Id)
         {
-            var ListOfRoles = userRoleManager.GetRolesOfUser(Id);
+            var ListOfRoles = _userRoleService.GetRolesOfUser(Id);
             foreach (var item in ListOfRoles)
                 if (item is not null)
                 {
-                    item.Admin = adminManager.GetAdmin(item.UserId.Value);
-                    item.Role = roleManager.GetRoleById(item.RoleId);
+                    item.Admin = _adminService.GetAdmin(item.UserId.Value);
+                    item.Role = _roleService.GetRoleById(item.RoleId);
                 }
             ViewBag.Id = Id;
             return View(ListOfRoles);
@@ -40,8 +45,8 @@ namespace M_News.Controllers
         {
             UserRole role = new();
             role.UserId = uid;
-            List<Role> valuesOfUser = roleManager.GetAllRoles();
-            var ValueAdmin = adminManager.GetAdmin(uid);
+            List<Role> valuesOfUser = _roleService.GetAllRoles();
+            var ValueAdmin = _adminService.GetAdmin(uid);
             ViewData["NameSurname"] = $"{ValueAdmin.Name} {ValueAdmin.Surname}";
             ViewBag.RolesDropDown = new SelectList(valuesOfUser, "Id", "Title");
             ViewBag.Uid = ValueAdmin.User_Id;
@@ -52,7 +57,7 @@ namespace M_News.Controllers
         {
             try
             {
-                userRoleManager.InsertNewRoleOfUser(P);
+                _userRoleService.InsertNewRoleOfUser(P);
                 return RedirectToAction("Index", "Admin");
             }
             catch (Exception ex)
@@ -64,25 +69,25 @@ namespace M_News.Controllers
         }
         public IActionResult RemoveRole(int RoleId, Guid UserId)
         {
-            var UserRoleValue = userRoleManager.GetUserRoleById(UserId, RoleId);
-            userRoleManager.DeleteRoleOfUser(UserRoleValue);
+            var UserRoleValue = _userRoleService.GetUserRoleById(UserId, RoleId);
+            _userRoleService.DeleteRoleOfUser(UserRoleValue);
             return RedirectToAction("Index", "Admin");
         }
         public IActionResult DeleteAdmin(Guid Id)
         {
-            adminManager.DeleteAdmin(Id);
+            _adminService.DeleteAdmin(Id);
             return RedirectToAction("Index", "Admin");
         }
         [HttpGet]
         public IActionResult EditAdmin(Guid Id)
         {
-            var Admin = adminManager.GetAdmin(Id);
+            var Admin = _adminService.GetAdmin(Id);
             return View(Admin);
         }
         [HttpPost]
         public ActionResult EditAdmin(Admin admin)
         {
-            adminManager.EditAdmin(admin);
+            _adminService.EditAdmin(admin);
 
             return RedirectToAction("Index", "Admin");
         }
@@ -97,8 +102,8 @@ namespace M_News.Controllers
 
         public IActionResult CreateAdmin(Admin admin)
         {
-            adminManager.NewAdmin(admin);
-            return RedirectToAction("Index","Admin");
+            _adminService.NewAdmin(admin);
+            return RedirectToAction("Index", "Admin");
         }
 
 

@@ -1,6 +1,4 @@
 ﻿using BusinessLayer.Abstract;
-using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +10,12 @@ namespace M_News.Controllers
     [AllowAnonymous]
     public class LoginController : Controller
     {
-        AdminManager adminManager = new AdminManager(new EfAdminDal());
+        private readonly IAdminService _adminService;
+
+        public LoginController(IAdminService adminService)
+        {
+            _adminService = adminService;
+        }
 
         [HttpGet]
 
@@ -26,7 +29,7 @@ namespace M_News.Controllers
 
         public async Task<IActionResult> Login(string Password, string Username)
         {
-            var value = adminManager.Login(Password, Username);
+            var value = _adminService.Login(Password, Username);
 
             if (value != null)
             {

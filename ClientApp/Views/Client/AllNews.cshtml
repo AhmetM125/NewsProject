@@ -1,0 +1,103 @@
+﻿@{
+	Layout = "~/Views/Client/Shared/_ClientLayout.cshtml";
+}
+
+@model IPagedList<EntityLayer.Concrete.News>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+	<!--//banner-->
+	<!--/main-->
+	<section class="main-content-w3layouts-agileits">
+		<div class="container">
+			<h3 class="tittle">All News</h3>
+			<div class="inner-sec">
+				<!--left-->
+				<div class="left-blog-info-w3layouts-agileits text-left">
+					<div class="row">
+					@foreach (var item in Model)
+					{
+						
+						
+						<div class="col-lg-4 card">
+							<a href="/Client/DetailsOfNews/@item.New_Id">
+								<img src="~/GetImage/@item.FilesId"  class="card-img-top img-fluid" alt="">
+							</a>
+							<div class="card-body">
+								<ul class="blog-icons my-4">
+									<li>
+										<a>
+											<i class="far fa-calendar-alt"></i> Publish Date:     @item.PublishDate.Substring(0,10)
+										</a>
+									</li>
+									
+
+								</ul>
+								<h5 class="card-title">
+									<a  href="/Client/DetailsOfNews/@item.New_Id">@item.Title</a>
+								</h5>
+								@{
+									string val = "";
+									int Max = item.Content.Length;
+									if(item.Content.Length > 100)
+									{
+										Max = 100;
+										val = "...";
+									}
+								}
+								<p class="card-text mb-3"> @item.Content.Substring(0,Max)@val</p>
+								<a href="/Client/DetailsOfNews/@item.New_Id" class="btn btn-primary read-m">Read More</a>
+							</div>
+						</div>
+					}
+						
+					</div>
+				@Html.PagedListPager((IPagedList)Model,page=>Url.Action("AllNews","Client", new {page}))
+					<!--//left-->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--//main-->
+	<!--footer-->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 footer-grid-agileits-w3ls text-left">
+					<h3>About US</h3>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has be
+					en the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scramb
+					led it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
+					essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop pu
+					blishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+					<div class="read">
+						<a href="single.html" class="btn btn-primary read-m">Read More</a>
+					</div>
+				</div>
+				<div class="col-lg-6 footer-grid-agileits-w3ls text-left">
+
+					<div class="tech-btm">
+						<h3>Latest Posts</h3>
+					@Html.Partial("_LatestPosts",Model)
+						
+						
+					</div>
+				</div>
+				<!-- subscribe -->
+				
+			</div>
+			<!-- footer -->
+			<div class="footer-cpy text-center">
+				<div class="w3layouts-agile-copyrightbottom">
+					<p>
+						Ahmet Yurdal
+						<a href="http://w3layouts.com/">M_News</a>
+					</p>
+
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	
+
