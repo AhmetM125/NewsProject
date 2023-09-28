@@ -7,7 +7,7 @@ namespace BusinessLayer.Concrete
 {
     public class RoleManager : IRoleService
     {
-        IRoleDal _roleDal;
+        private readonly IRoleDal _roleDal;
         public RoleManager(IRoleDal roleDal)
         {
             _roleDal = roleDal;

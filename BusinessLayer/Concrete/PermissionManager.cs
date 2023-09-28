@@ -11,7 +11,7 @@ namespace BusinessLayer.Concrete
 {
     public class PermissionManager : IPermissionService
     {
-        IPermissionDal PermissionDal { get; set; }
+        private readonly IPermissionDal PermissionDal;
         public PermissionManager(IPermissionDal permissionDal)
         {
             PermissionDal = permissionDal;

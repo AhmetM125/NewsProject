@@ -1,0 +1,31 @@
+﻿/* Adjust the positioning of carousel controls */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-indicators {
+    text-align: center;
+}
+
+/* Add custom CSS for responsive adjustments */
+@media (max-width: 768px) {
+    /* Custom CSS for smaller screens */
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+    }
+}
+
+.btn-success {
+    width: 35%; /* Default width */
+}
+
+@media (max-width: 768px) {
+    .btn-success {
+        width: 50%; /* Adjust the width for smaller screens */
+    }
+}
+.nav-link{
+    color: white;
+}

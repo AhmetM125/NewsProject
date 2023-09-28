@@ -1,15 +1,13 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BusinessLayer.Concrete
 {
     public class FileManager : IFileService
     {
-        readonly IFilesDal _filesDal;
+        private readonly IFilesDal _filesDal;
 
         public FileManager(IFilesDal filesDal)
         {

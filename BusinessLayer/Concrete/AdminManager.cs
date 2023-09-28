@@ -7,41 +7,37 @@ namespace BusinessLayer.Abstract
 {
     public class AdminManager : IAdminService
     {
-        IAdminDal AdminDal { get; set; }
-        UserRoleManager _UserRoleM = new UserRoleManager(new EfUserRoleDal());
+        private readonly IAdminDal adminDal;
 
         public AdminManager(IAdminDal _adminDal)
         {
-
-            AdminDal = _adminDal;
-
+            adminDal = _adminDal;
         }
-        public Admin Login(string username, string password) => AdminDal.Get(x => x.Username == username && x.Password == password);
+        public Admin Login(string username, string password) => adminDal.Get(x => x.Username == username && x.Password == password);
 
-        public List<Admin> GetAllAdmins() => AdminDal.List();
+        public List<Admin> GetAllAdmins() => adminDal.List();
 
-        public void DeleteAdmin(Guid Id)
+        public void DeleteAdmin(Guid id)
         {
-            
-            AdminDal.Delete(AdminDal.Get(x => x.User_Id == Id));
+            var obj = GetAdmin(id);
+            adminDal.Delete(obj);
         }
 
         public Admin GetAdmin(Guid Id)
         {
-            return AdminDal.Get(x => x.User_Id == Id);
+            return adminDal.Get(x => x.User_Id == Id);
         }
 
         public void EditAdmin(Admin admin)
         {
-            AdminDal.Update(admin);
+            adminDal.Update(admin);
         }
 
         public void NewAdmin(Admin admin)
         {
             admin.User_Id = Guid.NewGuid();
-           /* admin.Role = "b";*/
-            AdminDal.Insert(admin);
+            adminDal.Insert(admin);
         }
-        
+
     }
 }

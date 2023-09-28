@@ -15,7 +15,7 @@ namespace M_News.Controllers
         private readonly IAdminService _adminService;
         private readonly IRoleService _roleService;
         private readonly IUserRoleService _userRoleService;
-       
+
         public AdminController(IAdminService adminService, IRoleService roleService, IUserRoleService userRoleService)
         {
             _adminService = adminService;
@@ -57,14 +57,15 @@ namespace M_News.Controllers
         {
             try
             {
-                _userRoleService.InsertNewRoleOfUser(P);
-                return RedirectToAction("Index", "Admin");
+                if (ModelState.IsValid)
+                    _userRoleService.InsertNewRoleOfUser(P);
+
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, "Foreign Key Error");
-                return RedirectToAction("Index", "Admin");
             }
+            return RedirectToAction("Index", "Admin");
 
         }
         public IActionResult RemoveRole(int RoleId, Guid UserId)
@@ -87,7 +88,8 @@ namespace M_News.Controllers
         [HttpPost]
         public ActionResult EditAdmin(Admin admin)
         {
-            _adminService.EditAdmin(admin);
+            if (ModelState.IsValid)
+                _adminService.EditAdmin(admin);
 
             return RedirectToAction("Index", "Admin");
         }
@@ -102,7 +104,8 @@ namespace M_News.Controllers
 
         public IActionResult CreateAdmin(Admin admin)
         {
-            _adminService.NewAdmin(admin);
+            if (ModelState.IsValid)
+                _adminService.NewAdmin(admin);
             return RedirectToAction("Index", "Admin");
         }
 

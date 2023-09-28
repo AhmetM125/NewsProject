@@ -6,7 +6,7 @@ namespace BusinessLayer.Concrete
 {
     public class UserRoleManager : IUserRoleService
     {
-        IUserRoleDal _userRoleDal { get; set; }
+        private readonly IUserRoleDal _userRoleDal;
         public UserRoleManager(IUserRoleDal efUserRoleDal)
         {
             _userRoleDal = efUserRoleDal;

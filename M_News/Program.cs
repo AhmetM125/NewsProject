@@ -18,7 +18,7 @@ builder.Services.AddMvc(config =>
                     .Build();
     config.Filters.Add(new AuthorizeFilter(policy));
 });
-/*builder.Services.AddSingleton<IAdminService,AdminManager>();*/
+
 
 
 

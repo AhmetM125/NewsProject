@@ -12,7 +12,7 @@ namespace M_News.Controllers
     {
         private readonly INewService _newService;
 
-        
+
         public NewsController(INewService newService)
         {
             _newService = newService;
@@ -27,7 +27,10 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult CreateNews(News value, IFormFile Image)
         {
-            _newService.CreateNews(value, Image);
+            if (ModelState.IsValid)
+            {
+                _newService.CreateNews(value, Image);
+            }
             return RedirectToAction("Index", "News");
         }
 
@@ -40,7 +43,8 @@ namespace M_News.Controllers
         [HttpPost]
         public IActionResult EditNews(News value, IFormFile Image)
         {
-            _newService.UpdateNews(value, Image);
+            if (ModelState.IsValid)
+                _newService.UpdateNews(value, Image);
             return RedirectToAction("Index", "News");
         }
         public IActionResult DeleteNews(int Id)
