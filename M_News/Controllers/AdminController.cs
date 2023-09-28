@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Abstract;
-using EntityLayer.Concrete;
+using EntityLayer;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

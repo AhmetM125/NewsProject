@@ -1,7 +1,5 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
+﻿using DataAccessLayer.Abstract;
+using EntityLayer;
 
 namespace BusinessLayer.Abstract
 {
@@ -19,6 +17,7 @@ namespace BusinessLayer.Abstract
 
         public void DeleteAdmin(Guid id)
         {
+            
             var obj = GetAdmin(id);
             adminDal.Delete(obj);
         }

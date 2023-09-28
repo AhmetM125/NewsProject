@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer.Repositories;
-using EntityLayer.Concrete;
+using EntityLayer;
 
 namespace DataAccessLayer.Abstract
 {

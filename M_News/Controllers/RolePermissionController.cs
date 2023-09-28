@@ -1,8 +1,4 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
-using Microsoft.AspNetCore.Mvc;
-using X.PagedList;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace M_News.Controllers
 {

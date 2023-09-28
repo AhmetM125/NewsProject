@@ -1,4 +1,4 @@
-﻿using EntityLayer.Concrete;
+﻿using EntityLayer;
 
 namespace BusinessLayer.Abstract
 {

@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
+using EntityLayer;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;

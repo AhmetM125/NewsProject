@@ -1,16 +1,16 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Context;
 using DataAccessLayer.Repositories;
-using EntityLayer.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EntityLayer;
 
 namespace DataAccessLayer.Concrete
 {
     public class EfAdminDal : GenericRepository<Admin>, IAdminDal
     {
+        public EfAdminDal(NEUContext context) : base(context)
+        {
+        }
+
 
     }
 }

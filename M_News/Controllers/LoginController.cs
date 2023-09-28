@@ -1,8 +1,15 @@
 ﻿using BusinessLayer.Abstract;
+using M_News.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Net;
 using System.Security.Claims;
+using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using AspNetCore.ReCaptcha;
 
 namespace M_News.Controllers
 {
@@ -21,35 +28,72 @@ namespace M_News.Controllers
 
         public IActionResult Login()
         {
-            
+
 
             return View();
         }
         [HttpPost]
-
-        public async Task<IActionResult> Login(string Password, string Username)
+        //string Password, string Username,
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var value = _adminService.Login(Password, Username);
+            var response = model.RecaptchaResponse;
+            const string secret = "6LfEfl0oAAAAAOMNGUU2yxRc8nsKuwVqyrllNcyE"; // Replace with your actual secret key
 
-            if (value != null)
+            try
             {
-                var claims = new List<Claim>
+                using (var httpClient = new HttpClient())
                 {
-                    new Claim(ClaimTypes.NameIdentifier,value.Username),
-                    new Claim("Id",value.User_Id.ToString()),
-                    new Claim(ClaimTypes.Name,value.User_Id.ToString())
-                };
+                    var result = await httpClient.GetStringAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={response}");
 
-                var userIdentity = new ClaimsIdentity(claims, "a");
-                ClaimsPrincipal principal = new(userIdentity);
-                await HttpContext.SignInAsync(principal);
-                /*HttpContext.Session.SetString("Username", value.User_Id.ToString());*/
-                return RedirectToAction("Index", "Admin");
+                    var captchaResponse = JsonConvert.DeserializeObject<ReCaptchaResponse>(result);
+
+                    if (!captchaResponse.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, "reCAPTCHA verification failed.");
+                        return View(model);
+                    }
+                }
+
+                var value = _adminService.Login(model.Username, model.Password);
+
+                if (value != null)
+                {
+                    var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, value.Username),
+            new Claim("Id", value.User_Id.ToString()),
+            new Claim(ClaimTypes.Name, value.User_Id.ToString())
+        };
+
+                    var userIdentity = new ClaimsIdentity(claims, "a");
+                    ClaimsPrincipal principal = new(userIdentity);
+                    await HttpContext.SignInAsync(principal);
+                    return RedirectToAction("Index", "Admin");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occurred during reCAPTCHA verification or login.
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
             }
 
-            return View();
+            return View(model);
         }
 
 
     }
 }
+/*var postData = new List<KeyValuePair<string, string>>();
+          {
+              new KeyValuePair<string, string>("secret", "6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS");
+              new KeyValuePair<string, string>("response", HttpContext.Request.Form["google-recaptcha-response"]);
+          };
+
+          var client = new HttpClient();
+          var response = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify", new FormUrlEncodedContent(postData));
+
+          var obj = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+
+*/

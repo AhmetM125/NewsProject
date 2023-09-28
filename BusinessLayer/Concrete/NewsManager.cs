@@ -1,7 +1,7 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
+using EntityLayer;
 using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Concrete

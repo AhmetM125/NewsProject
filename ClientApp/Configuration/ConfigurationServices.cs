@@ -14,7 +14,6 @@ namespace ClientApp.Configuration
             service.AddScoped<IFileService, FileManager>();
             service.AddScoped<IFilesDal,EfFilesDal>();
 
-
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
-
+@using M_News.Models
+@model LoginViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,15 +29,16 @@
             <a href="../../index2.html"><b>Login</b></a>
         </div>
 
-        
+
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="@Url.Action("Login","Login")" method="post">
+                <form action="@Url.Action("Login","Login")" id="demo-form" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" name="Username" class="form-control" placeholder="Username">
+                        <input type="text" asp-for="Username" class="form-control" placeholder="Username">
+
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -45,7 +46,8 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="Password" class="form-control" placeholder="Password">
+                        <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -53,25 +55,27 @@
                         </div>
                     </div>
                     <div class="row justify-content-center" style="padding-bottom:3%">
-                        <button class="g-recaptcha"
-                                data-sitekey="6LchlFwoAAAAAGkUBMFZp5nGSQFRAazO41J8tio9"
+                        <div class="g-recaptcha" data-sitekey="6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS" data-callback='onSubmit' data-action='submit'></div>
+                 @*        <button class="g-recaptcha"
+                                data-sitekey="6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS"
                                 data-callback='onSubmit'
                                 data-action='submit'>
                             Submit
-                        </button>
+                        </button> *@
+                        <input asp-for="RecaptchaResponse" type="hidden" value="" />
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
-                       
+
                     </div>
                 </form>
 
-                
+
                 <!-- /.social-auth-links -->
 
-                
+
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -83,18 +87,18 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render=reCAPTCHA_site_key"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS"></script>
     <script>
-        function onClick(e) {
-            e.preventDefault();
+        function onSubmit(token) {
+            debugger
             grecaptcha.ready(function () {
-                grecaptcha.execute('6LchlFwoAAAAAGkUBMFZp5nGSQFRAazO41J8tio9', { action: 'submit' }).then(function (token) {
-                    // Add your logic to submit to your backend server here.
+                grecaptcha.execute('6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS', { action: 'submit' }).then(function (token) {
                 });
             });
+            document.getElementById("RecaptchaResponse").value = grecaptcha.getResponse();
         }
+      
     </script>
 </body>
 </html>

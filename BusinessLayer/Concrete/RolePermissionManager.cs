@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
-using EntityLayer.Concrete;
+using EntityLayer;
 
 namespace BusinessLayer.Concrete
 {

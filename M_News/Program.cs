@@ -1,16 +1,22 @@
+using BusinessLayer;
+using DataAccessLayer.Context;
 using M_News.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+builder.Services.AddDbContext<NEUContext>(option =>
+{
+	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+});
 
 builder.Services.AddSession();
-/*builder.Services.Configure<ReCAPTCHASettings>(Configuration.GetSection("RecaptchaSettings"));*/
 builder.Services.AddMvc(config =>
 {
     var policy = new AuthorizationPolicyBuilder()

@@ -1,9 +1,9 @@
 ﻿using DataAccessLayer.Repositories;
-using EntityLayer.Concrete;
+using EntityLayer;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface IAdminDal : IRepository<Admin>
+    public interface IAdminDal :IRepository<Admin>
     {
     }
 }

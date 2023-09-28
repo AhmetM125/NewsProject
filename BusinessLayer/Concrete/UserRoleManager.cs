@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
-using EntityLayer.Concrete;
+using EntityLayer;
 
 namespace BusinessLayer.Concrete
 {
@@ -22,7 +22,7 @@ namespace BusinessLayer.Concrete
 
         public void DeleteRoleOfUser(Guid UserId, int roleId)
         {
-            _userRoleDal.DeleteW(x => x.UserId == UserId && x.RoleId == roleId);
+            _userRoleDal.Delete(x => x.UserId == UserId && x.RoleId == roleId);
         }
 
         public void InsertNewRoleOfUser(UserRole role)

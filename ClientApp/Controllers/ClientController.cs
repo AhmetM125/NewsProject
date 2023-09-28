@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Concrete;
-using EntityLayer.Concrete;
+using EntityLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;

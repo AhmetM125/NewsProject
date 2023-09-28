@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer.Repositories;
-using EntityLayer.Concrete;
+using EntityLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

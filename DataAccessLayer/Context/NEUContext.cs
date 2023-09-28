@@ -1,18 +1,11 @@
-﻿using EntityLayer.Concrete;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using EntityLayer;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Context
 {
     public class NEUContext : DbContext
     {
-        private string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
-        private string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connection2);
-        }
+        public NEUContext(DbContextOptions<NEUContext> option) : base(option) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -28,7 +21,6 @@ namespace DataAccessLayer.Context
                     x.RoleId,
                     x.PermissionId
                 });
-
         }
 
         public DbSet<Admin> Admins { get; set; }

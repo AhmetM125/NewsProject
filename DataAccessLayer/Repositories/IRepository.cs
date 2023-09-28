@@ -4,7 +4,7 @@ namespace DataAccessLayer.Repositories
 {
     public interface IRepository<T>
     {
-        void DeleteW(Expression<Func<T, bool>> predicate);
+        void Delete(Expression<Func<T, bool>> predicate);
         List<T> List();
 
         void Insert(T p);

@@ -1,4 +1,4 @@
-﻿using EntityLayer.Concrete;
+﻿using EntityLayer;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
