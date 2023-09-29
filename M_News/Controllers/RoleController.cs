@@ -31,7 +31,8 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult EditRole(int RoleId)
         {
-            return View(_roleService.GetRoleById(RoleId));
+            var RoleVal = _roleService.GetRoleById(RoleId);
+            return View(RoleVal);
         }
         [HttpPost]
         public IActionResult EditRole(Role p)

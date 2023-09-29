@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata;
 
 namespace EntityLayer
 {
@@ -10,15 +8,17 @@ namespace EntityLayer
         public int New_Id { get; set; }
 
         [Required(ErrorMessage = "Title cannot be empty")]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
 
-        [Required(ErrorMessage = "Content cannot be empty")]
+            [Required(ErrorMessage = "Content cannot be empty")]
         [MaxLength(1000)]
-        public string Content { get; set; }
+        public string Content { get; set; } = default!;
 
         [MaxLength(30)]
         public string? Author { get; set; }
-        public string PublishDate { get; set; }
+
+        //Data type will fix to DateTime
+        public string PublishDate { get; set; } = default!;
 
         public string? CategoryId { get; set; }
 
@@ -27,7 +27,9 @@ namespace EntityLayer
 
 
 
+        //FK
+
         public Guid? FilesId { get; set; }
-        public Files Files { get; set; }
+        public Files Files { get; set; } = default!;
     }
 }

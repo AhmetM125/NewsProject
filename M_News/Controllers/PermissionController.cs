@@ -40,8 +40,9 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult DeletePermission(int PermissionId)
         {
-            _permissionService.DeletePermission(_permissionService.GetPermission(PermissionId));
-            return RedirectToAction("Index", "Permission");//
+            var PermissionVal = _permissionService.GetPermission(PermissionId);
+            _permissionService.DeletePermission(PermissionVal);
+            return RedirectToAction("Index", "Permission");
         }
         [HttpGet]
         public IActionResult CreatePermission()

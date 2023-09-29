@@ -25,7 +25,8 @@ namespace M_News.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            return View(_adminService.GetAllAdmins().ToPagedList(page, 3));
+            var AdminList = _adminService.GetAllAdmins().ToPagedList(page, 5);
+            return View(AdminList);
         }
         [HttpGet]
         public IActionResult RoleManagement(Guid Id)
@@ -43,12 +44,18 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult UserNewRole(Guid uid)
         {
-            UserRole role = new();
-            role.UserId = uid;
+            //Role
+            UserRole role = new UserRole()
+            {
+                UserId = uid
+            };
+            //
             List<Role> valuesOfUser = _roleService.GetAllRoles();
+
             var ValueAdmin = _adminService.GetAdmin(uid);
             ViewData["NameSurname"] = $"{ValueAdmin.Name} {ValueAdmin.Surname}";
             ViewBag.RolesDropDown = new SelectList(valuesOfUser, "Id", "Title");
+
             ViewBag.Uid = ValueAdmin.User_Id;
             return View(role);
         }
@@ -61,7 +68,7 @@ namespace M_News.Controllers
                     _userRoleService.InsertNewRoleOfUser(P);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ModelState.AddModelError(string.Empty, "Foreign Key Error");
             }

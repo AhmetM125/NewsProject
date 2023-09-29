@@ -11,8 +11,6 @@ namespace M_News.Controllers
     public class NewsController : Controller
     {
         private readonly INewService _newService;
-
-
         public NewsController(INewService newService)
         {
             _newService = newService;
@@ -20,7 +18,8 @@ namespace M_News.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            return View(_newService.GetAllNews().ToPagedList(page, 10));
+            var AllNews = _newService.GetAllNews().ToPagedList(page, 10);
+            return View(AllNews);
         }
         [HttpGet]
         public IActionResult CreateNews() => View();

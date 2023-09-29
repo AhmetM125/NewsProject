@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+
+//Context Implementation
 builder.Services.AddDbContext<NEUContext>(option =>
 {
 	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
@@ -26,11 +28,11 @@ builder.Services.AddMvc(config =>
 });
 
 
+builder.Services.AddConfiguration(); // Configuration for Manager Service and DAL
 
-
-
-builder.Services.AddConfiguration();
 builder.Services.AddMvc();
+
+//Authentication For User 
 builder.Services.AddAuthentication(
 	CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(x=>

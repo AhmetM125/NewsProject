@@ -37,7 +37,7 @@ namespace M_News.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var response = model.RecaptchaResponse;
-            const string secret = "6LfEfl0oAAAAAOMNGUU2yxRc8nsKuwVqyrllNcyE"; // Replace with your actual secret key
+            const string secret = "6LfEfl0oAAAAAOMNGUU2yxRc8nsKuwVqyrllNcyE"; // secret key
 
             try
             {
@@ -59,11 +59,11 @@ namespace M_News.Controllers
                 if (value != null)
                 {
                     var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, value.Username),
-            new Claim("Id", value.User_Id.ToString()),
-            new Claim(ClaimTypes.Name, value.User_Id.ToString())
-        };
+                    {
+                    new Claim(ClaimTypes.NameIdentifier, value.Username),
+                    new Claim("Id", value.User_Id.ToString()),
+                    new Claim(ClaimTypes.Name, value.User_Id.ToString())
+                    };
 
                     var userIdentity = new ClaimsIdentity(claims, "a");
                     ClaimsPrincipal principal = new(userIdentity);
@@ -85,15 +85,3 @@ namespace M_News.Controllers
 
     }
 }
-/*var postData = new List<KeyValuePair<string, string>>();
-          {
-              new KeyValuePair<string, string>("secret", "6LfEfl0oAAAAAOO6jLht2w8BA5_6mbPN_p_TKEzS");
-              new KeyValuePair<string, string>("response", HttpContext.Request.Form["google-recaptcha-response"]);
-          };
-
-          var client = new HttpClient();
-          var response = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify", new FormUrlEncodedContent(postData));
-
-          var obj = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-
-*/
