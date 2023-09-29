@@ -2,6 +2,7 @@
 using DataAccessLayer.Context;
 using DataAccessLayer.Repositories;
 using EntityLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Concrete
 {

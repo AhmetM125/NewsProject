@@ -1,9 +1,6 @@
-﻿using BusinessLayer.Concrete;
-using Dapper;
-using DataAccessLayer.Concrete;
+﻿using Dapper;
 using Mhazami.Utility;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 
 namespace M_News.Attributes

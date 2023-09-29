@@ -23,7 +23,7 @@ namespace EntityLayer
         [Required]
         public string Password { get; set; } = default!;
 
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserRole>? UserRoles { get; set; }
 
 
     }

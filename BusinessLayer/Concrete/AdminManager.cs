@@ -6,18 +6,31 @@ namespace BusinessLayer.Abstract
     public class AdminManager : IAdminService
     {
         private readonly IAdminDal adminDal;
+        private readonly IAdminDA admintest;
 
-        public AdminManager(IAdminDal _adminDal)
+        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA)
         {
             adminDal = _adminDal;
+            admintest = _adminDA;
         }
         public Admin Login(string username, string password) => adminDal.Get(x => x.Username == username && x.Password == password);
 
-        public List<Admin> GetAllAdmins() => adminDal.List();
+        public async Task<List<Admin>> GetAllAdmins()
+        {
+            //list
+            var listest = await admintest.GetAll();
+
+            //delete
+            var target = adminDal.Get(x => x.Name == "m");
+            await admintest.Delete(target.User_Id);
+
+
+            
+            return adminDal.List();
+        }
 
         public void DeleteAdmin(Guid id)
         {
-            
             var obj = GetAdmin(id);
             adminDal.Delete(obj);
         }
