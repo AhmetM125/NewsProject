@@ -10,17 +10,14 @@ namespace DataAccessLayer.Dapper
 {
     public class AdminDA : GenericRepositoryDap<Admin>, IAdminDA
     {
-        private readonly NEUContext _context;
         private readonly string? connectionString;
         public AdminDA(NEUContext context) : base(context)
         {
-            _context = context;
             connectionString = context.Database.GetConnectionString();
         }
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             string query = "Select * From Admins";
-            var Admins = await GetAll(query);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 IEnumerable<Admin> admins = await connection.QueryAsync<Admin>(query);
