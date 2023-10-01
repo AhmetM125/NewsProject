@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
+    [Table("Roles")]
     public class Role
     {
         [Key]

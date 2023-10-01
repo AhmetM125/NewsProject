@@ -16,10 +16,10 @@ namespace M_News.Controllers
             _newService = newService;
         }
 
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var AllNews = _newService.GetAllNews().ToPagedList(page, 10);
-            return View(AllNews);
+            var AllNews = await _newService.GetAllNews();
+            return View(AllNews.ToPagedList(page, 10));
         }
         [HttpGet]
         public IActionResult CreateNews() => View();

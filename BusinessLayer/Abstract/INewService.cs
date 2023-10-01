@@ -10,7 +10,7 @@ namespace BusinessLayer.Concrete
 {
     public interface INewService
     {
-        List<News> GetAllNews();
+        Task<List<News>> GetAllNews();
         News GetNews(int id);
         void CreateNews(News value, IFormFile img);
         void DeleteNews(int id);

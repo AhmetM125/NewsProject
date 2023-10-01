@@ -2,6 +2,7 @@
 
 namespace EntityLayer
 {
+    [Table("RolePermissions")]
     public class RolePermission
     {
         [ForeignKey("Role")]

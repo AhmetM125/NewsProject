@@ -10,12 +10,14 @@ namespace BusinessLayer.Concrete
     {
         private readonly INewDal _NewDal;
         private readonly IFileService _FileService;
+        private readonly INewDA _newDA;
         /*FileManager fileManager = new(new EfFilesDal());*/
 
-        public NewsManager(INewDal NewDal,IFileService fileService)
+        public NewsManager(INewDal NewDal, IFileService fileService, INewDA newDA)
         {
             _FileService = fileService;
             _NewDal = NewDal;
+            _newDA = newDA;
         }
 
         public void CreateNews(News value, IFormFile img)
@@ -48,7 +50,11 @@ namespace BusinessLayer.Concrete
 
             _NewDal.Update(newsVal);
         }
-        public List<News> GetAllNews() => _NewDal.List();
+        public async Task<List<News>> GetAllNews()
+        {
+            return _NewDal.List();
+        }
+
 
         public List<News> GetLast4News()
         {

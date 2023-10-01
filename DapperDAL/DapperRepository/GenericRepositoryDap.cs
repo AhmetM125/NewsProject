@@ -3,6 +3,7 @@ using Dapper.Contrib.Extensions;
 using DataAccessLayer.Context;
 using EntityLayer;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 
@@ -16,104 +17,34 @@ namespace BusinessLayer.DapperRepository
         {
             _dbConnection = context?.Database?.GetConnectionString();
         }
-        public Queue<string> GetColumnNames()
+
+        public Task<bool> Delete(Guid id)
         {
-            PropertyInfo[] properties = typeof(T).GetProperties();
-            Queue<string> values = new Queue<string>();
-            foreach (PropertyInfo property in properties)
-            {
-                values.Enqueue(property.Name);
-            }
-            return values;
-        }
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            string value = typeof(T).Name;
-            if (value.Last() != 's')
-                value = value + 's';
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                return await connection.QueryAsync<T>("SELECT * FROM " + value);
-            }
-        }
-        public async Task<bool> Insert(T t)
-        {
-            try
-            {
-
-                using (SqlConnection connection = new SqlConnection(_dbConnection))
-                {
-                    var inserted = await connection.InsertAsync<T>(t);
-
-                        return true;
-                }
-            }
-            catch (Exception)
-            {
-                return
-                    false;
-            }
-
-
-            /*// insert into (tableName) values 
-            string query = $"Insert Into {typeof(T).Name}  (";
-            Queue<string> values = GetColumnNames();
-
-            for (int i = 0; i < values.Count; i++)
-            {
-                query += values.Dequeue() + ",";
-            }
-            query.Remove(query.Length - 1);
-            query += ") VALUES(";
-            query += Strquery + ");";*/
-
-        }
-        public async Task<T> GetById(Guid id)
-        {
-
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                return await connection.GetAsync<T>(id);
-              //  return await connection.QueryFirstOrDefaultAsync<T>("SELECT * FROM " + typeof(T).Name + " WHERE @val = @Id", new { Id = id, val = _value });
-            }
-
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<IEnumerable<T>> GetAll(string query)
         {
-            try
+            using(SqlConnection connection = new SqlConnection(_dbConnection))
             {
-                using (SqlConnection connection = new SqlConnection(_dbConnection))
-                {
-                    var entity = await connection.GetAsync<T>(id);
-
-                    if(entity == null)
-                        return false;
-
-                    return await connection.DeleteAsync<T>(entity);
-                }
-
+                return await connection.QueryAsync<T>(query);
             }
-            catch(Exception)
-            {
-                return false;
-            }
+        }
+
+        public Task<T> GetById(int id,string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Insert(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Update(T entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
 
-/*public IEnumerable<T> GetAll()
-{
-
-    string query = "SELECT * FROM @Value";
-    string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
-    DynamicParameters paramaters = new DynamicParameters();
-    paramaters.Add("@value", obj);
-
-    using (SqlConnection connection = new SqlConnection(connection2))
-    {
-        var ListOfValue = connection.Query<T>(query, paramaters);
-        return ListOfValue;
-    }
-
-}*/

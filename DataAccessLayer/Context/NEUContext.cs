@@ -5,6 +5,8 @@ namespace DataAccessLayer.Context
 {
     public class NEUContext : DbContext
     {
+        /*private string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
+        private string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";*/
         public NEUContext(DbContextOptions<NEUContext> option) : base(option) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {

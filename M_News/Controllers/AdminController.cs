@@ -23,9 +23,9 @@ namespace M_News.Controllers
             _userRoleService = userRoleService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public IActionResult Index(int page = 1)
         {
-            var AdminList = (await _adminService.GetAllAdmins()).ToPagedList(page, 5);
+            var AdminList = _adminService.GetAllAdmins().ToPagedList(page, 5);
             ModelState.Clear();
             return View(AdminList);
         }

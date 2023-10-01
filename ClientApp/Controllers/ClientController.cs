@@ -27,9 +27,10 @@ namespace M_News.Controllers
         {
             return View(_newService.GetNews(Id));
         }
-        public IActionResult AllNews(int page = 1)
+        public async Task<IActionResult> AllNews(int page = 1)
         {
-            return View(_newService.GetAllNews().ToPagedList(page, 6));
+            var AllNews = await _newService.GetAllNews();
+            return View(AllNews.ToPagedList(page, 6));
         }
         public PartialViewResult _LatestPosts()
         {

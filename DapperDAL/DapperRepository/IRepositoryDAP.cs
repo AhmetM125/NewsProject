@@ -1,16 +1,11 @@
 ﻿namespace BusinessLayer.DapperRepository
 {
-    public interface IRepositoryDAP<T>
+    public interface IRepositoryDAP<T> 
     {
-        Task<IEnumerable<T>> GetAll();
-
-
-       bool Insert(T t);
-        /*Task<int> Update(T entity);*/
-        Queue<string> GetColumnNames();
-
-        Task<T> GetById(Guid id);
-
+        Task<IEnumerable<T>> GetAll(string query);
+        Task<T> GetById(int id, string query);
+        Task<bool> Insert(T entity);
+        Task<bool> Update(T entity);
         Task<bool> Delete(Guid id);
 
     }

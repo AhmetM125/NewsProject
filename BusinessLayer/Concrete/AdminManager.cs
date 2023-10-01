@@ -1,5 +1,7 @@
-﻿using DataAccessLayer.Abstract;
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.Abstract;
 using EntityLayer;
+using System.Diagnostics;
 
 namespace BusinessLayer.Abstract
 {
@@ -7,26 +9,21 @@ namespace BusinessLayer.Abstract
     {
         private readonly IAdminDal adminDal;
         private readonly IAdminDA admintest;
+        private readonly INewService _newService;
 
-        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA)
+        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA,INewService newService)
         {
             adminDal = _adminDal;
             admintest = _adminDA;
+            _newService = newService;
+
         }
         public Admin Login(string username, string password) => adminDal.Get(x => x.Username == username && x.Password == password);
 
-        public async Task<List<Admin>> GetAllAdmins()
+        public List<Admin> GetAllAdmins()
         {
-            //list
-            var listest = await admintest.GetAll();
-
-            //delete
-            var target = adminDal.Get(x => x.Name == "m");
-            await admintest.Delete(target.User_Id);
-
-
-            
-            return adminDal.List();
+            var adminList = adminDal.List();
+            return adminList;
         }
 
         public void DeleteAdmin(Guid id)
