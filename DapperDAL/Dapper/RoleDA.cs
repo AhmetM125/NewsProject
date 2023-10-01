@@ -17,9 +17,16 @@ namespace DataAccessLayer.Dapper
             connectionString = context.Database.GetConnectionString();
         }
 
-        public Task<bool> CreateRoleAsync(Role role)
+        public async Task<bool> CreateRoleAsync(Role role)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO Roles(Title) VALUES (@title);";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@title", role.Title);
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var result = await connection.ExecuteAsync(query,parameters);
+                return result > 0;
+            }
         }
 
         public async Task<bool> DeleteRoleById(int id)
@@ -58,9 +65,16 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public Task<bool> UpdateRole(Role role)
+        public async Task<bool> UpdateRole(Role role)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE Roles SET Title = @title;";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@title", role.Title);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+                return result > 0;
+            }
         }
     }
 }

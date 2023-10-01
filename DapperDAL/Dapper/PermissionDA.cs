@@ -16,9 +16,21 @@ namespace DataAccessLayer.Dapper
             _connectionString = context?.Database?.GetConnectionString();
         }
 
-        public Task<bool> CreatePermissionAsync(Permission permission)
+        public async Task<bool> CreatePermissionAsync(Permission permission)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO Permissions(Title) VALUES("
+               + "@title);";
+
+            var parameters = new
+            {
+                title = permission.Title
+            };
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                var ExecuteVal = await connection.ExecuteAsync(query, parameters);
+                return ExecuteVal > 0;
+            }
         }
 
         public async Task<bool> DeletePermissionsById(int id)
@@ -56,9 +68,16 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public Task<bool> UpdatePermission(Permission permission)
+        public async Task<bool> UpdatePermission(Permission permission)
         {
-            throw new NotImplementedException();
+            string query = "Update Permissions SET Title = @title";
+            var parameters = new DynamicParameters();
+            parameters.Add("@title", permission.Title);
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+                return result > 0;
+            }
         }
     }
 }
