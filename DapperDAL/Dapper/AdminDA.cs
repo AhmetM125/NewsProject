@@ -18,7 +18,7 @@ namespace DataAccessLayer.Dapper
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             string query = "Select * From Admins";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 IEnumerable<Admin> admins = await connection.QueryAsync<Admin>(query);
                 return admins;
@@ -30,7 +30,7 @@ namespace DataAccessLayer.Dapper
             string query = "Select * From Admins where User_Id = @Id";
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 return await connection.QueryFirstOrDefaultAsync<Admin>(query, parameters);
             }
@@ -41,7 +41,7 @@ namespace DataAccessLayer.Dapper
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 var affectedRows = await connection.ExecuteAsync(query, parameters);
                 return affectedRows > 0;
@@ -62,7 +62,7 @@ namespace DataAccessLayer.Dapper
                 password = admin.Password
             };
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 var ExecuteVal = await connection.ExecuteAsync(query, parameters);
                 return ExecuteVal > 0;
@@ -77,7 +77,7 @@ namespace DataAccessLayer.Dapper
             parameters.Add("@surname", admin.Surname);
             parameters.Add("@username", admin.Username);
             parameters.Add("@password", admin.Password);
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 var ExecuteVal = await connection.ExecuteAsync(query, parameters);
                 return ExecuteVal > 0;

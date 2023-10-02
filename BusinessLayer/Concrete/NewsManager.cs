@@ -50,7 +50,7 @@ namespace BusinessLayer.Concrete
 
             _NewDal.Update(newsVal);
         }
-        public async Task<List<News>> GetAllNews()
+        public List<News> GetAllNews()
         {
             return _NewDal.List();
         }

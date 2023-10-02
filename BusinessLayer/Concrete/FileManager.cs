@@ -24,7 +24,7 @@ namespace BusinessLayer.Concrete
             var Files = new Files()
             {
                 Id = (Guid)G_Id,
-                Content = ConvertToImage(file).ToArray(),
+                Content = ConvertToImage(file)?.ToArray(),
                 Size = ((byte)file.Length),
                 Extention = file.ContentType,
                 ContentType = file.ContentType,

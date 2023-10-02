@@ -47,7 +47,7 @@ namespace M_News.Controllers
         public IActionResult UserNewRole(Guid uid)
         {
             //Role
-            UserRole role = new UserRole()
+            UserRole role = new()
             {
                 UserId = uid
             };

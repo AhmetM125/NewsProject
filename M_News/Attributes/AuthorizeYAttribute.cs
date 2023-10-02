@@ -8,7 +8,7 @@ namespace M_News.Attributes
     [AttributeUsage(AttributeTargets.All)]
     public class AuthorizeYAttribute : ActionFilterAttribute
     {
-        public string Permission { get; set; }
+        public string? Permission { get; set; }
         
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -25,13 +25,13 @@ namespace M_News.Attributes
                "inner join Permissions on Permissions.Id = RolePermissions.PermissionId " +
                "where Admins.User_Id = @GuidValue and Permissions.Title = @pTitle";
 
-            DynamicParameters paramaters = new DynamicParameters();
+            DynamicParameters paramaters = new();
             paramaters.Add("@GuidValue", id);
             paramaters.Add("@pTitle", Permission);
 
-            string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
+          //  string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
             string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
-            using (SqlConnection connection = new SqlConnection(connection2))
+            using (SqlConnection connection = new(connection2))
             {
                 var result = connection.Query<string>(query, paramaters);
                 if (result != null && result.Any(x => x == Permission))

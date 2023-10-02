@@ -30,10 +30,8 @@ namespace BusinessLayer.DapperRepository
         public async Task<int> Delete(string id)
         {
             string query = $"Delete {_tableName} WHERE {_PrimaryKey} = {id}";
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
-            {
-                return await connection.ExecuteAsync(query);
-            }
+            using SqlConnection connection = new(_dbConnection);
+            return await connection.ExecuteAsync(query);
         }
 
 
@@ -43,7 +41,7 @@ namespace BusinessLayer.DapperRepository
 
             string query = $"SELECT * FROM {_tableName}";
 
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
+            using (SqlConnection connection = new(_dbConnection))
             {
                 return await connection.QueryAsync<T>(query);
             }
@@ -56,7 +54,7 @@ namespace BusinessLayer.DapperRepository
             string query = $"Select * FROM {_tableName} where {_PrimaryKey} = @id";
             var parameters = new DynamicParameters();
             parameters.Add("@id", id);
-            using (SqlConnection connection = new SqlConnection(_dbConnection))
+            using (SqlConnection connection = new(_dbConnection))
             {
                 return await connection.QueryFirstAsync<T>(query, parameters);
             }
