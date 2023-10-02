@@ -32,7 +32,7 @@ namespace DataAccessLayer.Dapper
             parameters.Add("@Id", id);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return await connection.QueryFirstOrDefaultAsync<Admin>(query,parameters);
+                return await connection.QueryFirstOrDefaultAsync<Admin>(query, parameters);
             }
         }
         public async Task<bool> DeleteAdmin(Guid id)
@@ -64,16 +64,14 @@ namespace DataAccessLayer.Dapper
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var ExecuteVal = await connection.ExecuteAsync(query,parameters);
+                var ExecuteVal = await connection.ExecuteAsync(query, parameters);
                 return ExecuteVal > 0;
             }
 
         }
         public async Task<bool> UpdateAdmin(Admin admin)
         {
-
-            string query = "UPDATE Admins SET Name = @name,Surname =@surname,Username = @username," +
-                "password = @password";
+            string query = @"UPDATE Admins SET Name = @name,Surname =@surname,Username = @username, password = @password";
             var parameters = new DynamicParameters();
             parameters.Add("@name", admin.Name);
             parameters.Add("@surname", admin.Surname);

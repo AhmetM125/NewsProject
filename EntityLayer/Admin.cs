@@ -1,13 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
+using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [Table("Admins")]
+    [System.ComponentModel.DataAnnotations.Schema.Table("Admins")]
     public class Admin
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
+        [System.ComponentModel.DataAnnotations.Key]
+        /*[Dapper.Contrib.Extensions.Key]*/
         public Guid User_Id { get; set; }
+
 
         [MaxLength(30, ErrorMessage = "Name should be less than 30 characters")]
         [Required]
@@ -24,8 +30,9 @@ namespace EntityLayer
         [MaxLength(30, ErrorMessage = "Password should be less than 30 characters")]
         [Required]
         public string Password { get; set; } = default!;
-
-        public ICollection<UserRole>? UserRoles { get; set; }
+        //notmapped
+        [Computed]
+        public virtual ICollection<UserRole>? UserRoles { get; set; }
 
 
     }

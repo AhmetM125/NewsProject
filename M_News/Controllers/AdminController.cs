@@ -25,9 +25,10 @@ namespace M_News.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            var AdminList = _adminService.GetAllAdmins().ToPagedList(page, 5);
-            ModelState.Clear();
-            return View(AdminList);
+            var AdminList = _adminService.GetAllAdmins();
+
+            return View(AdminList.ToPagedList(page, 5));
+            /*ModelState.Clear();*/
         }
         [HttpGet]
         public IActionResult RoleManagement(Guid Id)

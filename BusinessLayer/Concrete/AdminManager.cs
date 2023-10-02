@@ -1,7 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
 using EntityLayer;
-using System.Diagnostics;
 
 namespace BusinessLayer.Abstract
 {
@@ -11,7 +10,7 @@ namespace BusinessLayer.Abstract
         private readonly IAdminDA admintest;
         private readonly INewService _newService;
 
-        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA,INewService newService)
+        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA, INewService newService)
         {
             adminDal = _adminDal;
             admintest = _adminDA;
@@ -48,5 +47,6 @@ namespace BusinessLayer.Abstract
             adminDal.Insert(admin);
         }
 
+     
     }
 }

@@ -6,7 +6,7 @@ namespace EntityLayer
     {
         [ForeignKey("Admin")]
         public Guid? UserId { get; set; }
-        public Admin Admin { get; set; } 
+        public virtual Admin Admin { get; set; } 
 
         [ForeignKey("Role")]
         public short RoleId { get; set; }

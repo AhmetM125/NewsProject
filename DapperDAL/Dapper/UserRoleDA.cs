@@ -4,6 +4,7 @@ using DataAccessLayer.Abstract;
 using DataAccessLayer.Context;
 using EntityLayer;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -17,12 +18,20 @@ namespace DataAccessLayer.Dapper
             connectionString = context.Database.GetConnectionString();
         }
 
-        public Task<bool> CreateUserRoleAsync(UserRole UserRole)
+        public async Task<bool> CreateUserRoleAsync(UserRole UserRole)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO UserRole(UserId,RoleId) VALUES(@userid,@roleid);";
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("@userid", UserRole.UserId);
+            dynamicParameters.Add("@roleid", UserRole.RoleId);
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                var result = await sqlConnection.ExecuteAsync(query, dynamicParameters);
+                return result > 0;
+            }
         }
 
-        public async Task<bool> DeleteUserRoleById(Guid Uid,int RoleId)
+        public async Task<bool> DeleteUserRoleById(Guid Uid, int RoleId)
         {
             string query = "DELETE FROM UserRole WHERE User_Id = @Id and RoleId = @roleid";
             var parameters = new DynamicParameters();
@@ -47,7 +56,7 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public async Task<UserRole> GetUserRoleByIdAsync(Guid Uid,int RoleId)
+        public async Task<UserRole> GetUserRoleByIdAsync(Guid Uid, int RoleId)
         {
             string query = "Select * From UserRole where User_Id = @Id and RoleId = @RoleId";
             var parameters = new DynamicParameters();
@@ -59,9 +68,17 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public Task<bool> UpdateUserRole(UserRole UserRole)
+        public async Task<bool> UpdateUserRole(UserRole UserRole)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE UserRole SET UserId = @userid , RoleId = @roleid";
+            var parameters = new DynamicParameters();
+            parameters.Add("@userid", UserRole.UserId);
+            parameters.Add("@roleid", UserRole.RoleId);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+                return result > 0;
+            }
         }
     }
 }
