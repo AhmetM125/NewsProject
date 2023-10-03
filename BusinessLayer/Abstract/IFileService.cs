@@ -5,10 +5,10 @@ namespace BusinessLayer.Abstract
 {
     public interface IFileService
     {
-        Files GetFileById(Guid? id);
-        void InsertImage(IFormFile file, Guid? G_Id);
+        Task<Files?> GetFileById(Guid? id);
+        Task InsertImage(IFormFile file, Guid? G_Id);
 
-        void UpdateImage(Guid? FilesId, IFormFile image);
-        void DeleteImage(Guid? FilesId);
+        Task UpdateImage(Guid? FilesId, IFormFile image);
+        Task DeleteImage(Guid? FilesId);
     }
 }

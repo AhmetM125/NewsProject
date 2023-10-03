@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace EntityLayer
 {
-    [Table("Roles")]
+    [Dapper.Contrib.Extensions.Table("Roles")]
     public class Role
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
         public short Id { get; set; }
 
 
@@ -15,7 +15,9 @@ namespace EntityLayer
         public string Title { get; set; } = default!;
 
         //
+        [Computed]
         public ICollection<UserRole> UserRoles { get; set; }
+        [Computed]
         public ICollection<RolePermission> RolePermissions { get; set; }
 
 

@@ -15,25 +15,27 @@ namespace M_News.Controllers
         {
             _newService = newService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<News> values = _newService.GetLast4News();
+            List<News> values = await _newService.GetLast4News();
             return View(values);
         }
 
 
         [HttpGet]
-        public IActionResult DetailsOfNews(int Id)
+        public async Task<IActionResult> DetailsOfNews(int Id)
         {
-            return View(_newService.GetNews(Id));
+            var val = await _newService.GetNews(Id);
+            return View(val);
         }
         public async Task<IActionResult> AllNews(int page = 1)
         {
             var AllNews = await _newService.GetAllNews();
             return View(AllNews.ToPagedList(page, 6));
         }
-        public PartialViewResult _LatestPosts()
+        public async Task<PartialViewResult> _LatestPosts()
         {
+            var Last4News = await _newService.GetLast4News();
             return PartialView(_newService.GetLast4News());
         }
     }

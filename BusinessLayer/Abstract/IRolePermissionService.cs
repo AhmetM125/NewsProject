@@ -4,10 +4,10 @@ namespace BusinessLayer.Abstract
 {
     public interface IRolePermissionService
     {
-        List<RolePermission> GetAllRolePermission();
-        ICollection<RolePermission> GetRolePermissionById(int RoleId);
-        void DeleteRolePermission(RolePermission rolePermission);
-        RolePermission GetRolePermissionById(int RoleId, int PermissionId);
-        void CreatePermission(RolePermission rolePermission);
+        Task<List<RolePermission>> GetAllRolePermission();
+        Task<ICollection<RolePermission>> GetRolePermissionByIdList(int RoleId);
+        Task DeleteRolePermission(RolePermission rolePermission);
+        Task<RolePermission> GetRolePermissionById(int RoleId, int PermissionId);
+        Task CreatePermission(RolePermission rolePermission);
     }
 }

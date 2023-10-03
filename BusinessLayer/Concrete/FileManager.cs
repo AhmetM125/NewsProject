@@ -2,25 +2,51 @@
 using DataAccessLayer.Abstract;
 using EntityLayer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace BusinessLayer.Concrete
 {
     public class FileManager : IFileService
     {
-        private readonly IFilesDal _filesDal;
+        private readonly IFilesDA _filesDal;
+        private readonly ILogger<FileManager> _logger;
+        /* private readonly IFilesDal _filesDal;*/
 
-        public FileManager(IFilesDal filesDal)
+        public FileManager(IFilesDA filesDal, ILogger<FileManager> logger)
         {
             _filesDal = filesDal;
+            _logger = logger;
         }
 
-        public Files GetFileById(Guid? id)
+        public async Task<Files?> GetFileById(Guid? id)
         {
-            return _filesDal.Get(x => x.Id == id);
+            try
+            {
+                if (id.HasValue)
+                {
+                    var value = id.ToString();
+
+                    var files = await _filesDal.GetById(value);
+                    return files;
+                }
+                else
+                {
+                    _logger.LogError("Empty Guid id for file");
+                    return null;
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL exception for GetFileById");
+                throw;
+            }
         }
 
-        public void InsertImage(IFormFile file,Guid? G_Id)
+        public async Task InsertImage(IFormFile file, Guid? G_Id)
         {
+
             var Files = new Files()
             {
                 Id = (Guid)G_Id,
@@ -31,40 +57,73 @@ namespace BusinessLayer.Concrete
                 FileName = file.FileName,
             };
 
-            _filesDal.Insert(Files);
+            try
+            {
+                var RowAffect = await _filesDal.Insert(Files);
+                await _filesDal.Insert(Files);
+                return;
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, $"SQL Exception occurred in Insert Image");
+                throw;
+            }
         }
 
 
         public MemoryStream? ConvertToImage(IFormFile files)
         {
+            var memoryStream = new MemoryStream();
             if (files != null && files.Length > 0)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    files.CopyTo(memoryStream);
-                    return memoryStream;
-                }
+                files.CopyTo(memoryStream);
             }
-            return null;
+            return memoryStream;
         }
 
-      
-        public void UpdateImage(Guid? FilesId, IFormFile image)
+
+        public async Task UpdateImage(Guid? FilesId, IFormFile image)
         {
             var MemoryStream = ConvertToImage(image);
-            Files value = GetFileById(FilesId);
+            Files value = await GetFileById(FilesId);
             value.Extention = image.ContentType;
             value.FileName = image.FileName;
             value.Content = ConvertToImage(image).ToArray();
             value.Size = ((byte)image.Length);
             value.ContentType = image.ContentType;
-            _filesDal.Update(value);
+
+            try
+            {
+                if (value is not null)
+                    await _filesDal.Update(value);
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, $"SQL Exception occurred while updating image");
+                throw;
+            }
 
         }
 
-        public void DeleteImage(Guid? FilesId)
+        public async Task DeleteImage(Guid? FilesId)
         {
-           _filesDal.Delete(GetFileById(FilesId));
+            try
+            {
+                var file = await GetFileById(FilesId);
+                if (file is not null)
+                {
+                    var id = file.Id.ToString();
+                    await _filesDal.Delete(id);
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, $"SQL Exception occurred while Deleting image");
+                throw;
+            }
         }
     }
 }

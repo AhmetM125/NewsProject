@@ -24,31 +24,27 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult CreateNews() => View();
         [HttpPost]
-        public IActionResult CreateNews(News value, IFormFile Image)
+        public async Task<IActionResult> CreateNews(News value, IFormFile Image)
         {
-            if (ModelState.IsValid)
-            {
-                _newService.CreateNews(value, Image);
-            }
+            await _newService.CreateNews(value, Image);
             return RedirectToAction("Index", "News");
         }
 
         [HttpGet]
-        public IActionResult EditNews(int Id)
+        public async Task<IActionResult> EditNews(int Id)
         {
-            var News = _newService.GetNews(Id);
+            var News = await _newService.GetNews(Id);
             return View(News);
         }
         [HttpPost]
-        public IActionResult EditNews(News value, IFormFile Image)
+        public async Task<IActionResult> EditNews(News value, IFormFile Image)
         {
-            if (ModelState.IsValid)
-                _newService.UpdateNews(value, Image);
+            await _newService.UpdateNews(value, Image);
             return RedirectToAction("Index", "News");
         }
-        public IActionResult DeleteNews(int Id)
+        public async Task<IActionResult> DeleteNews(int Id)
         {
-            _newService.DeleteNews(Id);
+            await _newService.DeleteNews(Id);
             return RedirectToAction("Index", "News");
         }
     }

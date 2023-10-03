@@ -6,37 +6,34 @@ namespace BusinessLayer.Concrete
 {
     public class UserRoleManager : IUserRoleService
     {
-        private readonly IUserRoleDal _userRoleDal;
-        public UserRoleManager(IUserRoleDal efUserRoleDal)
+        private readonly IUserRoleDA _userRoleDal;
+        public UserRoleManager(IUserRoleDA efUserRoleDal)
         {
             _userRoleDal = efUserRoleDal;
         }
 
-        public List<UserRole> GetRolesOfUser(Guid U_Id)
+        public async Task<List<UserRole>> GetRolesOfUser(Guid U_Id)
         {
 
-            List<UserRole> UserRoleList = _userRoleDal.List(x => x.UserId == U_Id);
+            List<UserRole> UserRoleList = (List<UserRole>)await _userRoleDal.GetAll();
+            UserRoleList.Where(x => x.UserId == U_Id).ToList();
             return UserRoleList;
 
         }
-
-        public void DeleteRoleOfUser(Guid UserId, int roleId)
-        {
-            _userRoleDal.Delete(x => x.UserId == UserId && x.RoleId == roleId);
-        }
-
         public void InsertNewRoleOfUser(UserRole role)
         {
             _userRoleDal.Insert(role);
         }
-        public void DeleteRoleOfUser(UserRole role)
+        public async Task DeleteRoleOfUser(UserRole role)
         {
-            _userRoleDal.Delete(role);
+            await _userRoleDal.DeleteByEntity(role);
         }
 
-        public UserRole GetUserRoleById(Guid UserId, int RoleId)
+        public async Task<UserRole> GetUserRoleById(Guid UserId, int RoleId)
         {
-            return _userRoleDal.Get(x => x.RoleId == RoleId && x.UserId == UserId);
+            var list = await _userRoleDal.GetAll();
+            var obj = list.Where(x => x.UserId == UserId && x.RoleId == RoleId).FirstOrDefault();
+            return obj;
         }
     }
 }

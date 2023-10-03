@@ -6,35 +6,40 @@ namespace BusinessLayer.Concrete
 {
     public class RolePermissionManager : IRolePermissionService
     {
-        private readonly IRolePermissionDal roleDal;
-        public RolePermissionManager(IRolePermissionDal rolePermissionDal)
+        private readonly IRolePermissionDA roleDal;
+        public RolePermissionManager(IRolePermissionDA rolePermissionDal)
         {
-                roleDal = rolePermissionDal;
+            roleDal = rolePermissionDal;
         }
 
-        public void CreatePermission(RolePermission rolePermission)
+        public async Task CreatePermission(RolePermission rolePermission)
         {
-            roleDal.Insert(rolePermission);
+            await roleDal.Insert(rolePermission);
         }
 
-        public void DeleteRolePermission(RolePermission rolePermission)
+        public async Task DeleteRolePermission(RolePermission rolePermission)
         {
-            roleDal.Delete(rolePermission);
+            await roleDal.Delete(rolePermission.PermissionId.ToString());
         }
 
-        public List<RolePermission> GetAllRolePermission()
+        public async Task<List<RolePermission>> GetAllRolePermission()
         {
-            return roleDal.List();
+            var list = await roleDal.GetAll();
+            return list.ToList();
         }
 
-        public ICollection<RolePermission> GetRolePermissionById(int RoleId)
+        public async Task<ICollection<RolePermission>> GetRolePermissionByIdList (int RoleId)
         {
-           return roleDal.List(x => x.RoleId == RoleId);
+            var list = await roleDal.GetAll();
+            list.Where(x => x.RoleId == RoleId).ToList();
+            return (ICollection<RolePermission>)list;
         }
 
-        public RolePermission GetRolePermissionById(int RoleId, int PermissionId)
+        public async Task<RolePermission> GetRolePermissionById(int RoleId, int PermissionId)
         {
-           return roleDal.Get(x=>x.RoleId == RoleId &&  x.PermissionId == PermissionId);
+            var list = await roleDal.GetAll();
+            var RolePermission = list.Where(x => x.RoleId == RoleId && x.PermissionId == PermissionId).FirstOrDefault();
+            return RolePermission;
         }
     }
 }

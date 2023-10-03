@@ -4,11 +4,10 @@ namespace BusinessLayer.Abstract
 {
     public interface IUserRoleService
     {
-        List<UserRole> GetRolesOfUser(Guid U_Id);
-        void DeleteRoleOfUser(Guid UserId, int roleId);
+        Task<List<UserRole>> GetRolesOfUser(Guid U_Id);
         void InsertNewRoleOfUser(UserRole role);
-        void DeleteRoleOfUser(UserRole role);
-        UserRole GetUserRoleById(Guid UserId,int RoleId);
+        Task DeleteRoleOfUser(UserRole role);
+        Task<UserRole> GetUserRoleById(Guid UserId, int RoleId);
 
 
     }

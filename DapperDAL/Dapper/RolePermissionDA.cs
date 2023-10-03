@@ -1,19 +1,17 @@
 ﻿using BusinessLayer.DapperRepository;
 using Dapper;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Context;
 using EntityLayer;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
 {
-    public class RolePermissionDA : GenericRepositoryDap<RolePermission>, IRolePermissionDa
+    public class RolePermissionDA : GenericRepositoryDap<RolePermission>, IRolePermissionDA
     {
         private readonly string? connectionString;
-        public RolePermissionDA(NEUContext context) : base(context)
+        public RolePermissionDA() : base()
         {
-            connectionString = context.Database.GetConnectionString();
+           // connectionString = context.Database.GetConnectionString();
         }
 
         public async Task<bool> CreateRolePermissionAsync(RolePermission RolePermission)

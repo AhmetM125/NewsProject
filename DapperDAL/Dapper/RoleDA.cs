@@ -1,9 +1,7 @@
 ﻿using BusinessLayer.DapperRepository;
 using Dapper;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Context;
 using EntityLayer;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -12,9 +10,9 @@ namespace DataAccessLayer.Dapper
     {
         private readonly string? connectionString;
 
-        public RoleDA(NEUContext context) : base(context)
+        public RoleDA( ) : base()
         {
-            connectionString = context.Database.GetConnectionString();
+            //connectionString = context.Database.GetConnectionString();
         }
 
         public async Task<bool> CreateRoleAsync(Role role)

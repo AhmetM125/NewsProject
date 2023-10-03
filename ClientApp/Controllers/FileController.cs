@@ -13,9 +13,9 @@ namespace M_News.Controllers
         public IActionResult Index() => View();
 
         [Route("GetImage/{id}")]
-        public FileResult GetImage(Guid id)
+        public async Task<FileResult> GetImage(Guid id)
         {
-            var value = _fileService.GetFileById(id);
+            var value = await _fileService.GetFileById(id);
             return File(value.Content, value.ContentType);
         }
     }

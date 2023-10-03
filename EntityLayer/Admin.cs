@@ -2,16 +2,13 @@
 
 using Dapper.Contrib.Extensions;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [System.ComponentModel.DataAnnotations.Schema.Table("Admins")]
+    [Table("Admins")]
     public class Admin
     {
         [Dapper.Contrib.Extensions.Key]
-        [System.ComponentModel.DataAnnotations.Key]
-        /*[Dapper.Contrib.Extensions.Key]*/
         public Guid User_Id { get; set; }
 
 

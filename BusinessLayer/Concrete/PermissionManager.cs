@@ -1,42 +1,91 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
 using EntityLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace BusinessLayer.Concrete
 {
     public class PermissionManager : IPermissionService
     {
-        private readonly IPermissionDal PermissionDal;
-        public PermissionManager(IPermissionDal permissionDal)
+        private readonly IPermissionDA PermissionDal;
+        private readonly ILogger<PermissionManager> _logger;
+        public PermissionManager(IPermissionDA permissionDal, ILogger<PermissionManager> logger)
         {
             PermissionDal = permissionDal;
+            _logger = logger;
         }
 
-        public ICollection<Permission> GetAllPermission()
+        public async Task<ICollection<Permission>> GetAllPermission()
         {
-            return PermissionDal.List();
+            try
+            {
+                var result = await PermissionDal.GetAll();
+                return result.ToList();
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception GetAll");
+                throw;
+            }
         }
 
-        public Permission GetPermission(int id) => PermissionDal.Get(x => x.Id == id);
-
-        public void DeletePermission(Permission permission)
+        public async Task<Permission?> GetPermission(int id)
         {
-            PermissionDal.Delete(permission);
+            try
+            {
+                return await PermissionDal.GetById(id.ToString());
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception GetPermission");
+
+                throw;
+            }
+        }
+        public async Task DeletePermission(Permission permission)
+        {
+            try
+            {
+                await PermissionDal.Delete(permission.Id.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SQL Exception DeletePermission");
+                throw;
+            }
         }
 
-        public void CreatePermission(Permission permission)
+        public async Task CreatePermission(Permission permission)
         {
-            PermissionDal.Insert(permission);
+            try
+            {
+                if (permission is not null)
+                    await PermissionDal.Insert(permission);
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception CreatePermission");
+                throw;
+            }
         }
 
-        public void UpdatePermission(Permission permission)
+        public async Task UpdatePermission(Permission permission)
         {
-            PermissionDal.Update(permission);
+            try
+            {
+                if (permission is not null)
+                    await PermissionDal.Update(permission);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SQL Exception UpdatePermission");
+                throw;
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ namespace M_News.Controllers
                     var userIdentity = new ClaimsIdentity(claims, "a");
                     ClaimsPrincipal principal = new(userIdentity);
                     await HttpContext.SignInAsync(principal);
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index","Dashboard");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");

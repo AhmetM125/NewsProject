@@ -23,28 +23,27 @@ namespace M_News.Controllers
             _userRoleService = userRoleService;
         }
 
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var AdminList = _adminService.GetAllAdmins();
-
+            var AdminList = await _adminService.GetAllAdmins();
             return View(AdminList.ToPagedList(page, 5));
-            /*ModelState.Clear();*/
         }
+        /*ModelState.Clear();*/
         [HttpGet]
-        public IActionResult RoleManagement(Guid Id)
+        public async Task<IActionResult> RoleManagement(Guid Id)
         {
-            var ListOfRoles = _userRoleService.GetRolesOfUser(Id);
+            var ListOfRoles = await _userRoleService.GetRolesOfUser(Id);
             foreach (var item in ListOfRoles)
                 if (item is not null)
                 {
-                    item.Admin = _adminService.GetAdmin(item.UserId.Value);
-                    item.Role = _roleService.GetRoleById(item.RoleId);
+                    item.Admin = await _adminService.GetAdmin(item.UserId.Value);
+                    item.Role = await _roleService.GetRoleById(item.RoleId);
                 }
             ViewBag.Id = Id;
             return View(ListOfRoles);
         }
         [HttpGet]
-        public IActionResult UserNewRole(Guid uid)
+        public async Task<IActionResult> UserNewRole(Guid uid)
         {
             //Role
             UserRole role = new()
@@ -52,9 +51,9 @@ namespace M_News.Controllers
                 UserId = uid
             };
             //
-            List<Role> valuesOfUser = _roleService.GetAllRoles();
+            List<Role> valuesOfUser = await _roleService.GetAllRoles();
 
-            var ValueAdmin = _adminService.GetAdmin(uid);
+            var ValueAdmin = await _adminService.GetAdmin(uid);
             ViewData["NameSurname"] = $"{ValueAdmin.Name} {ValueAdmin.Surname}";
             ViewBag.RolesDropDown = new SelectList(valuesOfUser, "Id", "Title");
 
@@ -77,10 +76,10 @@ namespace M_News.Controllers
             return RedirectToAction("Index", "Admin");
 
         }
-        public IActionResult RemoveRole(int RoleId, Guid UserId)
+        public async Task<IActionResult> RemoveRole(int RoleId, Guid UserId)
         {
-            var UserRoleValue = _userRoleService.GetUserRoleById(UserId, RoleId);
-            _userRoleService.DeleteRoleOfUser(UserRoleValue);
+            var UserRoleValue = await _userRoleService.GetUserRoleById(UserId, RoleId);
+            await _userRoleService.DeleteRoleOfUser(UserRoleValue);
             return RedirectToAction("Index", "Admin");
         }
         public IActionResult DeleteAdmin(Guid Id)
@@ -89,16 +88,16 @@ namespace M_News.Controllers
             return RedirectToAction("Index", "Admin");
         }
         [HttpGet]
-        public IActionResult EditAdmin(Guid Id)
+        public async Task<IActionResult> EditAdmin(Guid Id)
         {
-            var Admin = _adminService.GetAdmin(Id);
+            var Admin = await _adminService.GetAdmin(Id);
             return View(Admin);
         }
         [HttpPost]
-        public ActionResult EditAdmin(Admin admin)
+        public async Task<IActionResult> EditAdmin(Admin admin)
         {
             if (ModelState.IsValid)
-                _adminService.EditAdmin(admin);
+                await _adminService.EditAdmin(admin);
 
             return RedirectToAction("Index", "Admin");
         }
@@ -111,10 +110,9 @@ namespace M_News.Controllers
         [HttpPost]
 
 
-        public IActionResult CreateAdmin(Admin admin)
+        public async Task<IActionResult> CreateAdmin(Admin admin)
         {
-            if (ModelState.IsValid)
-                _adminService.NewAdmin(admin);
+            await _adminService.NewAdmin(admin);
             return RedirectToAction("Index", "Admin");
         }
 

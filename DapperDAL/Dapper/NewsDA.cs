@@ -1,9 +1,7 @@
 ﻿using BusinessLayer.DapperRepository;
 using Dapper;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Context;
 using EntityLayer;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -11,9 +9,9 @@ namespace DataAccessLayer.Dapper
     public class NewsDA : GenericRepositoryDap<News>, INewDA
     {
         private readonly string? _connectionString;
-        public NewsDA(NEUContext context) : base(context)
+        public NewsDA() : base()
         {
-            _connectionString = context?.Database?.GetConnectionString();
+            //_connectionString = context?.Database?.GetConnectionString();
         }
 
         public async Task<bool> CreateNewsAsync(News news)

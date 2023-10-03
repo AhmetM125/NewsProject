@@ -1,12 +1,13 @@
 ﻿using M_News.Attributes;
 using M_News.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 
 namespace M_News.Controllers
 {
-    [AuthorizeY(Permission = "Dashboard")]
+    
     public class DashboardController : Controller
 	{
 		private readonly ILogger<DashboardController> _logger;
@@ -15,16 +16,23 @@ namespace M_News.Controllers
 		{
 			_logger = logger;
 		}
-
-		public IActionResult Index()
+        [AuthorizeY(Permission = "Dashboard")]
+        public IActionResult Index()
+		{
+			var req = HttpContext.Request;
+			return View();
+		}
+        [AuthorizeY(Permission = "Dashboard")]
+        public IActionResult Privacy()
 		{
 			return View();
 		}
 
-		public IActionResult Privacy()
+		[AllowAnonymous]
+		public IActionResult AccessDenied()
 		{
 			return View();
 		}
 
-	}
+    }
 }

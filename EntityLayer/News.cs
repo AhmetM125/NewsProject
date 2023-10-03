@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [Table("News")]
+    [System.ComponentModel.DataAnnotations.Schema.Table("News")]
     public class News
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
+        [System.ComponentModel.DataAnnotations.Key]
         public int New_Id { get; set; }
 
         [Required(ErrorMessage = "Title cannot be empty")]
@@ -32,6 +34,7 @@ namespace EntityLayer
         //FK
 
         public Guid? FilesId { get; set; }
+        [Computed]
         public Files Files { get; set; } = default!;
     }
 }

@@ -1,9 +1,7 @@
 ﻿using BusinessLayer.DapperRepository;
 using Dapper;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Context;
 using EntityLayer;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -11,9 +9,9 @@ namespace DataAccessLayer.Dapper
     public class PermissionDA : GenericRepositoryDap<Permission>, IPermissionDA
     {
         private readonly string? _connectionString;
-        public PermissionDA(NEUContext context) : base(context)
+        public PermissionDA( ) : base()
         {
-            _connectionString = context?.Database?.GetConnectionString();
+         //   _connectionString = context?.Database?.GetConnectionString();
         }
 
         public async Task<bool> CreatePermissionAsync(Permission permission)

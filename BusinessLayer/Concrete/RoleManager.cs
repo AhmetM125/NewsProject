@@ -7,36 +7,36 @@ namespace BusinessLayer.Concrete
 {
     public class RoleManager : IRoleService
     {
-        private readonly IRoleDal _roleDal;
-        public RoleManager(IRoleDal roleDal)
+        private readonly IRoleDA _roleDal;
+        public RoleManager(IRoleDA roleDal)
         {
             _roleDal = roleDal;
         }
 
         public void DeleteRole(Role role)
         {
-            _roleDal.Delete(role);
+            _roleDal.Delete(role.Id.ToString());
         }
 
-        public List<Role> GetAllRoles()
+        public async Task<List<Role>> GetAllRoles()
         {
-            return _roleDal.List();
+            var list = await _roleDal.GetAll();
+            return list.ToList();
         }
-        public Role GetRoleById(int roleId)
+        public async Task<Role> GetRoleById(int roleId)
         {
-            return _roleDal.Get(x=>x.Id == roleId);
-        }
-
-        
-
-        public void NewRole(Role role)
-        {
-           _roleDal.Insert(role);
+            var role = await _roleDal.GetById(roleId.ToString());
+            return role;
         }
 
-        public void UpdateRole(Role role)
+        public async Task NewRole(Role role)
         {
-            _roleDal.Update(role);
+            await _roleDal.Insert(role);
+        }
+
+        public async Task UpdateRole(Role role)
+        {
+           await _roleDal.Update(role);
         }
     }
 }

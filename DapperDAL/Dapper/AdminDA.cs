@@ -1,9 +1,7 @@
 ﻿using BusinessLayer.DapperRepository;
 using Dapper;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Context;
 using EntityLayer;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -11,14 +9,14 @@ namespace DataAccessLayer.Dapper
     public class AdminDA : GenericRepositoryDap<Admin>, IAdminDA
     {
         private readonly string? connectionString;
-        public AdminDA(NEUContext context) : base(context)
+        public AdminDA() : base()
         {
-            connectionString = context.Database.GetConnectionString();
+            //connectionString = context.Database.GetConnectionString();
         }
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             string query = "Select * From Admins";
-            using (SqlConnection connection = new(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 IEnumerable<Admin> admins = await connection.QueryAsync<Admin>(query);
                 return admins;

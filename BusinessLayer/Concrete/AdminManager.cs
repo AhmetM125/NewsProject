@@ -7,20 +7,15 @@ namespace BusinessLayer.Abstract
 {
     public class AdminManager : IAdminService
     {
-        private readonly IAdminDal adminDal;
         private readonly IAdminDA _adminDapper;
         private readonly ILogger<AdminManager> _logger;
-        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA, ILogger<AdminManager> logger)
+        public AdminManager(IAdminDA _adminDA, ILogger<AdminManager> logger)
         {
-            adminDal = _adminDal;
             _adminDapper = _adminDA;
             _logger = logger;
         }
         public Admin? Login(string username, string password) //CancellationToken cancellationToken
         {
-
-
-
             try
             {
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -30,9 +25,9 @@ namespace BusinessLayer.Abstract
                 }
                 else
                 {
-                    username.GetHashCode();
-                    var admin = adminDal.Get(x => x.Username == username && x.Password == password);
-                    return admin;
+                    // var admin = adminDal.Get(x => x.Username == username && x.Password == password);
+                    //  return admin;
+                    return null;
                 }
             }
             catch (SqlException ex)
@@ -57,11 +52,12 @@ namespace BusinessLayer.Abstract
 
         }
 
-        public async Task<int> DeleteAdmin(Guid id)
+        public async Task<bool> DeleteAdmin(Guid id)
         {
             try
             {
-                var affectedRow = await _adminDapper.Delete(id.ToString());
+                var admin = await _adminDapper.GetById(id.ToString());
+                var affectedRow = await _adminDapper.DeleteByEntity(admin);
                 return affectedRow;
 
             }

@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace EntityLayer
 {
-    [Table("Permissions")]
+    [Dapper.Contrib.Extensions.Table("Permissions")]
     public class Permission
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
         public short Id { get; set; }
 
 
         [Required]
         [MaxLength(50, ErrorMessage = "Error")]
         public string Title { get; set; } = default!;
+        [Computed]
         public ICollection<RolePermission> RolePermission { get; set; }
 
 

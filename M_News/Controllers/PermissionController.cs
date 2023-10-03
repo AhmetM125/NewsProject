@@ -18,16 +18,16 @@ namespace M_News.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            ICollection<Permission> ListOfPermissions = _permissionService.GetAllPermission();
+            ICollection<Permission> ListOfPermissions = await _permissionService.GetAllPermission();
             return View(ListOfPermissions);
         }
         [HttpGet]
-        public IActionResult EditPermission(int PermissionId)
+        public async Task<IActionResult> EditPermission(int PermissionId)
         {
-            Permission PermissionObj = _permissionService.GetPermission(PermissionId);
+            Permission? PermissionObj = await _permissionService.GetPermission(PermissionId);
             return View(PermissionObj);
         }
         [HttpPost]
@@ -38,10 +38,10 @@ namespace M_News.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeletePermission(int PermissionId)
+        public async Task<IActionResult> DeletePermission(int PermissionId)
         {
-            var PermissionVal = _permissionService.GetPermission(PermissionId);
-            _permissionService.DeletePermission(PermissionVal);
+            var PermissionVal = await _permissionService.GetPermission(PermissionId);
+            await _permissionService.DeletePermission(PermissionVal);
             return RedirectToAction("Index", "Permission");
         }
         [HttpGet]

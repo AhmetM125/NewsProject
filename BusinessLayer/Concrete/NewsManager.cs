@@ -1,67 +1,137 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
 using EntityLayer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace BusinessLayer.Concrete
 {
     public class NewsManager : INewService
     {
-        private readonly INewDal _NewDal;
         private readonly IFileService _FileService;
         private readonly INewDA _newDA;
+        private readonly ILogger<NewsManager> _logger;
         /*FileManager fileManager = new(new EfFilesDal());*/
 
-        public NewsManager(INewDal NewDal, IFileService fileService, INewDA newDA)
+        public NewsManager(IFileService fileService, INewDA newDA, ILogger<NewsManager> logger)
         {
             _FileService = fileService;
-            _NewDal = NewDal;
             _newDA = newDA;
+            _logger = logger;
         }
 
-        public void CreateNews(News value, IFormFile img)
+        public async Task CreateNews(News value, IFormFile img)
         {
+            try
+            {
+                if (value != null)
+                {
+                    Guid G_Id = Guid.NewGuid();
+                    value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
+                    value.FilesId = G_Id;
 
-            Guid G_Id = Guid.NewGuid();
-            value.PublishDate = DateTime.Today.ToString("dd/MM/yyyy"); // Change the data type of PublishDate as needed
-            value.FilesId = G_Id;
+                    if (img is not null)
+                        await _FileService.InsertImage(img, G_Id);
 
-            if (img != null) _FileService.InsertImage(img, G_Id);
+                    await _newDA.Insert(value);
 
-            _NewDal.Insert(value);
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while creating new");
+                throw;
+            }
 
         }
 
-        public void DeleteNews(int id)
+        public async Task DeleteNews(int id)
         {
-            var value = GetNews(id);
-            _NewDal.Delete(value);
-            _FileService.DeleteImage(value.FilesId);
+            try
+            {
+                var value = await GetNews(id);
+                if (value is not null)
+                {
+                    var newId = value.New_Id.ToString();
+                    _newDA.Delete(newId);
+                    _FileService.DeleteImage(value.FilesId);
+
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while deleting new");
+                throw;
+            }
 
         }
 
 
 
-        public void UpdateNews(News newsVal, IFormFile Image)
+        public async Task UpdateNews(News newsVal, IFormFile Image)
         {
-            if (Image != null)
-                _FileService.UpdateImage(newsVal.FilesId, Image);
+            try
+            {
+                if (Image != null)
+                    await _FileService.UpdateImage(newsVal.FilesId, Image);
+                if (newsVal is not null)
+                    await _newDA.Update(newsVal);
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while updating new");
+                throw;
+            }
 
-            _NewDal.Update(newsVal);
         }
-        public List<News> GetAllNews()
+        public async Task<List<News>> GetAllNews()
         {
-            return _NewDal.List();
+            try
+            {
+                var listNews = await _newDA.GetAll();
+                return listNews.ToList();
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while listing news");
+                throw;
+            }
         }
 
 
-        public List<News> GetLast4News()
+        public async Task<List<News>> GetLast4News()
         {
-            var value = _NewDal.List().OrderByDescending(x => x.PublishDate).Take(4).ToList();
-            return value;
+            try
+            {
+                var value = await _newDA.GetAll();
+                value.OrderByDescending(x => x.PublishDate).Take(4).ToList();
+                return (List<News>)value;
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while listing news");
+                throw;
+            }
         }
 
-        public News GetNews(int id) => _NewDal.Get(x => x.New_Id == id);
+        public async Task<News> GetNews(int id)
+        {
+            try
+            {
+                var news = await _newDA.GetById(id.ToString());
+                return news;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while GetNews");
+                throw;
+            }
+        }
     }
 }

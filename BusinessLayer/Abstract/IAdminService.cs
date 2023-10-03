@@ -7,7 +7,7 @@ namespace BusinessLayer.Abstract
         Admin? Login(string username, string password);
         Task<List<Admin>> GetAllAdmins();
 
-        Task<int> DeleteAdmin(Guid id);
+        Task<bool> DeleteAdmin(Guid id);
         Task<Admin?> GetAdmin(Guid Id);
 
         Task<bool> EditAdmin(Admin admin);
