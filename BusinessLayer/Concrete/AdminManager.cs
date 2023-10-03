@@ -1,52 +1,124 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.Abstract;
+﻿using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace BusinessLayer.Abstract
 {
     public class AdminManager : IAdminService
     {
         private readonly IAdminDal adminDal;
-        private readonly IAdminDA admintest;
-        private readonly INewService _newService;
-
-        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA, INewService newService)
+        private readonly IAdminDA _adminDapper;
+        private readonly ILogger<AdminManager> _logger;
+        public AdminManager(IAdminDal _adminDal, IAdminDA _adminDA, ILogger<AdminManager> logger)
         {
             adminDal = _adminDal;
-            admintest = _adminDA;
-            _newService = newService;
-
+            _adminDapper = _adminDA;
+            _logger = logger;
         }
-        public Admin Login(string username, string password) => adminDal.Get(x => x.Username == username && x.Password == password);
-
-        public List<Admin> GetAllAdmins()
+        public Admin? Login(string username, string password) //CancellationToken cancellationToken
         {
-            var adminList = adminDal.List();
-            return adminList;
-        }
 
-        public void DeleteAdmin(Guid id)
+
+
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    _logger.LogError("Invalid username or password");
+                    return null;
+                }
+                else
+                {
+                    username.GetHashCode();
+                    var admin = adminDal.Get(x => x.Username == username && x.Password == password);
+                    return admin;
+                }
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, $"SQL Exception occurred in Login method for user: {username}");
+                throw;
+            }
+
+        }
+        public async Task<List<Admin>> GetAllAdmins()
         {
-            var obj = GetAdmin(id);
-            adminDal.Delete(obj);
+            try
+            {
+                var AdminList = await _adminDapper.GetAll();
+                return AdminList.ToList();
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while getting the list of users");
+                throw;
+            }
+
         }
 
-        public Admin GetAdmin(Guid Id)
+        public async Task<int> DeleteAdmin(Guid id)
         {
-            return adminDal.Get(x => x.User_Id == Id);
+            try
+            {
+                var affectedRow = await _adminDapper.Delete(id.ToString());
+                return affectedRow;
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while deleting the user");
+                throw;
+            }
         }
 
-        public void EditAdmin(Admin admin)
+        public async Task<Admin?> GetAdmin(Guid Id)
         {
-            adminDal.Update(admin);
+            try
+            {
+                var admin = await _adminDapper.GetById(Id.ToString());
+                return admin;
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while getting the admin");
+                throw;
+            }
         }
 
-        public void NewAdmin(Admin admin)
+        public async Task<bool> EditAdmin(Admin admin)
         {
-            admin.User_Id = Guid.NewGuid();
-            adminDal.Insert(admin);
+            try
+            {
+                var result = await _adminDapper.Update(admin);
+                return result;
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while updating the admin");
+                throw;
+            }
+
         }
 
-     
+        public async Task<int> NewAdmin(Admin admin)
+        {
+            try
+            {
+                admin.User_Id = Guid.NewGuid();
+                var Result = await _adminDapper.Insert(admin);
+                return Result;
+
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "SQL Exception occurred while creating a new admin");
+                throw;
+            }
+
+        }
+
+
     }
 }

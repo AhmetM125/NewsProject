@@ -29,9 +29,9 @@ namespace M_News.Attributes
             paramaters.Add("@GuidValue", id);
             paramaters.Add("@pTitle", Permission);
 
-          //  string connection1 = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
-            string connection2 = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
-            using (SqlConnection connection = new(connection2))
+            string connections = "server=DESKTOP-RKAH2TS;database=NewsDb;integrated security=true;Encrypt=false";
+            //string connections = "server=LPTNET052\\SQLEXPRESS;database=NewsDb;integrated security=true;Encrypt=false";
+            using (SqlConnection connection = new(connections))
             {
                 var result = connection.Query<string>(query, paramaters);
                 if (result != null && result.Any(x => x == Permission))
