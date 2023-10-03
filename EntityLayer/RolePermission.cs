@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿
+using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [Table("RolePermissions")]
+    [Dapper.Contrib.Extensions.Table("RolePermissions")]
     public class RolePermission
     {
         [ForeignKey("Role")]

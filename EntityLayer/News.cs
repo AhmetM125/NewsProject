@@ -1,14 +1,12 @@
 ﻿using Dapper.Contrib.Extensions;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [System.ComponentModel.DataAnnotations.Schema.Table("News")]
+    [Dapper.Contrib.Extensions.Table("News")]
     public class News
     {
         [Dapper.Contrib.Extensions.Key]
-        [System.ComponentModel.DataAnnotations.Key]
         public int New_Id { get; set; }
 
         [Required(ErrorMessage = "Title cannot be empty")]
