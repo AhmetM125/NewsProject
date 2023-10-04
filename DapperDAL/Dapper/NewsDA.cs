@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
 {
-    public class NewsDA : GenericRepositoryDap<News>, INewDA
+    public class NewsDA : GenericRepositoryDap<New>, INewDA
     {
         private readonly string? _connectionString;
         public NewsDA() : base()
@@ -14,7 +14,7 @@ namespace DataAccessLayer.Dapper
             //_connectionString = context?.Database?.GetConnectionString();
         }
 
-        public async Task<bool> CreateNewsAsync(News news)
+        public async Task<bool> CreateNewsAsync(New news)
         {
             string query = "INSERT INTO News(New_Id,Title,PublishDate,CategoryId,Source,FilesId) VALUES("
                  + "@newId,@publishdate,@categoryid,@source,@filesid);";
@@ -48,28 +48,28 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public async Task<IEnumerable<News>> GetAllNewsAsync()
+        public async Task<IEnumerable<New>> GetAllNewsAsync()
         {
             string query = "Select * From News";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                IEnumerable<News> news = await connection.QueryAsync<News>(query);
+                IEnumerable<New> news = await connection.QueryAsync<New>(query);
                 return news;
             }
         }
 
-        public async Task<News> GetNewsByIdAsync(int id)
+        public async Task<New> GetNewsByIdAsync(int id)
         {
             string query = "Select * From News where Id = @Id";
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstOrDefaultAsync<News>(query, parameters);
+                return await connection.QueryFirstOrDefaultAsync<New>(query, parameters);
             }
         }
 
-        public async Task<bool> UpdateNews(News news)
+        public async Task<bool> UpdateNews(New news)
         {
 
 

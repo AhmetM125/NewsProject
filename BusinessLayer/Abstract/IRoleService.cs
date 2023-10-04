@@ -7,7 +7,7 @@ namespace BusinessLayer.Abstract
         Task<Role> GetRoleById(int roleId);
         Task<List<Role>> GetAllRoles();
         Task UpdateRole(Role role);
-        void DeleteRole(Role role);
+        Task DeleteRole(Role role);
         Task NewRole(Role role);
     }
 }

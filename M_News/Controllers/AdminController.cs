@@ -82,9 +82,9 @@ namespace M_News.Controllers
             await _userRoleService.DeleteRoleOfUser(UserRoleValue);
             return RedirectToAction("Index", "Admin");
         }
-        public IActionResult DeleteAdmin(Guid Id)
+        public async Task<IActionResult> DeleteAdmin(Guid Id)
         {
-            _adminService.DeleteAdmin(Id);
+            await _adminService.DeleteAdmin(Id);
             return RedirectToAction("Index", "Admin");
         }
         [HttpGet]

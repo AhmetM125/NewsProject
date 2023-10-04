@@ -17,7 +17,7 @@ namespace M_News.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<News> values = await _newService.GetLast4News();
+            List<New> values = await _newService.GetLast4News();
             return View(values);
         }
 

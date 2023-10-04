@@ -19,7 +19,7 @@ namespace BusinessLayer.Concrete
 
         public async Task DeleteRolePermission(RolePermission rolePermission)
         {
-            await roleDal.Delete(rolePermission.PermissionId.ToString());
+            await roleDal.DeleteByEntity(rolePermission);
         }
 
         public async Task<List<RolePermission>> GetAllRolePermission()

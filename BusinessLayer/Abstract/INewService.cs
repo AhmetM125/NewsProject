@@ -5,12 +5,12 @@ namespace BusinessLayer.Concrete
 {
     public interface INewService
     {
-        Task<List<News>> GetAllNews();
-        Task<News> GetNews(int id);
-        Task CreateNews(News value, IFormFile img);
+        Task<List<New>> GetAllNews();
+        Task<New> GetNews(int id);
+        Task CreateNews(New value, IFormFile img);
         Task DeleteNews(int id);
-        Task UpdateNews(News newsVal, IFormFile Image);
-        Task<List<News>> GetLast4News();
+        Task UpdateNews(New newsVal, IFormFile Image);
+        Task<List<New>> GetLast4News();
         /* void UpdateNews(News newsVal, IFormFile Image);*/
     }
 }

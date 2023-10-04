@@ -1,17 +1,18 @@
 ﻿
 using Dapper.Contrib.Extensions;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityLayer
 {
-    [Dapper.Contrib.Extensions.Table("RolePermissions")]
     public class RolePermission
     {
-        [ForeignKey("Role")]
+        [ExplicitKey]
+        public Guid Id { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("Role")]
         public short RoleId { get; set; }
         public Role Role { get; set; }
 
-        [ForeignKey("Permission")]
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("Permission")]
         public short PermissionId { get; set; }
         public Permission Permission { get; set; }
     }

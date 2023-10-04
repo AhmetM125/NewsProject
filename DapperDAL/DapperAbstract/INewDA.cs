@@ -3,13 +3,13 @@ using EntityLayer;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface INewDA : IRepositoryDAP<News>
+    public interface INewDA : IRepositoryDAP<New>
     {
-        Task<IEnumerable<News>> GetAllNewsAsync();
-        Task<News> GetNewsByIdAsync(int id);
+        Task<IEnumerable<New>> GetAllNewsAsync();
+        Task<New> GetNewsByIdAsync(int id);
         Task<bool> DeleteNewsById(int id);
-        Task<bool> UpdateNews(News news);
-        Task<bool> CreateNewsAsync(News news);
+        Task<bool> UpdateNews(New news);
+        Task<bool> CreateNewsAsync(New news);
 
     }
 }

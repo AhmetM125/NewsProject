@@ -48,7 +48,8 @@ namespace BusinessLayer.Concrete
         {
             try
             {
-                await PermissionDal.Delete(permission.Id.ToString());
+                
+                await PermissionDal.DeleteByEntity(permission);
 
             }
             catch (Exception ex)

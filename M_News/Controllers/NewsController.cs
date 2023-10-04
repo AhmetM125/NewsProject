@@ -24,7 +24,7 @@ namespace M_News.Controllers
         [HttpGet]
         public IActionResult CreateNews() => View();
         [HttpPost]
-        public async Task<IActionResult> CreateNews(News value, IFormFile Image)
+        public async Task<IActionResult> CreateNews(New value, IFormFile Image)
         {
             await _newService.CreateNews(value, Image);
             return RedirectToAction("Index", "News");
@@ -37,7 +37,7 @@ namespace M_News.Controllers
             return View(News);
         }
         [HttpPost]
-        public async Task<IActionResult> EditNews(News value, IFormFile Image)
+        public async Task<IActionResult> EditNews(New value, IFormFile Image)
         {
             await _newService.UpdateNews(value, Image);
             return RedirectToAction("Index", "News");

@@ -2,10 +2,9 @@
 
 namespace EntityLayer
 {
-    [Dapper.Contrib.Extensions.Table("Files")]
     public class Files
     {
-        [Dapper.Contrib.Extensions.Key]
+        [ExplicitKey]
         public Guid Id { get; set; }
         public string? FileName { get; set; }
         public string? ContentType { get; set; }
@@ -13,6 +12,6 @@ namespace EntityLayer
         public byte[]? Content { get; set; }
         public byte? Size { get; set; }
         [Computed]
-        public ICollection<News> News { get; }
+        public ICollection<New> News { get; }
     }
 }

@@ -21,7 +21,7 @@ namespace BusinessLayer.Concrete
             _logger = logger;
         }
 
-        public async Task CreateNews(News value, IFormFile img)
+        public async Task CreateNews(New value, IFormFile img)
         {
             try
             {
@@ -55,8 +55,9 @@ namespace BusinessLayer.Concrete
                 if (value is not null)
                 {
                     var newId = value.New_Id.ToString();
-                    _newDA.Delete(newId);
-                    _FileService.DeleteImage(value.FilesId);
+                    var newentity = await _newDA.GetById(newId);
+                    await _newDA.DeleteByEntity(newentity);
+                    await _FileService.DeleteImage(value.FilesId);
 
                 }
 
@@ -71,7 +72,7 @@ namespace BusinessLayer.Concrete
 
 
 
-        public async Task UpdateNews(News newsVal, IFormFile Image)
+        public async Task UpdateNews(New newsVal, IFormFile Image)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace BusinessLayer.Concrete
             }
 
         }
-        public async Task<List<News>> GetAllNews()
+        public async Task<List<New>> GetAllNews()
         {
             try
             {
@@ -103,13 +104,13 @@ namespace BusinessLayer.Concrete
         }
 
 
-        public async Task<List<News>> GetLast4News()
+        public async Task<List<New>> GetLast4News()
         {
             try
             {
                 var value = await _newDA.GetAll();
                 value.OrderByDescending(x => x.PublishDate).Take(4).ToList();
-                return (List<News>)value;
+                return (List<New>)value;
 
             }
             catch (SqlException ex)
@@ -119,7 +120,7 @@ namespace BusinessLayer.Concrete
             }
         }
 
-        public async Task<News> GetNews(int id)
+        public async Task<New> GetNews(int id)
         {
             try
             {

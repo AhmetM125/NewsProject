@@ -115,7 +115,8 @@ namespace BusinessLayer.Concrete
                 if (file is not null)
                 {
                     var id = file.Id.ToString();
-                    await _filesDal.Delete(id);
+                    var valueFile = await _filesDal.GetById(id);
+                    await _filesDal.DeleteByEntity(valueFile);
                 }
 
             }

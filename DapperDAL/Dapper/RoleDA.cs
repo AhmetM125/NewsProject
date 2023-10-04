@@ -10,7 +10,7 @@ namespace DataAccessLayer.Dapper
     {
         private readonly string? connectionString;
 
-        public RoleDA( ) : base()
+        public RoleDA( ) 
         {
             //connectionString = context.Database.GetConnectionString();
         }

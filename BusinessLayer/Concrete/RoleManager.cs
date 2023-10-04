@@ -13,9 +13,9 @@ namespace BusinessLayer.Concrete
             _roleDal = roleDal;
         }
 
-        public void DeleteRole(Role role)
+        public async Task DeleteRole(Role role)
         {
-            _roleDal.Delete(role.Id.ToString());
+            await _roleDal.DeleteByEntity(role);
         }
 
         public async Task<List<Role>> GetAllRoles()
