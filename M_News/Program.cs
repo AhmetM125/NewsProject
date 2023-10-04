@@ -1,4 +1,3 @@
-using DataAccessLayer.Context;
 using M_News.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
