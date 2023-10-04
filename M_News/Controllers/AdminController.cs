@@ -3,11 +3,11 @@ using EntityLayer;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using X.PagedList;
 
 namespace M_News.Controllers
 {
-
     [AuthorizeY(Permission = "Users")]
 
     public class AdminController : Controller
@@ -55,18 +55,27 @@ namespace M_News.Controllers
 
             var ValueAdmin = await _adminService.GetAdmin(uid);
             ViewData["NameSurname"] = $"{ValueAdmin.Name} {ValueAdmin.Surname}";
-            ViewBag.RolesDropDown = new SelectList(valuesOfUser, "Id", "Title");
+
+
+            IEnumerable<SelectListItem> Permissions_ListItem = (from x in valuesOfUser
+                                                                select new SelectListItem
+
+                                                                {
+                                                                    Value = x.Id.ToString(),
+                                                                    Text = x.Title
+                                                                });
+
+            ViewBag.RolesDropDown = Permissions_ListItem;
 
             ViewBag.Uid = ValueAdmin.User_Id;
             return View(role);
         }
         [HttpPost]
-        public IActionResult UserNewRole(UserRole P)
+        public async Task<IActionResult> UserNewRole(UserRole P)
         {
             try
             {
-                if (ModelState.IsValid)
-                    _userRoleService.InsertNewRoleOfUser(P);
+                await _userRoleService.InsertNewRoleOfUser(P);
 
             }
             catch (Exception)

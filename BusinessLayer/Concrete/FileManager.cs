@@ -1,6 +1,5 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
-using EntityLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
@@ -19,7 +18,7 @@ namespace BusinessLayer.Concrete
             _logger = logger;
         }
 
-        public async Task<Files?> GetFileById(Guid? id)
+        public async Task<EntityLayer.File?> GetFileById(Guid? id)
         {
             try
             {
@@ -47,7 +46,7 @@ namespace BusinessLayer.Concrete
         public async Task InsertImage(IFormFile file, Guid? G_Id)
         {
 
-            var Files = new Files()
+            var Files = new EntityLayer.File()
             {
                 Id = (Guid)G_Id,
                 Content = ConvertToImage(file)?.ToArray(),
@@ -60,7 +59,6 @@ namespace BusinessLayer.Concrete
             try
             {
                 var RowAffect = await _filesDal.Insert(Files);
-                await _filesDal.Insert(Files);
                 return;
 
             }
@@ -86,7 +84,7 @@ namespace BusinessLayer.Concrete
         public async Task UpdateImage(Guid? FilesId, IFormFile image)
         {
             var MemoryStream = ConvertToImage(image);
-            Files value = await GetFileById(FilesId);
+            EntityLayer.File value = await GetFileById(FilesId);
             value.Extention = image.ContentType;
             value.FileName = image.FileName;
             value.Content = ConvertToImage(image).ToArray();

@@ -5,7 +5,7 @@ namespace EntityLayer
     public class Role
     {
         [Key]
-        public short Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; } = default!;
 
         [Computed]

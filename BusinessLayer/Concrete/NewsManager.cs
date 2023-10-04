@@ -12,7 +12,6 @@ namespace BusinessLayer.Concrete
         private readonly IFileService _FileService;
         private readonly INewDA _newDA;
         private readonly ILogger<NewsManager> _logger;
-        /*FileManager fileManager = new(new EfFilesDal());*/
 
         public NewsManager(IFileService fileService, INewDA newDA, ILogger<NewsManager> logger)
         {

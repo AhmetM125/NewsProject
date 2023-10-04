@@ -1,6 +1,4 @@
 ﻿using BusinessLayer.Abstract;
-using BusinessLayer.Concrete;
-using DataAccessLayer.Concrete;
 using EntityLayer;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +9,6 @@ namespace M_News.Controllers
     public class PermissionController : Controller
     {
         private readonly IPermissionService _permissionService;
-
         public PermissionController(IPermissionService permissionService)
         {
             _permissionService = permissionService;

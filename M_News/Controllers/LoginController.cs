@@ -50,7 +50,7 @@ namespace M_News.Controllers
                     }
                 }
 
-                var value = _adminService.Login(model.Username, model.Password);
+                var value = await _adminService.Login(model.Username, model.Password);
 
                 if (value != null)
                 {

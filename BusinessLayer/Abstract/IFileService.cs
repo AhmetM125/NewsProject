@@ -1,11 +1,10 @@
-﻿using EntityLayer;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Abstract
 {
     public interface IFileService
     {
-        Task<Files?> GetFileById(Guid? id);
+        Task<EntityLayer.File?> GetFileById(Guid? id);
         Task InsertImage(IFormFile file, Guid? G_Id);
 
         Task UpdateImage(Guid? FilesId, IFormFile image);

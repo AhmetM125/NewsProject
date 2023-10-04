@@ -26,6 +26,6 @@ namespace EntityLayer
 
         public Guid? FilesId { get; set; }
         [Computed]
-        public Files Files { get; set; } = default!;
+        public File Files { get; set; } = default!;
     }
 }

@@ -14,6 +14,7 @@ namespace BusinessLayer.Concrete
 
         public async Task CreatePermission(RolePermission rolePermission)
         {
+            rolePermission.G_Id = Guid.NewGuid();
             await roleDal.Insert(rolePermission);
         }
 
@@ -28,10 +29,10 @@ namespace BusinessLayer.Concrete
             return list.ToList();
         }
 
-        public async Task<ICollection<RolePermission>> GetRolePermissionByIdList (int RoleId)
+        public async Task<ICollection<RolePermission>> GetRolePermissionByIdList(int RoleId)
         {
             var list = await roleDal.GetAll();
-            list.Where(x => x.RoleId == RoleId).ToList();
+            list = list.Where(x => x.RoleId == RoleId).ToList();
             return (ICollection<RolePermission>)list;
         }
 

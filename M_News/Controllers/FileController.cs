@@ -1,6 +1,5 @@
 ﻿using BusinessLayer.Abstract;
 using Microsoft.AspNetCore.Mvc;
-
 namespace M_News.Controllers
 {
     public class FileController : Controller

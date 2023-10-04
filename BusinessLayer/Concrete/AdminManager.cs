@@ -14,7 +14,7 @@ namespace BusinessLayer.Abstract
             _adminDapper = _adminDA;
             _logger = logger;
         }
-        public Admin? Login(string username, string password) //CancellationToken cancellationToken
+        public async Task<Admin?> Login(string username, string password) //CancellationToken cancellationToken
         {
             try
             {
@@ -25,9 +25,8 @@ namespace BusinessLayer.Abstract
                 }
                 else
                 {
-                    // var admin = adminDal.Get(x => x.Username == username && x.Password == password);
-                    //  return admin;
-                    return null;
+                    var results = await _adminDapper.GetAll();
+                    return results.Where(x => x.Username == username && x.Password == password).FirstOrDefault();
                 }
             }
             catch (SqlException ex)

@@ -16,13 +16,14 @@ namespace BusinessLayer.Concrete
         {
 
             List<UserRole> UserRoleList = (List<UserRole>)await _userRoleDal.GetAll();
-            UserRoleList.Where(x => x.UserId == U_Id).ToList();
+            UserRoleList = UserRoleList.Where(x => x.UserId == U_Id).ToList();
             return UserRoleList;
 
         }
-        public void InsertNewRoleOfUser(UserRole role)
+        public async Task InsertNewRoleOfUser(UserRole role)
         {
-            _userRoleDal.Insert(role);
+            role.G_Id = Guid.NewGuid();
+          await  _userRoleDal.Insert(role);
         }
         public async Task DeleteRoleOfUser(UserRole role)
         {

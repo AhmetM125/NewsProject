@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
 {
-    public class FilesDA : GenericRepositoryDap<Files>, IFilesDA
+    public class FilesDA : GenericRepositoryDap<EntityLayer.File>, IFilesDA
     {
         private readonly string _connectionString;
         public FilesDA() : base()
@@ -28,27 +28,27 @@ namespace DataAccessLayer.Dapper
 
         }
 
-        public async Task<IEnumerable<Files>> GetAllFiles()
+        public async Task<IEnumerable<EntityLayer.File>> GetAllFiles()
         {
             string query = "SELECT * FROM Files";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryAsync<Files>(query);
+                return await connection.QueryAsync<EntityLayer.File>(query);
             }
         }
 
-        public async Task<Files> GetFileById(Guid id)
+        public async Task<EntityLayer.File> GetFileById(Guid id)
         {
             string query = "Select * From Files where Id = @Id";
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstOrDefaultAsync<Files>(query, parameters);
+                return await connection.QueryFirstOrDefaultAsync<EntityLayer.File>(query, parameters);
             }
         }
 
-        public async Task<bool> InsertFile(Files file)
+        public async Task<bool> InsertFile(EntityLayer.File file)
         {
             string query = "INSERT INTO Files(Id,FileName,ContentType,Extension,Content,Size) VALUES(@id,@fname,@contenttype,@extension,@content,@size);";
             var parameters = new DynamicParameters();
@@ -66,7 +66,7 @@ namespace DataAccessLayer.Dapper
             }
         }
 
-        public async Task<bool> UpdateFile(Files file)
+        public async Task<bool> UpdateFile(EntityLayer.File file)
         {
             string query = "UPDATE Files SET FileName = @fname,Id=@id,ContentType = @contenttype," +
                 "Extension = @extension,Content = @content,Size = @size";

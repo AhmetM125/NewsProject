@@ -15,7 +15,6 @@ namespace M_News.Controllers
         {
             _newService = newService;
         }
-
         public async Task<IActionResult> Index(int page = 1)
         {
             var AllNews = await _newService.GetAllNews();

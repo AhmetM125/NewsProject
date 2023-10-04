@@ -18,8 +18,6 @@ namespace M_News.Controllers
             _rolepermissionService = rolepermissionService;
             _permissionService = permissionService;
         }
-
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -41,7 +39,7 @@ namespace M_News.Controllers
         public async Task<IActionResult> DeleteRole(int RoleId)
         {
             var RoleValue = await _roleService.GetRoleById(RoleId);
-            _roleService.DeleteRole(RoleValue);
+            await _roleService.DeleteRole(RoleValue);
             return RedirectToAction("Index", "Role");
         }
         [HttpGet]
@@ -60,7 +58,7 @@ namespace M_News.Controllers
         //ROLEPERMISSION
         public async Task<IActionResult> EditPermissions(int RoleId)
         {
-            var Role = _roleService.GetRoleById(RoleId);
+            var Role = await _roleService.GetRoleById(RoleId);
             var PermissionList = await _rolepermissionService.GetRolePermissionByIdList(RoleId);
             foreach (var item in PermissionList)
             {
@@ -76,7 +74,7 @@ namespace M_News.Controllers
 
             var RolePermissionValue = await _rolepermissionService.GetRolePermissionById(RoleId, PermissionId);
             await _rolepermissionService.DeleteRolePermission(RolePermissionValue);
-            return RedirectToAction("Index", "RolePermission");
+            return RedirectToAction("Index", "Role");
         }
         [HttpGet]
         public async Task<IActionResult> NewPermissionForRole(int RoleId)
@@ -97,15 +95,12 @@ namespace M_News.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult NewPermissionForRole(RolePermission p)
+        public async Task<IActionResult> NewPermissionForRole(RolePermission p)
         {
-            var IsExist = _rolepermissionService.GetRolePermissionById(p.RoleId, p.PermissionId);
+            var IsExist = await _rolepermissionService.GetRolePermissionById(p.RoleId, p.PermissionId);
             if (IsExist is null)
-                _rolepermissionService.CreatePermission(p);
+                await _rolepermissionService.CreatePermission(p);
             return RedirectToAction("Index", "Role");
         }
-
-
-
     }
 }

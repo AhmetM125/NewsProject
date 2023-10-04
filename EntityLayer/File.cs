@@ -2,7 +2,7 @@
 
 namespace EntityLayer
 {
-    public class Files
+    public class File
     {
         [ExplicitKey]
         public Guid Id { get; set; }

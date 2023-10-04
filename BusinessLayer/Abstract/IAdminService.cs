@@ -4,7 +4,7 @@ namespace BusinessLayer.Abstract
 {
     public interface IAdminService
     {
-        Admin? Login(string username, string password);
+        Task<Admin?> Login(string username, string password);
         Task<List<Admin>> GetAllAdmins();
 
         Task<bool> DeleteAdmin(Guid id);
