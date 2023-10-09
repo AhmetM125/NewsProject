@@ -11,6 +11,7 @@ namespace BusinessLayer.Concrete
         Task DeleteNews(int id);
         Task UpdateNews(New newsVal, IFormFile Image);
         Task<List<New>> GetLast4News();
-        /* void UpdateNews(News newsVal, IFormFile Image);*/
+
+        Task<IEnumerable<New>> GetNewsByCategoryId(string C_Id);
     }
 }

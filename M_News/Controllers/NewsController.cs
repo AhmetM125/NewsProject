@@ -2,6 +2,7 @@
 using DataAccessLayer.Concrete;
 using EntityLayer;
 using M_News.Attributes;
+using Mhazami.Utility;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -45,6 +46,22 @@ namespace M_News.Controllers
         {
             await _newService.DeleteNews(Id);
             return RedirectToAction("Index", "News");
+        }
+        public async Task<JsonResult> GetListOfNewsByCategory(string CategoryId)
+        {
+            var list = await _newService.GetNewsByCategoryId(CategoryId);
+
+            var listofobj = list.Select(x => new
+            {
+                PublishDate = x.PublishDate,
+                Title = x.Title,
+                Source = x.Source,
+                Content = x.Content,
+                NewId = x.New_Id,
+                FileId = x.FilesId
+            });
+            return Json(listofobj);
+
         }
     }
 }

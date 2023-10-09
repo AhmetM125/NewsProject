@@ -10,6 +10,7 @@ namespace DataAccessLayer.Abstract
         Task<bool> DeleteNewsById(int id);
         Task<bool> UpdateNews(New news);
         Task<bool> CreateNewsAsync(New news);
+        Task<IEnumerable<New>> GetNewsByCategoryId(string categoryId);
 
     }
 }

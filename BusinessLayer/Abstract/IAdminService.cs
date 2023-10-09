@@ -8,7 +8,7 @@ namespace BusinessLayer.Abstract
         Task<List<Admin>> GetAllAdmins();
 
         Task<bool> DeleteAdmin(Guid id);
-        Task<Admin?> GetAdmin(Guid Id);
+        Task<Admin?> GetAdmin(Guid? Id);
 
         Task<bool> EditAdmin(Admin admin);
         Task<int> NewAdmin(Admin admin);

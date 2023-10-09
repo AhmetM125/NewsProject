@@ -2,6 +2,7 @@
 using Dapper;
 using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer.Dapper
@@ -9,10 +10,11 @@ namespace DataAccessLayer.Dapper
     public class UserRoleDA : GenericRepositoryDap<UserRole>, IUserRoleDA
     {
         private readonly string? connectionString;
-
-        public UserRoleDA() : base()
+        private readonly IConfiguration configuration;
+        public UserRoleDA()
         {
-          //  connectionString = context.Database.GetConnectionString();
+            //  connectionString = context.Database.GetConnectionString();
+            var test = configuration.GetConnectionString("DefaultConnectionString");
         }
 
         public async Task<bool> CreateUserRoleAsync(UserRole UserRole)

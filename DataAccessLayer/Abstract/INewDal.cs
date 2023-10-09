@@ -3,7 +3,7 @@ using EntityLayer;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface INewDal :IRepository<News>
+    public interface INewDal :IRepository<New>
     {
     }
 }

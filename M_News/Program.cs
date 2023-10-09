@@ -1,5 +1,6 @@
 using M_News.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,6 @@ builder.Services.AddMvc();
 
 
 builder.Services.AddConfiguration(); // Configuration for Manager Service and DAL
-
 
 //Authentication For User 
 builder.Services.AddAuthentication(

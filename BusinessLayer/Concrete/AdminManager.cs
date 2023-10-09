@@ -67,7 +67,7 @@ namespace BusinessLayer.Abstract
             }
         }
 
-        public async Task<Admin?> GetAdmin(Guid Id)
+        public async Task<Admin?> GetAdmin(Guid? Id)
         {
             try
             {
@@ -114,6 +114,7 @@ namespace BusinessLayer.Abstract
 
         }
 
-
+        
+        
     }
 }

@@ -9,7 +9,7 @@ namespace DataAccessLayer.Dapper
     public class FilesDA : GenericRepositoryDap<EntityLayer.File>, IFilesDA
     {
         private readonly string _connectionString;
-        public FilesDA() : base()
+        public FilesDA() 
         {
            // _connectionString = context.Database.GetConnectionString();
         }

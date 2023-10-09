@@ -9,7 +9,7 @@ namespace DataAccessLayer.Dapper
     public class RolePermissionDA : GenericRepositoryDap<RolePermission>, IRolePermissionDA
     {
         private readonly string? connectionString;
-        public RolePermissionDA() : base()
+        public RolePermissionDA()
         {
            // connectionString = context.Database.GetConnectionString();
         }

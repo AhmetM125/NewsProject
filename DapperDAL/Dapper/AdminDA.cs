@@ -9,7 +9,7 @@ namespace DataAccessLayer.Dapper
     public class AdminDA : GenericRepositoryDap<Admin>, IAdminDA
     {
         private readonly string? connectionString;
-        public AdminDA() : base()
+        public AdminDA() 
         {
             //connectionString = context.Database.GetConnectionString();
         }

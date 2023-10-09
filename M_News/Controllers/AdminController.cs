@@ -3,7 +3,6 @@ using EntityLayer;
 using M_News.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 using X.PagedList;
 
 namespace M_News.Controllers
@@ -59,7 +58,6 @@ namespace M_News.Controllers
 
             IEnumerable<SelectListItem> Permissions_ListItem = (from x in valuesOfUser
                                                                 select new SelectListItem
-
                                                                 {
                                                                     Value = x.Id.ToString(),
                                                                     Text = x.Title

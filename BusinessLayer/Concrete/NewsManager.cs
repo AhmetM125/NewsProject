@@ -133,5 +133,10 @@ namespace BusinessLayer.Concrete
                 throw;
             }
         }
+
+        public async Task<IEnumerable<New>> GetNewsByCategoryId(string C_Id)
+        {
+            return await _newDA.GetNewsByCategoryId(C_Id);
+        }
     }
 }

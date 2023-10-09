@@ -2,16 +2,21 @@
 using Dapper;
 using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Web.Http.Results;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DataAccessLayer.Dapper
 {
     public class NewsDA : GenericRepositoryDap<New>, INewDA
     {
-        private readonly string? _connectionString;
-        public NewsDA() : base()
+        private readonly string? _connectionString; 
+        private readonly IConfiguration _configuration;
+        public NewsDA(IConfiguration configuration)
         {
-            //_connectionString = context?.Database?.GetConnectionString();
+            _configuration = configuration;
+            _connectionString = configuration.GetConnectionString("DefaultConnectionString");
         }
 
         public async Task<bool> CreateNewsAsync(New news)
@@ -58,6 +63,18 @@ namespace DataAccessLayer.Dapper
             }
         }
 
+        public async Task<IEnumerable<New>> GetNewsByCategoryId(string categoryId)
+        {
+            string query = $"Select * from News where CategoryId = @categoryid";
+            var parameters = new DynamicParameters();
+            parameters.Add("@categoryid", categoryId);
+            using(SqlConnection  connection = new SqlConnection(_connectionString))
+            {
+                return await connection.QueryAsync<New>(query, parameters);
+            }
+
+        }
+
         public async Task<New> GetNewsByIdAsync(int id)
         {
             string query = "Select * From News where Id = @Id";
@@ -89,5 +106,6 @@ namespace DataAccessLayer.Dapper
                 return ExecuteVal > 0;
             }
         }
+        
     }
 }
